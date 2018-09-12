@@ -1,0 +1,31 @@
+version: "2"
+
+services:
+
+# ------> django ------>
+    django_ju7ydhcjlrykgwj:
+        container_name: django_ju7ydhcjlrykgwj
+        build: ./django
+        restart: always
+        volumes:
+            - ../:/app
+        ports:
+            - 8000:8000
+        depends_on:
+            - postgres_ju7ydhcjlrykgwk
+        command: ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+# <------ django <------
+
+# ------> postgres ------>
+    postgres_ju7ydhcjlrykgwk:
+        container_name: postgres_ju7ydhcjlrykgwk
+        image: postgres:latest
+        restart: always
+        environment:
+            POSTGRES_USER: skyflow
+            POSTGRES_PASSWORD: root
+            POSTGRES_DB: skyflow
+            PGDATA: ../../.database/my_app
+        ports:
+            - 5432:5432
+# <------ postgres <------
