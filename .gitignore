@@ -20,3 +20,5 @@ tests/report/
 skyflow
 .idea
 .DS_Store
+docker/
+settings.py
