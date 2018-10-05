@@ -1,7 +1,10 @@
 # Projet Django - Commandes
 `skyflow C:up` : run project
+
 `skyflow C:django:logs` : see Django logs
+
 `skyflow C:django:bash` : connect to Django container’s bash
+
 
 To perform DB migrations :
 
