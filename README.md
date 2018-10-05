@@ -8,7 +8,7 @@
 
 To perform DB migrations :
 
-```
+```bash
 skyflow C:django:bash
 python manage.py migrate
 ```
@@ -30,6 +30,13 @@ Password : root
  
 Database : skyflow
 
+## Create admin user
+```bash
+skyflow C:django:bash
+python manage.py createsuperuser --username=joe --email=joe@example.com
+# then you are prompted to enter user password
+```
 
+Then visit http://localhost:8000/admin
 
 #esgi/python
