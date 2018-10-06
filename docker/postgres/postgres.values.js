@@ -6,5 +6,5 @@ module.exports = {
     password: 'root',
     database_storage_location: '../.database/my_app',
     port: '5432',
-    container_name: 'postgres_14ivqw9eyjlrqb6qp',
+    container_name: 'postgres_g2pc1edhjmvqweel',
 };

@@ -2,9 +2,22 @@ version: "2"
 
 services:
 
+
+# ------> adminer ------>
+    adminer_g2pc1edhjmvqweej:
+        container_name: adminer_g2pc1edhjmvqweej
+        image: adminer:latest
+        restart: always
+        environment:
+            ADMINER_PLUGINS: tables-filter tinymce
+            ADMINER_DESIGN: pepa-linha
+        ports:
+            - 8080:8080
+# <------ adminer <------
+
 # ------> django ------>
-    django_14ivqw9eyjlrqb6qo:
-        container_name: django_14ivqw9eyjlrqb6qo
+    django_g2pc1edhjmvqweek:
+        container_name: django_g2pc1edhjmvqweek
         build: ./django
         restart: always
         volumes:
@@ -12,13 +25,13 @@ services:
         ports:
             - 8000:8000
         depends_on:
-            - postgres_14ivqw9eyjlrqb6qp
+            - postgres_g2pc1edhjmvqweel
         command: ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
 # <------ django <------
 
 # ------> postgres ------>
-    postgres_14ivqw9eyjlrqb6qp:
-        container_name: postgres_14ivqw9eyjlrqb6qp
+    postgres_g2pc1edhjmvqweel:
+        container_name: postgres_g2pc1edhjmvqweel
         image: postgres:latest
         restart: always
         environment:

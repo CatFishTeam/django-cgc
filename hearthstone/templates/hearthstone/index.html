@@ -1,0 +1,19 @@
+{% extends "hearthstone/base.html" %}
+
+{% block content %}
+
+<!-- Jumbotron Header -->
+<header class="jumbotron my-4">
+  <h1 class="display-3">Bienvenue sur Hearthstone</h1>
+  <p class="lead">Ceci est un site de simulation de partie de cartes en ligne.<br>
+    <a href="{% url 'register' %}">Inscrivez-vous</a> ou <a href="{% url 'login' %}">connectez-vous</a> afin de gagner des cartes, construire vos decks, et jouer !</p>
+  <a href="{% url 'game' %}" class="btn btn-primary btn-lg">Jouer</a>
+</header>
+
+<div class="row my-5">
+  <div class="col-md-12">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet aperiam debitis, distinctio eius eos eveniet excepturi iusto laborum magnam modi, neque perspiciatis quae qui quo, quos rerum sit vero?
+  </div>
+</div>
+
+{% endblock content %}

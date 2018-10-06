@@ -16,8 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import include, path
+from hearthstone.views import home, register
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    path('polls/', include('polls.urls')),
+    path('', include('hearthstone.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

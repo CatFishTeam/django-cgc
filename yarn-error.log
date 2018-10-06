@@ -1,0 +1,52 @@
+Arguments: 
+  /usr/local/Cellar/node/10.8.0/bin/node /usr/local/Cellar/yarn/1.9.4/libexec/bin/yarn.js version
+
+PATH: 
+  /Users/guillaume/.rvm/gems/ruby-2.5.1/bin:/Users/guillaume/.rvm/gems/ruby-2.5.1@global/bin:/Users/guillaume/.rvm/rubies/ruby-2.5.1/bin:/usr/local/Cellar/mysql@5.7/5.7.22/bin:/Users/guillaume/bin:/usr/local/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Applications/VMware Fusion.app/Contents/Public:/Users/guillaume/.rvm/bin
+
+Yarn version: 
+  1.9.4
+
+Node version: 
+  10.8.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (/usr/local/Cellar/yarn/1.9.4/libexec/lib/cli.js:126002:13)
+      at Interface.emit (events.js:182:13)
+      at Interface._ttyWrite (readline.js:783:16)
+      at ReadStream.onkeypress (readline.js:168:10)
+      at ReadStream.emit (events.js:182:13)
+      at emitKeys (internal/readline.js:422:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1022:36)
+      at ReadStream.emit (events.js:182:13)
+      at addChunk (_stream_readable.js:283:12)
+
+npm manifest: 
+  {
+    "name": "Django",
+    "private": true,
+    "scripts": {
+      "pretest": "eslint django/ js_tests/admin/ js_tests/gis/",
+      "test": "grunt test --verbose"
+    },
+    "engines": {
+      "npm": ">=1.3.0 <3.0.0"
+    },
+    "devDependencies": {
+      "eslint": "^5.5.0",
+      "grunt": "^1.0.1",
+      "grunt-cli": "^1.2.0",
+      "grunt-contrib-qunit": "^1.2.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
