@@ -7,8 +7,6 @@ from django.contrib import messages
 from .models import Card, Deck, Game
 
 
-# Create your views here.
-
 def home(request):
     title = 'Accueil'
     context = {
