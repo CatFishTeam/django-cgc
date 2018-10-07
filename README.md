@@ -5,6 +5,12 @@
 
 `skyflow C:django:bash` : connect to Django container’s bash
 
+Generate migration files :
+
+```bash
+skyflow C:django:bash
+python manage.py makemigrations
+```
 
 To perform DB migrations :
 
