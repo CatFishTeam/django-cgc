@@ -12,7 +12,15 @@
 
 <div class="row my-5">
   <div class="col-md-12">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci amet aperiam debitis, distinctio eius eos eveniet excepturi iusto laborum magnam modi, neque perspiciatis quae qui quo, quos rerum sit vero?
+    <h2>Liste des dernières parties</h2>
+    <div class="games">
+      {% for game in games %}
+        <h3>{{ game.user1.username }} vs. {{ game.user2.username }}</h3>
+        <p><a href="{% url 'game' %}">Voir le match</a></p>
+      {% empty %}
+        <p>Aucune partie pour le moment.</p>
+      {% endfor %}
+    </div>
   </div>
 </div>
 

@@ -1,4 +1,5 @@
 {% extends "hearthstone/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
@@ -20,27 +21,30 @@
     <form method="post" action="{% url 'login' %}">
       {% csrf_token %}
 
-      <div>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </div>
-      <div>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </div>
+      {{ form|crispy }}
 
-      <div>
-        <input type="submit" value="login" />
+      <!--<div>-->
+        <!--<td>{{ form.username.label_tag }}</td>-->
+        <!--<td>{{ form.username }}</td>-->
+      <!--</div>-->
+      <!--<div>-->
+        <!--<td>{{ form.password.label_tag }}</td>-->
+        <!--<td>{{ form.password }}</td>-->
+      <!--</div>-->
+
+      <div class="form-group">
+        <button class="btn btn-outline-primary" type="submit">Je me connecte</button>
         <input type="hidden" name="next" value="{{ next }}" />
       </div>
     </form>
 
     {# Assumes you setup the password_reset view in your URLconf #}
-    <p>
+    <div class="border-top pt-3 mb-4">
+      <small class="text-muted">
       <a href="{% url 'password_reset' %}">Mot de passe oublié ?</a><br>
-      Pas encore de compte ? <a href="{% url 'register' %}">Inscrivez-vous</a><br>
-      <a href="{% url 'home' %}">Retour</a>
-    </p>
+        Pas encore de compte ? <a class="ml-3" href="{% url 'register' %}">Inscrivez-vous</a><br>
+      </small>
+    </div>
 
   </div>
 </div>
