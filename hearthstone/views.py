@@ -43,8 +43,3 @@ def game(request):
 def card(request, card_id):
     card = get_object_or_404(Card, pk=card_id)
     return render(request, 'hearthstone/card.html', {'card': card})
-
-
-def test(request):
-    test = 'hehe'
-    return render(request, 'hearthstone/test.html', {'test': test})

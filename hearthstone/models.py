@@ -32,19 +32,23 @@ class Deck(models.Model):
 class Card(models.Model):
     title = models.CharField(max_length=100)
     slug = models.CharField(max_length=100, null=True, blank=True)
+    deck = models.ManyToManyField(Deck)
+    user = models.ManyToManyField(User)
+
+    def __str__(self):
+        return self.title
 
 
 @receiver(pre_save, sender=Card)
 def slugify(sender, instance, *args, **kwargs):
-    instance.slug = instance.title.replace(' ', '_').replace('\'', '_')
-
-
-class Card_Deck(models.Model):
-    deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
-    card = models.ForeignKey(Card, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.card.title
+    instance.slug = instance.title\
+        .replace(' ', '_')\
+        .replace('\'', '_')\
+        .replace(',', '_')\
+        .replace('!', '_')\
+        .replace('-', '_')
+    instance.slug = instance.slug.replace('__', '_')
+    instance.slug = instance.slug.rstrip('_')
 
 
 class Game(models.Model):
