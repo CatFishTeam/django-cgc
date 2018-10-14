@@ -13,3 +13,30 @@ footer {
     padding: 35px 0;
     margin-top: -100px;
 }
+
+.flex-centered {
+    display: flex;
+    align-items: center;
+}
+
+.single-card {
+
+}
+
+.single-card__link {
+    text-decoration: none;
+}
+
+.single-card__link:hover {
+    background-color: #fff;
+    border-radius: 5px;
+    display: block;
+    padding: 6px;
+    text-decoration: none;
+    transition-duration: .3s;
+    box-shadow: 0 1px #FFFFFF inset, 0 1px 3px rgba(34, 25, 25, 0.4);
+}
+
+.single-card__link__img {
+    width: 100%;
+}

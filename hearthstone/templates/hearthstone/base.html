@@ -29,12 +29,33 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav ml-auto">
+        {% if not request.user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'register' %}">S'inscrire</a>
         </li>
+        <span class="flex-centered text-light">|</span>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'login' %}">Se connecter</a>
+          <a class="nav-link" href="{% url 'app_login' %}">Se connecter</a>
         </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link">Bonjour {{ request.user.username }}</a>
+        </li>
+        <span class="flex-centered text-light">|</span>
+        <li class="nav-item">
+          <a class="nav-link">Crédit : {{ request.user.profile.credit }}</a>
+        </li>
+        {% if request.user.is_staff %}
+        <span class="flex-centered text-light">|</span>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'admin:index' %}">Administration</a>
+        </li>
+        {% endif %}
+        <span class="flex-centered text-light">|</span>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'app_logout' %}">Se déconnecter</a>
+        </li>
+        {% endif %}
       </ul>
     </div>
   </div>
@@ -44,11 +65,11 @@
 <div class="container content">
   <div class="content-inside">
     {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-          {{ message }}
-        </div>
-      {% endfor %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+    {% endfor %}
     {% endif %}
 
     {% block content %}{% endblock %}
@@ -64,9 +85,9 @@
   <!-- /.container -->
 </footer>
 
-  <!-- Boostratp JS -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<!-- Boostratp JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
 </html>

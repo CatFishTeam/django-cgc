@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
 
@@ -30,12 +30,21 @@ class Deck(models.Model):
 
 
 class Card(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    deck = models.ForeignKey(Deck, on_delete=models.SET_NULL, null=True)
     title = models.CharField(max_length=100)
+    slug = models.CharField(max_length=100, null=True, blank=True)
+
+
+@receiver(pre_save, sender=Card)
+def slugify(sender, instance, *args, **kwargs):
+    instance.slug = instance.title.replace(' ', '_').replace('\'', '_')
+
+
+class Card_Deck(models.Model):
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        return self.card.title
 
 
 class Game(models.Model):
