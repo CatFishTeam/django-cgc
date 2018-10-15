@@ -46,3 +46,7 @@ python manage.py createsuperuser --username=joe --email=joe@example.com
 Then visit http://localhost:8000/admin
 
 #esgi/python
+
+## Cards images
+
+Cards images are stored on Cloudinary ; names and picture files taken from www.hearthpwn.com/cards
