@@ -1,3 +1,5 @@
+from random import randint
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
@@ -43,3 +45,25 @@ def game(request):
 def card(request, card_id):
     card = get_object_or_404(Card, pk=card_id)
     return render(request, 'hearthstone/card.html', {'card': card})
+
+
+def buyCards(request):
+    cardCounter = Card.objects.all().count()
+    cards = []
+    if request.user.is_authenticated and request.user.profile.credit >= 100:
+        for i in range(8):
+            random_index = randint(0, cardCounter - 1)
+            card = Card.objects.all()[random_index]
+            cards.append(card)
+            card.user.add(request.user)
+            card.save()
+        request.user.profile.credit -= 100
+        request.user.save()
+    elif request.user.is_authenticated and request.user.profile.credit < 100:
+        messages.warning(request, f'Vous n\'avez pas assez de crédit :(')
+        return redirect('home')
+    else:
+        messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
+        return redirect('home')
+
+    return render(request, 'hearthstone/buy-cards.html', {'cards': cards})

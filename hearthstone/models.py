@@ -32,8 +32,8 @@ class Deck(models.Model):
 class Card(models.Model):
     title = models.CharField(max_length=100)
     slug = models.CharField(max_length=100, null=True, blank=True)
-    deck = models.ManyToManyField(Deck)
-    user = models.ManyToManyField(User)
+    deck = models.ManyToManyField(Deck, blank=True)
+    user = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return self.title

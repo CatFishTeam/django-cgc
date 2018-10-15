@@ -19,7 +19,9 @@
       </a>
     </div>
     {% empty %}
-    <p>Aucune carte trouvée.</p>
+    <div class="col">
+      <p>Aucune carte trouvée.</p>
+    </div>
     {% endfor %}
   </div>
 
@@ -34,7 +36,7 @@
       <p>Il vous reste : {{ request.user.profile.credit }} crédits.</p>
 
       {% if request.user.profile.credit >= 100 %}
-      <p><a href="" class="btn btn-outline-primary btn-sm">Acheter un paquet de 8 cartes</a> <span class="small">Coût : 100 crédits</span></p>
+      <p><a href="{% url 'buyCards' %}" class="btn btn-outline-primary btn-sm">Acheter un paquet de 8 cartes</a> <span class="small">Coût : 100 crédits</span></p>
       {% endif %}
 
     </div>
