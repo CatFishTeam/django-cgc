@@ -6,7 +6,7 @@ from django.template import loader
 from .forms import UserRegisterForm
 from django.contrib import messages
 
-from .models import Card, Deck, Game
+from .models import Card, Deck, Game, CardUser, CardDeck
 
 
 def home(request):
@@ -55,8 +55,8 @@ def buyCards(request):
             random_index = randint(0, cardCounter - 1)
             card = Card.objects.all()[random_index]
             cards.append(card)
-            card.user.add(request.user)
-            card.save()
+            cardUser = CardUser(card=card, user=request.user)
+            cardUser.save()
         request.user.profile.credit -= 100
         request.user.save()
     elif request.user.is_authenticated and request.user.profile.credit < 100:
@@ -67,3 +67,20 @@ def buyCards(request):
         return redirect('home')
 
     return render(request, 'hearthstone/buy-cards.html', {'cards': cards})
+
+
+def myCards(request):
+    cardsUser = CardUser.objects.all().filter(user_id=request.user.id)
+    cards = []
+
+    for cardUser in cardsUser:
+        card = cardUser.card
+        cards.append(card)
+
+    return render(request, 'hearthstone/my-cards.html', {'cards': cards})
+
+
+def myDecks(request):
+    decks = []
+
+    return render(request, 'hearthstone/my-decks.html', {'decks': decks})
