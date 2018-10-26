@@ -19,6 +19,22 @@ skyflow C:django:bash
 python manage.py migrate
 ```
 
+Run Cards fixture :
+
+```bash
+skyflow C:django:bash
+python manage.py loaddata card
+```
+
+## Troubleshooting
+
+If Django bash console says `yaml/crispy-forms not found`, run these commands :
+```bash
+skyflow C:django:bash
+pip install pyyaml
+pip install django-crispy-forms
+```
+
 ## Ports
 :8000 : web app
 
