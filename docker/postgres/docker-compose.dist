@@ -6,7 +6,6 @@
             POSTGRES_USER: {{ user }}
             POSTGRES_PASSWORD: {{ password }}
             POSTGRES_DB: {{ database_name }}
-            PGDATA: ../{{ database_storage_location }}
         ports:
             - {{ port }}:5432
         volumes:
