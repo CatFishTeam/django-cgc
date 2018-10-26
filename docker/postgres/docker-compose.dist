@@ -9,3 +9,5 @@
             PGDATA: ../{{ database_storage_location }}
         ports:
             - {{ port }}:5432
+        volumes:
+            - ../{{ database_storage_location }}:/var/lib/postgresql/data

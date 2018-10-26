@@ -38,7 +38,8 @@ services:
             POSTGRES_USER: skyflow
             POSTGRES_PASSWORD: root
             POSTGRES_DB: skyflow
-            PGDATA: ../../.database/my_app
         ports:
             - 5432:5432
+        volumes:
+          -
 # <------ postgres <------

@@ -1,0 +1,115 @@
+- model: hearthstone.card
+  fields:
+      title: Bloodreaver Gul'dan
+
+
+- model: hearthstone.card
+  fields:
+      title: Army of the Dead
+
+
+- model: hearthstone.card
+  fields:
+      title: Arcane Giant
+
+
+- model: hearthstone.card
+  fields:
+      title: Anyfin Can Happen
+
+
+- model: hearthstone.card
+  fields:
+      title: A New Hero Approaches
+
+
+- model: hearthstone.card
+  fields:
+      title: Your Next Victim Comes
+
+
+- model: hearthstone.card
+  fields:
+      title: Wish
+
+
+- model: hearthstone.card
+  fields:
+      title: Ultimate Infestation
+
+
+- model: hearthstone.card
+  fields:
+      title: Timepiece of Horror
+
+
+- model: hearthstone.card
+  fields:
+      title: Superior Potion
+
+
+- model: hearthstone.card
+  fields:
+      title: Stonescale Oil
+
+
+- model: hearthstone.card
+  fields:
+      title: Shadow Oil
+
+
+- model: hearthstone.card
+  fields:
+      title: Rod of Roasting
+
+
+- model: hearthstone.card
+  fields:
+      title: Pyroblast
+
+
+- model: hearthstone.card
+  fields:
+      title: Netherbloom
+
+
+- model: hearthstone.card
+  fields:
+      title: Mystic Wool
+
+
+- model: hearthstone.card
+  fields:
+      title: Mirror of Doom
+
+
+- model: hearthstone.card
+  fields:
+      title: Damaged Stegotron
+
+
+- model: hearthstone.card
+  fields:
+      title: Cursed Castaway
+
+
+- model: hearthstone.card
+  fields:
+      title: Crystal Lion
+
+
+- model: hearthstone.card
+  fields:
+      title: Cruel Dinomancer
+
+
+- model: hearthstone.card
+  fields:
+      title: Corrupted Seer
+
+
+- model: hearthstone.card
+  fields:
+      title: Coldarra Drake
+
+
