@@ -25,13 +25,13 @@ services:
             - 8000:8000
         depends_on:
             - postgres_g2pc0aqpjnq1bp03
-        command: ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
+        command: bash -c "python3 manage.py runserver 0.0.0.0:8000 && python3 manage.py loaddata card"
 # <------ django <------
 
 # ------> postgres ------>
     postgres_g2pc0aqpjnq1bp03:
         container_name: postgres_g2pc0aqpjnq1bp03
-        image: postgres:latest
+        image: postgres:10
         restart: always
         environment:
             POSTGRES_USER: skyflow

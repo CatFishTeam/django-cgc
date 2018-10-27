@@ -1,6 +1,6 @@
     {{ container_name }}:
         container_name: {{ container_name }}
-        image: postgres:latest
+        image: postgres:10
         restart: always
         environment:
             POSTGRES_USER: {{ user }}
