@@ -1,15 +1,14 @@
 from random import randint
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
 from .forms import UserRegisterForm
 from django.contrib import messages
-
 from .models import Card, Deck, Game, CardUser, CardDeck
 
 
 def home(request):
+    #TODO Redirect if connected
     title = 'Accueil'
     slugs = [
         'test',
@@ -84,3 +83,15 @@ def myDecks(request):
     decks = []
 
     return render(request, 'hearthstone/my-decks.html', {'decks': decks})
+
+def createDeck(request):
+    cardsUser = CardUser.objects.all().filter(user_id=request.user.id)
+    cards = {}
+    for cardUser in cardsUser:
+        card = cardUser.card
+        if card in cards:
+            cards[card] += 1
+        else:
+            cards[card] = 1
+
+    return render(request, 'hearthstone/create-deck.html', {'cards': cards})

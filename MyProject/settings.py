@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_pdb',
     'hearthstone.apps.HearthstoneConfig',
     'crispy_forms',
     'django.contrib.admin',
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sass_processor'
 ]
 
 MIDDLEWARE = [
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_pdb.middleware.PdbMiddleware',
 ]
 
 ROOT_URLCONF = 'MyProject.urls'
@@ -81,7 +84,7 @@ DATABASES = {
         'NAME': 'skyflow',
         'USER': 'skyflow',
         'PASSWORD': 'root',
-        'HOST': 'postgres_g2pc0aqpjnq1bp03',
+        'HOST': 'postgres_fg2kvjo4y8cw7',
         'PORT': '5432',
     }
 }
@@ -128,3 +131,22 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+# Sass loader
+SASS_ROOT = os.path.join(BASE_DIR, 'static', 'scss')
+SASS_PROCESSOR_ROOT = '/hearthstone/static/hearthstone/'
+SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.scss$'
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
+]
+
+SASS_PROCESSOR_INCLUDE_DIRS = [
+    os.path.join('/node_modules'),
+    SASS_ROOT
+]
+
+SASS_PROCESSOR_ENABLED = True

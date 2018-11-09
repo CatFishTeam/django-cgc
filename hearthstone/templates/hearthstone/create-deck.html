@@ -1,0 +1,22 @@
+{% extends "hearthstone/base.html" %}
+
+{% block content %}
+<div class="row my-5" id="createDeck">
+  <div class="col-md-12">
+      <input type="text" placeholder="Nom du deck">
+      <h1>Cartes disponible</h1>
+      <div class="row">
+        {% for card,number in cards.items %}
+            <div class="col-3 text-center single-card my-4">
+                <div class="single-card__number">{{ number }}</div>
+                <img src="https://res.cloudinary.com/ds8br8lm0/image/upload/v1539448305/django/{{ card.slug }}.png" alt="{{ card.title }}" class="single-card__link__img">
+            </div>
+            {% empty %}
+            <div class="col">
+                Vous n'avez pas encore de cartes.
+            </div>
+        {% endfor %}
+      </div>
+  </div>
+</div>
+{% endblock content %}

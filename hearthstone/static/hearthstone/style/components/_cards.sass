@@ -1,0 +1,37 @@
+.single-card
+    &__link
+        text-decoration: none
+        position: relative
+        display: block
+        &:hover
+            background-color: #fff
+            border-radius: 5px
+            display: block
+            text-decoration: none
+            transition-duration: .3s
+            box-shadow: 0 1px #FFFFFF inset, 0 1px 3px rgba(34, 25, 25, 0.4)
+            h4
+                border-radius: 0 0 5px 5px
+        h4
+            position: absolute
+            z-index: 1
+            color: #fefefe
+            background: rgba(0,0,0,0.6)
+            border-radius: 5px
+            bottom: -9px
+            width: 100%
+            padding: 10px 0
+            font-size: 16px
+            font-weight: 100
+    &__img
+        width: 100%
+    &__number
+        position: absolute
+        right: 20%
+        top: 10%
+        font-size: 3rem
+        color: #63d1e3
+        font-family: Open Sans
+        font-weight: 900
+        &:before
+            content: "x"

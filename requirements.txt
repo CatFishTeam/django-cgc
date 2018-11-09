@@ -1,2 +1,4 @@
 Django>=2.1
 psycopg2
+django-crispy-forms
+pyyaml

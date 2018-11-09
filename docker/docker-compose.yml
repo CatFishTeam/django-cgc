@@ -3,8 +3,8 @@ version: "3"
 services:
 
 # ------> adminer ------>
-    adminer_g2pc1edhjmvqweej:
-        container_name: adminer_g2pc1edhjmvqweej
+    adminer_fg2kvjo4y8cw5:
+        container_name: adminer_fg2kvjo4y8cw5
         image: adminer:latest
         restart: always
         environment:
@@ -15,8 +15,8 @@ services:
 # <------ adminer <------
 
 # ------> django ------>
-    django_g2pc1edhjmvqweek:
-        container_name: django_g2pc1edhjmvqweek
+    django_fg2kvjo4y8cw6:
+        container_name: django_fg2kvjo4y8cw6
         build: ./django
         restart: always
         volumes:
@@ -24,13 +24,13 @@ services:
         ports:
             - 8000:8000
         depends_on:
-            - postgres_g2pc0aqpjnq1bp03
+            - postgres_fg2kvjo4y8cw7
         command: bash -c "python3 manage.py runserver 0.0.0.0:8000 && python3 manage.py loaddata card"
 # <------ django <------
 
 # ------> postgres ------>
-    postgres_g2pc0aqpjnq1bp03:
-        container_name: postgres_g2pc0aqpjnq1bp03
+    postgres_fg2kvjo4y8cw7:
+        container_name: postgres_fg2kvjo4y8cw7
         image: postgres:10
         restart: always
         environment:
