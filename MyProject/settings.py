@@ -138,8 +138,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 INTERNAL_IPS = ('127.0.0.1',)
 
 # Sass loader
-SASS_ROOT = os.path.join(BASE_DIR, 'static', 'scss')
-SASS_PROCESSOR_ROOT = '/hearthstone/static/hearthstone/'
+SASS_ROOT = os.path.join('assets', 'style')
+SASS_PROCESSOR_ROOT = '/assets/style/'
 SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.scss$'
 
 STATICFILES_FINDERS = [
