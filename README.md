@@ -33,6 +33,9 @@ If Django bash console says `yaml/crispy-forms not found`, run these commands :
 skyflow C:django:bash
 pip install pyyaml
 pip install django-crispy-forms
+pip install django-debug-toolbar
+pip install django-webpack-loader
+pip install libsass django-compressor django-sass-processor
 ```
 
 ## Ports

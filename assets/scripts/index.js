@@ -1,10 +1,4 @@
-require('js-cookie');
-
-var csrftoken = Cookies.get('csrftoken');
-var xhttp = new XMLHttpRequest();
-xhttp.open("POST", "/deck-add-card", true);
-xhttp.setRequestHeader("X-CSRFToken", csrftoken);
-xhttp.send();
+import Cookies from 'js-cookie'
 
 $('#createDeck .single-card').click( function() {
 
@@ -54,7 +48,7 @@ function postData(url = ``, data = {}) {
         credentials: "same-origin", // include, *same-origin, omit
         headers: {
             "Content-Type": "application/json; charset=utf-8",
-            // "Content-Type": "application/x-www-form-urlencoded",
+            'X-CSRF-TOKEN': Cookies.get('csrftoken')
         },
         redirect: "follow", // manual, *follow, error
         referrer: "no-referrer", // no-referrer, *client

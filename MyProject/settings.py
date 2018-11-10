@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sass_processor',
     'debug_toolbar',
+    'webpack_loader',
 ]
 
 MIDDLEWARE = [
@@ -125,11 +126,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'assets'),
+)
 
 LOGIN_REDIRECT_URL = '/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+#Debug bar
+INTERNAL_IPS = ('127.0.0.1',)
 
 # Sass loader
 SASS_ROOT = os.path.join(BASE_DIR, 'static', 'scss')
@@ -149,4 +155,15 @@ SASS_PROCESSOR_INCLUDE_DIRS = [
 
 SASS_PROCESSOR_ENABLED = True
 
-INTERNAL_IPS = ('127.0.0.1',)
+# Webpack
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'webpack_bundles/', # must end with slash
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'TIMEOUT': None,
+        'IGNORE': ['.+\.hot-update.js', '.+\.map']
+    }
+}
+
