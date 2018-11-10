@@ -13,6 +13,10 @@
     "eslint": "^5.5.0",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
-    "grunt-contrib-qunit": "^1.2.0"
+    "grunt-contrib-qunit": "^1.2.0",
+    "webpack-bundle-tracker": "^0.4.2-beta"
+  },
+  "dependencies": {
+    "js-cookie": "^2.2.0"
   }
 }

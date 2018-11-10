@@ -1,6 +1,7 @@
 from random import randint
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.template import loader
 from .forms import UserRegisterForm
 from django.contrib import messages
@@ -95,3 +96,7 @@ def createDeck(request):
             cards[card] = 1
 
     return render(request, 'hearthstone/create-deck.html', {'cards': cards})
+
+def addCard(request):
+    if request.method == "POST":
+        return JsonResponse({'foo':'bar'})
