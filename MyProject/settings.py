@@ -27,11 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
-
 INSTALLED_APPS = [
-    'django_pdb',
     'hearthstone.apps.HearthstoneConfig',
     'crispy_forms',
     'django.contrib.admin',
@@ -40,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sass_processor'
+    'sass_processor',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_pdb.middleware.PdbMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'MyProject.urls'
@@ -150,3 +148,5 @@ SASS_PROCESSOR_INCLUDE_DIRS = [
 ]
 
 SASS_PROCESSOR_ENABLED = True
+
+INTERNAL_IPS = ('127.0.0.1',)
