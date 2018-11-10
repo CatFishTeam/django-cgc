@@ -2,3 +2,8 @@ Django>=2.1
 psycopg2
 django-crispy-forms
 pyyaml
+django-debug-toolbar
+django-webpack-loader
+libsass
+django-compressor
+django-sass-processor
