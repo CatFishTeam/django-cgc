@@ -26,6 +26,12 @@ skyflow C:django:bash
 python manage.py loaddata card
 ```
 
+Compile assets : 
+```bash
+npm install
+ ./node_modules/webpack/bin/webpack.js --watch --mode=development
+ ```
+
 ## Troubleshooting
 
 If Django bash console says `yaml/crispy-forms not found`, run these commands :
