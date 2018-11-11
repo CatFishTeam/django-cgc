@@ -7,15 +7,17 @@
 
     <div class="row">
       {% for deck in decks %}
-      <div class="col-3 text-center my-4">
-        ...
-      </div>
+        <div class="col-3 text-center my-4">
+          <a href="{% url 'showDeck' deck.id %}">{{ deck.title }}</a>
+        </div>
       {% empty %}
       <div class="col">
         Vous n'avez pas encore de decks.
       </div>
       {% endfor %}
-      <a class="btn btn-dark" href="{% url 'createDeck' %}">Créer un deck</a>
+    </div>
+    <div class="row">
+      <a class="btn btn-dark" href="{% url 'createDeck' %}">Créer un nouveau deck</a>
     </div>
   </div>
 </div>

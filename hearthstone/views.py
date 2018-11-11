@@ -1,11 +1,10 @@
 from random import randint
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
 from django.http import JsonResponse
-from django.template import loader
 from .forms import UserRegisterForm
 from django.contrib import messages
 from .models import Card, Deck, Game, CardUser, CardDeck
+import json
 
 
 def home(request):
@@ -81,9 +80,29 @@ def myCards(request):
 
 
 def myDecks(request):
-    decks = []
-
+    decks = Deck.objects.all().filter(user_id=request.user.id)
     return render(request, 'hearthstone/my-decks.html', {'decks': decks})
+
+def showDeck(request, deck_id):
+    deck = Deck(id=deck_id)
+    cards = {}
+    cardsInDeck = CardDeck.objects.all().filter(deck_id=deck_id)
+    for cardInDeck in cardsInDeck:
+        card = Card(id=cardInDeck.card_id)
+        cards.append(card)
+    return render(request, 'hearthstone/show-deck.html', {'cards': cards, 'deck': deck})
+
+    #for cardInDeck in cardsInDeck:
+    #    if cardInDeck in cards:
+    #        cards[cardInDeck] += 1
+    #    else:
+    #        cards[cardInDeck] = 1
+
+def deleteDeck(request, deck):
+    Deck(id=deck).delete()
+    messages.success(request, f'Votre deck a bien été supprimé :) ')
+    return redirect('myDecks')
+
 
 def createDeck(request):
     cardsUser = CardUser.objects.all().filter(user_id=request.user.id)
@@ -94,9 +113,26 @@ def createDeck(request):
             cards[card] += 1
         else:
             cards[card] = 1
-
     return render(request, 'hearthstone/create-deck.html', {'cards': cards})
 
-def addCard(request):
+def saveDeck(request):
     if request.method == "POST":
-        return JsonResponse({'foo':'bar'})
+        if request.user.is_authenticated:
+            deck = Deck(title="test", user=request.user)
+            deck.save()
+            json_data = json.loads(request.body)
+            cards = json_data['deck']
+            #TODO Check disponibility
+            for card in cards:
+                for x in range(card['count']):
+                    card2add = Card(id=card['id'])
+                    cardDeck = CardDeck(card=card2add, deck=deck)
+                    cardDeck.save()
+            return JsonResponse("Saved", safe=False)
+
+# elif request.user.is_authenticated and request.user.profile.credit < 100:
+#     messages.warning(request, f'Vous n\'avez pas assez de crédit :(')
+#     return redirect('home')
+# else:
+#     messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
+#     return redirect('home')

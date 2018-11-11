@@ -12,7 +12,9 @@ urlpatterns = [
     path('my-cards', views.myCards, name='myCards'),
     path('my-decks', views.myDecks, name='myDecks'),
     path('create-deck', views.createDeck, name='createDeck'),
-    path('deck-add-card', views.addCard, name='addCard'),
+    path('save-deck', views.saveDeck, name='saveDeck'),
+    path('show-deck/<int:deck_id>', views.showDeck, name='showDeck'),
+    path('delete-deck/<int:deck>', views.deleteDeck, name='deleteDeck'),
     path('login', auth_views.LoginView.as_view(template_name='registration/login.html'), name='app_login'),
     path('logout', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='app_logout'),
 ]

@@ -4,7 +4,6 @@ from django.utils import timezone
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     credit = models.IntegerField(default=200)
@@ -24,7 +23,6 @@ def save_user_profile(sender, instance, **kwargs):
 class Deck(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-
     def __str__(self):
         return self.title
 
@@ -53,11 +51,9 @@ class CardUser(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-
 class CardDeck(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
-
 
 class Game(models.Model):
     user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='player_one')
