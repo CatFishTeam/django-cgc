@@ -2,9 +2,8 @@
 
 {% block content %}
 <div class="row my-5" id="createDeck">
-  <h1>Cartes disponible</h1>
+  <h1>Cartes disponibles dans le deck : {{ deck }}</h1>
   <div class="col-10 row">
-    {{ cards }}
     {% for card in cards %}
     <div class="col-3 text-center single-card my-4" data-name="{{ card.title }}" data-id="{{ card.id }}">
       <div class="single-card__number">{{ number }}</div>
@@ -13,9 +12,9 @@
     {% endfor %}
   </div>
   <div class="col-2 deck">
-    <input type="text" placeholder="{{ deck.title }}">
-    <button id="save-deck" class="btn btn-dark">Sauvegarder</button>
-    <a href="{% url 'deleteDeck' deck.id %}" class="btn btn-danger">Supprimer</a>
+    <!--<input type="text" placeholder="{{ deck.title }}">-->
+    <!--<button id="save-deck" class="btn btn-dark">Sauvegarder</button>-->
+    <a href="{% url 'deleteDeck' deck.id %}" class="btn btn-danger">Supprimer ce deck</a>
   </div>
 </div>
 {% endblock content %}

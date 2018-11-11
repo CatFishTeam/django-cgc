@@ -84,11 +84,12 @@ def myDecks(request):
     return render(request, 'hearthstone/my-decks.html', {'decks': decks})
 
 def showDeck(request, deck_id):
-    deck = Deck(id=deck_id)
-    cards = {}
+    deck = Deck.objects.get(id=deck_id)
+    print(deck)
+    cards = []
     cardsInDeck = CardDeck.objects.all().filter(deck_id=deck_id)
     for cardInDeck in cardsInDeck:
-        card = Card(id=cardInDeck.card_id)
+        card = cardInDeck.card
         cards.append(card)
     return render(request, 'hearthstone/show-deck.html', {'cards': cards, 'deck': deck})
 
