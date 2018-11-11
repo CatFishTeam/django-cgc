@@ -118,10 +118,13 @@ def createDeck(request):
 def saveDeck(request):
     if request.method == "POST":
         if request.user.is_authenticated:
-            deck = Deck(title="test", user=request.user)
-            deck.save()
             json_data = json.loads(request.body)
+            title = json_data['title']
             cards = json_data['deck']
+
+            deck = Deck(title=title, user=request.user)
+            deck.save()
+
             #TODO Check disponibility
             for card in cards:
                 for x in range(card['count']):

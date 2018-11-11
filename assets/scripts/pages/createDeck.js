@@ -9,19 +9,16 @@ $('#createDeck .single-card').click( function() {
 function addToDeck(card) {
     const cardId = card.data('id');
     if(deck.length > 0) {
-        deck.push({[cardId] : 1})
-        /*
-        deck.some((e) => {
-            if( Object.keys(e)[0] = cardId ) {
-                deck[Object.keys(e)[0]] += 1
-                return true
+        deck.forEach( (e) => {
+            if(e['id'] === cardId){
+                e['count'] += 1;
+                throw BreakException;
             } else {
-                deck.push({[cardId]: 1})
+                deck.push({'id': cardId, 'count': 1})
             }
         })
-        */
     } else {
-        deck.push({[cardId] : 1})
+        deck.push({'id': cardId, 'count': 1})
     }
     console.log(deck)
 }
@@ -39,10 +36,12 @@ function decreaseCard(card) {
 }
 
 $('#save-deck').click( () => {
-    //TODO Use actuall deck build ^^
-    postData(`/save-deck`, {deck: [{"id": 1, "count": 2},{"id": 11, "count": 2}]})
+    postData(`/save-deck`, {title: $('#deck-title').val(), deck: deck})
         .then(data => console.log(JSON.stringify(data)))
-        .catch(error => console.error(error));
+        .catch(error => console.error(error))
+        .then(() => {
+            //window.location = "/my-decks"
+    })
 });
 
 function postData(url = ``, data = {}) {
