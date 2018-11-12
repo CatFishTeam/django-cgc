@@ -132,7 +132,7 @@ def saveDeck(request):
                     card2add = Card(id=card['id'])
                     cardDeck = CardDeck(card=card2add, deck=deck)
                     cardDeck.save()
-            return JsonResponse("Saved", safe=False)
+            return JsonResponse(deck.id, safe=False)
 
 # elif request.user.is_authenticated and request.user.profile.credit < 100:
 #     messages.warning(request, f'Vous n\'avez pas assez de crédit :(')

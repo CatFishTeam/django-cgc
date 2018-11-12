@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie'
+import * as Toastr from "toastr";
 
 let deck = []; //Tuple {"id": cardId, "count": number}
 
@@ -35,12 +36,13 @@ function decreaseCard(card) {
     }
 }
 
+let link2Deck
 $('#save-deck').click( () => {
     postData(`/save-deck`, {title: $('#deck-title').val(), deck: deck})
-        .then(data => console.log(JSON.stringify(data)))
+        .then(data => link2Deck = '/show-deck/' + JSON.stringify(data))
         .catch(error => console.error(error))
         .then(() => {
-            //window.location = "/my-decks"
+            Toastr.success('<a href="'+link2Deck+'">Consulter son deck</a>','Deck créé avec succès',)
     })
 });
 
