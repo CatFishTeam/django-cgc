@@ -17,4 +17,6 @@ urlpatterns = [
     path('delete-deck/<int:deck>', views.deleteDeck, name='deleteDeck'),
     path('login', auth_views.LoginView.as_view(template_name='registration/login.html'), name='app_login'),
     path('logout', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='app_logout'),
+    path('forum', views.forum, name='forum'),
+    path('create-topic', views.createTopic, name='createTopic'),
 ]

@@ -1,0 +1,28 @@
+{% extends "hearthstone/base.html" %}
+
+{% block content %}
+<div class="row my-5">
+  <div class="col-md-12">
+    <h1>Forum</h1>
+
+    <div class="forum__links my-4">
+      <a href="{% url 'createTopic' %}" class="btn btn-primary forum__links__single">Créer un sujet</a>
+    </div>
+
+    <div class="topics">
+      {% for topic in topics %}
+        <div class="topics__single">
+          <h3>{{topic.title}}</h3>
+          <p>Par {{topic.author.username}}</p>
+          <p>{{messages_count.forloop.counter0}} messages</p>
+        </div>
+      {% empty %}
+        <p>Aucun sujet pour le moment.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+

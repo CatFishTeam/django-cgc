@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .forms import UserRegisterForm
 from django.contrib import messages
-from .models import Card, Deck, Game, CardUser, CardDeck
+from .models import Card, Deck, Game, CardUser, CardDeck, Topic, Message
 import json
 import requests
 
@@ -151,3 +151,25 @@ def saveDeck(request):
 # else:
 #     messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
 #     return redirect('home')
+
+def forum(request):
+    topics = Topic.objects.all()
+    messages = Message.objects.all()
+    messages_count = []
+
+    for index, topic in enumerate(topics):
+        messages_count[index] = 0
+        for message in messages:
+            if message.topic == topic:
+                messages_count[index] += 1
+
+    context = {
+        'topics': topics,
+        'messages_count': messages_count
+    }
+
+    return render(request, 'forum/index.html', context)
+
+def createTopic(request):
+    return render(request, 'forum/create.html', {})
+

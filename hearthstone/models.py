@@ -3,16 +3,27 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
+from random import randint
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     credit = models.IntegerField(default=200)
 
 
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+        card_counter = Card.objects.all().count()
+        cards = []
+        for i in range(30):
+            random_index = randint(0, card_counter - 1)
+            card = Card.objects.all()[random_index]
+            cards.append(card)
+            card_user = CardUser(card=card, user=instance)
+            card_user.save()
+        instance.save()
 
 
 @receiver(post_save, sender=User)
@@ -68,3 +79,20 @@ class Game(models.Model):
 
     def __str__(self):
         return self.winner.username
+
+class Topic(models.Model):
+    title = models.CharField(max_length=150)
+    content = models.CharField(max_length=2000)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+class Message(models.Model):
+    content = models.CharField(max_length=1000)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.content

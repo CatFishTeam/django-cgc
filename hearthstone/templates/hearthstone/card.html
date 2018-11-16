@@ -2,9 +2,20 @@
 
 {% block content %}
 <div class="row my-5">
-  <div class="col-md-12">
-    <h1>{{ card.title }}</h1>
+  <div class="col-md-4 offset-md-2">
+    <h2>{{ card.title }}</h2>
     <p class="single-card__detail"><img src="{{ card.img }}" alt="{{ card.title }}" class="single-card__detail__img"></p>
+  </div>
+  <div class="col-md-6">
+    <h2>Caractéristiques</h2>
+    <div class="my-5">
+      &nbsp;<br>
+      <strong>Nom : </strong>{{card.title|default:"Aucun"}}<br><br>
+      <strong>Type : </strong>{{card.type|default:"Aucun"}}<br><br>
+      <strong>Coût : </strong>{{card.cost|default:"Aucun"}}<br><br>
+      <strong>Santé : </strong>{{card.health|default:"Aucun"}}<br><br>
+      <strong>Attaque : </strong>{{card.attack|default:"Aucun"}}<br><br>
+    </div>
   </div>
 </div>
 
