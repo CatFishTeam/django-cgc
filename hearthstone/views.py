@@ -5,6 +5,7 @@ from .forms import UserRegisterForm
 from django.contrib import messages
 from .models import Card, Deck, Game, CardUser, CardDeck
 import json
+import requests
 
 
 def home(request):
@@ -15,12 +16,22 @@ def home(request):
         'tast',
         'tost',
     ]
+
+    #  Get all cards from Mashable Hearthstone API
+    url = 'https://omgvamp-hearthstone-v1.p.mashape.com/cards?locale=frFR'
+    headers = {"X-Mashape-Key": "XTUi1bdLD6mshqZg64hA0G1f5c5xp1VB2XxjsntfVEFVdnzQ25"}
+
+    # r = requests.get(url, headers=headers)
+    # cardsJson = r.json()
+    # cardsText = r.text
+
     context = {
         'title': title,
-        'games': Game.objects.all(),
-        'cards': Card.objects.all(),
-        'slugs': slugs,
+        'games': Game.objects.all()[:15],
+        'cards': Card.objects.all()[:8],
+        'slugs': slugs
     }
+
     return render(request, 'hearthstone/index.html', context)
 
 

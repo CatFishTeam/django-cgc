@@ -30,6 +30,11 @@ class Deck(models.Model):
 class Card(models.Model):
     title = models.CharField(max_length=100)
     slug = models.CharField(max_length=100, null=True, blank=True)
+    img = models.CharField(max_length=100, null=True, blank=True)
+    type = models.CharField(max_length=100, null=True, blank=True)
+    cost = models.IntegerField(null=True, blank=True)
+    health = models.IntegerField(null=True, blank=True)
+    attack = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.title
