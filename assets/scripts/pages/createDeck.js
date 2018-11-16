@@ -19,6 +19,16 @@ function addToDeck(card) {
     });
     if(exit) return;
     deck.push({'id': cardId, 'count': 1, 'name': cardName});
+    countCard();
+}
+
+function countCard(){
+    let countCard = 0;
+    deck.forEach((e) => {
+        countCard += e['count'];
+    });
+    $('.card__count-number').text(countCard)
+    return countCard
 }
 
 function decreaseCard(card) {
@@ -29,7 +39,7 @@ function decreaseCard(card) {
         if (quantity == 0){
             card.css('opacity', 0.4)
         }
-        addToDeck(card)
+        addToDeck(card);
         displayDeck()
     }
 }
@@ -37,7 +47,6 @@ function decreaseCard(card) {
 function displayDeck() {
     $('.deck__container').empty();
     deck.forEach((e)=> {
-        console.log(e)
         $('.deck__container').append('<div class="deck__card" data-id="' + e.id + '">' + e.name + '<span>x' + e.count + '</span></div>')
     })
 }
@@ -47,30 +56,48 @@ $('body').on('click', '.deck__card', function() {
 });
 
 function removeFromDeck(cardId){
-    let exit = false;
     deck.forEach( (e) => {
         if(e['id'] === cardId){
             if(e['count'] > 1) {
                 e['count'] -= 1;
             } else {
-                var filteredItems = this.items.filter(function (e) {
-                    return e !== item;
+                let filteredDeck = deck.filter( i => {
+                    return i !== e;
                 });
+                deck = filteredDeck;
             }
         }
     });
-    if(exit) return;
-    deck.push({'id': cardId, 'count': 1, 'name': cardName});
-    console.log(deck)
+    $('.single-card').each( function() {
+        if($(this).data('id') === cardId){
+            if($(this).find('.single-card__number').text() === "0"){
+                console.log($(this))
+                $(this).css('opacity', 1)
+            }
+            $(this).find('.single-card__number').text( parseInt($(this).find('.single-card__number').text()) + 1)
+        }
+    });
+    countCard();
+    displayDeck();
 }
 
-let link2Deck
+let link2Deck;
 $('#save-deck').click( () => {
+    let failed = false
+    if(countCard() !== 30) {
+        Toastr.warning("Votre deck doit comporter 30 cartes !");
+        failed = true
+    }
+    if( $("#deck__title").val().length < 3) {
+        Toastr.warning("Votre deck doit être nommé");
+        failed = true
+    }
+    if(failed) return;
     postData(`/save-deck`, {title: $('#deck__title').val(), deck: deck})
         .then(data => link2Deck = '/show-deck/' + JSON.stringify(data))
         .catch(error => console.error(error))
         .then(() => {
-            Toastr.success('<a href="'+link2Deck+'">Consulter son deck</a>','Deck créé avec succès',)
+            Toastr.success('<a href="'+link2Deck+'">Consulter son deck &rarr;</a>','Deck créé avec succès',)
     })
 });
 
