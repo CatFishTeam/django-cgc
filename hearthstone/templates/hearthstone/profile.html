@@ -1,0 +1,17 @@
+{% extends "hearthstone/base.html" %}
+
+{% block content %}
+<div class="row my-5">
+  <div class="col-md-12">
+    <h1>Profil</h1>
+
+    <div class="profile">
+      <p><strong>Identifiant : </strong>{{request.user.username}}</p>
+      <p><a href="{% url 'changePassword' %}" class="btn btn-primary">Changer votre mot de passe</a></p>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+

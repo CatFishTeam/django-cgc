@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .forms import UserRegisterForm
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from .models import Card, Deck, Game, CardUser, CardDeck, Topic, Message
 import json
 import requests
@@ -173,3 +175,21 @@ def forum(request):
 def createTopic(request):
     return render(request, 'forum/create.html', {})
 
+def profile(request):
+    return render(request, 'hearthstone/profile.html', {})
+
+def changePassword(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Votre mot de passe a bien été changé !')
+            return redirect('changePassword')
+        else:
+            messages.error(request, 'Merci de corriger les erreurs ci-dessous')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'registration/change-password.html', {
+        'form': form
+    })
