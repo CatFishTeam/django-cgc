@@ -1,115 +1,1068 @@
 - model: hearthstone.card
   fields:
-      title: Bloodreaver Gul'dan
-
-
-- model: hearthstone.card
-  fields:
-      title: Army of the Dead
-
+      title: Anathème crépitant
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/BCON_021.png
+      type: Spell
 
 - model: hearthstone.card
   fields:
-      title: Arcane Giant
-
-
-- model: hearthstone.card
-  fields:
-      title: Anyfin Can Happen
-
+      title: Attaque sournoise
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_072.png
+      type: Spell
 
 - model: hearthstone.card
   fields:
-      title: A New Hero Approaches
-
-
-- model: hearthstone.card
-  fields:
-      title: Your Next Victim Comes
-
+      title: Avatar de la pièce
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/GAME_002.png
+      type: Minion
+      health: 1
+      attack: 1
 
 - model: hearthstone.card
   fields:
-      title: Wish
-
-
-- model: hearthstone.card
-  fields:
-      title: Ultimate Infestation
-
+      title: Éclat lunaire
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_008.png
+      type: Spell
 
 - model: hearthstone.card
   fields:
-      title: Timepiece of Horror
-
-
-- model: hearthstone.card
-  fields:
-      title: Superior Potion
-
+      title: Excès de mana
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_013t.png
+      type: Spell
 
 - model: hearthstone.card
   fields:
-      title: Stonescale Oil
-
-
-- model: hearthstone.card
-  fields:
-      title: Shadow Oil
-
+      title: Folie en bouteille
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/BCON_024.png
+      type: Spell
 
 - model: hearthstone.card
   fields:
-      title: Rod of Roasting
-
-
-- model: hearthstone.card
-  fields:
-      title: Pyroblast
-
+      title: Guérison ancestrale
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_041.png
+      type: Spell
 
 - model: hearthstone.card
   fields:
-      title: Netherbloom
-
-
-- model: hearthstone.card
-  fields:
-      title: Mystic Wool
-
+      title: Image miroir
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_mirror.png
+      type: Minion
+      health: 2
 
 - model: hearthstone.card
   fields:
-      title: Mirror of Doom
-
-
-- model: hearthstone.card
-  fields:
-      title: Damaged Stegotron
-
+      title: Innervation
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_169.png
+      type: Spell
 
 - model: hearthstone.card
   fields:
-      title: Cursed Castaway
-
-
-- model: hearthstone.card
-  fields:
-      title: Crystal Lion
-
+      title: La pièce
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/GAME_005.png
+      type: Spell
 
 - model: hearthstone.card
   fields:
-      title: Cruel Dinomancer
-
-
-- model: hearthstone.card
-  fields:
-      title: Corrupted Seer
-
+      title: Pacte sacrificiel
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/NEW1_003.png
+      type: Spell
 
 - model: hearthstone.card
   fields:
-      title: Coldarra Drake
+      title: Puissance totémique
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_244.png
+      type: Spell
 
+- model: hearthstone.card
+  fields:
+      title: Archère elfe
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_189.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 1
 
+- model: hearthstone.card
+  fields:
+      title: Attaque pernicieuse
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_075.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Bénédiction de puissance
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_087.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Bombe fumigène
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/BCON_016.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Charge
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_103.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Châtiment sacré
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS1_130.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Clerc de Comté-du-Nord
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_235.png
+      type: Minion
+      cost: 1
+      health: 3
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Corruption
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_063.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Docteur vaudou
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_011.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Éclaireur murloc
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_506a.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Écumeur murloc
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_168.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Feu de l’âme
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_308.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Griffe
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_005.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Horion de givre
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_037.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Humilité
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_360.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Image miroir
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_027.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Justice de la Lumière
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_091.png
+      type: Weapon
+      cost: 1
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Lame pernicieuse
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_082.png
+      type: Weapon
+      cost: 1
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Loup des bois
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/DS1_175.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Main de protection
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_371.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Main de salut
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/BCON_012.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Marcheur du Vide
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_065.png
+      type: Minion
+      cost: 1
+      health: 3
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Marque du chasseur
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_084.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Mot de pouvoir Bouclier
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_004.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Mouton
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_tk1.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Oracle sinistrécaille
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_508.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Petit dragon mécanique
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_025t.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Pistage
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/DS1_184.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Poison mortel
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_074.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Projectiles des Arcanes
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_277.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Recrue de la Main d’argent
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_101t.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Sanglier
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_boar.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Sanglier brocheroc
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_171.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Soldat de Comté-de-l’Or
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS1_042.png
+      type: Minion
+      cost: 1
+      health: 2
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Squelette
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/skele11.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Tir des Arcanes
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/DS1_185.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Totem de courroux de l’air
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_052.png
+      type: Minion
+      cost: 1
+      health: 2
+
+- model: hearthstone.card
+  fields:
+      title: Totem de griffes de pierre
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_051.png
+      type: Minion
+      cost: 1
+      health: 2
+
+- model: hearthstone.card
+  fields:
+      title: Totem de soins
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/NEW1_009.png
+      type: Minion
+      cost: 1
+      health: 2
+
+- model: hearthstone.card
+  fields:
+      title: Totem incendiaire
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_050.png
+      type: Minion
+      cost: 1
+      health: 1
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Tourbillon
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_400.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Vision télépathique
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_003.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Voile de mort
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_302.png
+      type: Spell
+      cost: 1
+
+- model: hearthstone.card
+  fields:
+      title: Appel totémique
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_049.png
+      type: Hero Power
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Arme croque-roc
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_045.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Assommer
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_581.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Attaque mentale
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/DS1_233.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Changeforme
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_017.png
+      type: Hero Power
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Chasse-marée murloc
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_506.png
+      type: Minion
+      cost: 2
+      health: 1
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Connexion
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_056.png
+      type: Hero Power
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Crocilisque des rivières
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_120.png
+      type: Minion
+      cost: 2
+      health: 3
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Croissance sauvage
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_013.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Éclair de givre
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_024.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Enchaînement
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_114.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Esprit divin
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_236.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Esprit généreux
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/BCON_015.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Exécution
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_108.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Explosion de feu
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_034.png
+      type: Hero Power
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Explosion des Arcanes
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_025.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Fin tireur
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/BCON_001.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Frappe héroïque
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_105.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Furie des vents
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_039.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Gain d’armure !
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_102.png
+      type: Hero Power
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Géomancien kobold
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_142.png
+      type: Minion
+      cost: 2
+      health: 2
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Grunt loup-de-givre
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_121.png
+      type: Minion
+      cost: 2
+      health: 2
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Guerrier branchie-bleue
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_173.png
+      type: Minion
+      cost: 2
+      health: 1
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Ingénieur novice
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_015.png
+      type: Minion
+      cost: 2
+      health: 1
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Kriss
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_278.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Limon des marais acide
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_066.png
+      type: Minion
+      cost: 2
+      health: 2
+      attack: 3
+
+- model: hearthstone.card
+  fields:
+      title: Lumière sacrée
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_089.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Maîtrise des dagues
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_083b.png
+      type: Hero Power
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Marque du fauve
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_009.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Mot de l’ombre Douleur
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_234.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: NOOOOOOOOOOOON !
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/GAME_006.png
+      type: Spell
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Raptor Rougefange
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_172.png
+      type: Minion
+      cost: 2
+      health: 2
+      attack: 3
+
+- model: hearthstone.card
+  fields:
+      title: Renfort
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_101.png
+      type: Hero Power
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Soins inférieurs
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS1h_001.png
+      type: Hero Power
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Succube
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_306.png
+      type: Minion
+      cost: 2
+      health: 3
+      attack: 4
+
+- model: hearthstone.card
+  fields:
+      title: Tir assuré
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/DS1h_292.png
+      type: Hero Power
+      cost: 2
+
+- model: hearthstone.card
+  fields:
+      title: Totem Langue de feu
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_565.png
+      type: Minion
+      cost: 2
+      health: 3
+
+- model: hearthstone.card
+  fields:
+      title: Champion de la nature
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/BCON_008.png
+      type: Spell
+      cost: 3
+
+- model: hearthstone.card
+  fields:
+      title: Chasseuse de Tranchebauge
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_196.png
+      type: Minion
+      cost: 3
+      health: 3
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Chef de raid
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_122.png
+      type: Minion
+      cost: 3
+      health: 2
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Chevaucheur de loup
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_124.png
+      type: Minion
+      cost: 3
+      health: 1
+      attack: 3
+
+- model: hearthstone.card
+  fields:
+      title: Clerc du Soleil brisé
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_019.png
+      type: Minion
+      cost: 3
+      health: 2
+      attack: 3
+
+- model: hearthstone.card
+  fields:
+      title: Compagnon animal
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/NEW1_031.png
+      type: Spell
+      cost: 3
+
+- model: hearthstone.card
+  fields:
+      title: Drain de vie
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_061.png
+      type: Spell
+      cost: 3
+
+- model: hearthstone.card
+  fields:
+      title: Enragé du magma
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_118.png
+      type: Minion
+      cost: 3
+      health: 1
+      attack: 5
+
+- model: hearthstone.card
+  fields:
+      title: Épée longue flamboyante
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/BCON_026.png
+      type: Weapon
+      cost: 3
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Éventail de couteaux
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_129.png
+      type: Spell
+      cost: 3
+
+- model: hearthstone.card
+  fields:
+      title: Fusilier de Forgefer
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_141.png
+      type: Minion
+      cost: 3
+      health: 2
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Grizzly Ferpoil
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_125.png
+      type: Minion
+      cost: 3
+      health: 3
+      attack: 3
+
+- model: hearthstone.card
+  fields:
+      title: Hache de guerre embrasée
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_106.png
+      type: Weapon
+      cost: 3
+      attack: 3
+
+- model: hearthstone.card
+  fields:
+      title: Intelligence des Arcanes
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_023.png
+      type: Spell
+      cost: 3
+
+- model: hearthstone.card
+  fields:
+      title: Leokk
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/NEW1_033.png
+      type: Minion
+      cost: 3
+      health: 4
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Mage de Dalaran
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_582.png
+      type: Minion
+      cost: 3
+      health: 4
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Maîtrise du blocage
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_606.png
+      type: Spell
+      cost: 3
+
+- model: hearthstone.card
+  fields:
+      title: Misha
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/NEW1_032.png
+      type: Minion
+      cost: 3
+      health: 4
+      attack: 4
+
+- model: hearthstone.card
+  fields:
+      title: Mot de l’ombre Mort
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_622.png
+      type: Spell
+      cost: 3
+
+- model: hearthstone.card
+  fields:
+      title: Nova de givre
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_026.png
+      type: Spell
+      cost: 3
+
+- model: hearthstone.card
+  fields:
+      title: Officier chanteguerre
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_084.png
+      type: Minion
+      cost: 3
+      health: 3
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Ordre de tuer
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_539.png
+      type: Spell
+      cost: 3
+
+- model: hearthstone.card
+  fields:
+      title: Patriarche dos-argenté
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_127.png
+      type: Minion
+      cost: 3
+      health: 4
+      attack: 1
+
+- model: hearthstone.card
+  fields:
+      title: Rugissement sauvage
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_011.png
+      type: Spell
+      cost: 3
+
+- model: hearthstone.card
+  fields:
+      title: Souffleur
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/NEW1_034.png
+      type: Minion
+      cost: 3
+      health: 2
+      attack: 4
+
+- model: hearthstone.card
+  fields:
+      title: Toucher guérisseur
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_007.png
+      type: Spell
+      cost: 3
+
+- model: hearthstone.card
+  fields:
+      title: Trait de l’ombre
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_057.png
+      type: Spell
+      cost: 3
+
+- model: hearthstone.card
+  fields:
+      title: Balayage
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_012.png
+      type: Spell
+      cost: 4
+
+- model: hearthstone.card
+  fields:
+      title: Bénédiction des rois
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_092.png
+      type: Spell
+      cost: 4
+
+- model: hearthstone.card
+  fields:
+      title: Boule de feu
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_029.png
+      type: Spell
+      cost: 4
+
+- model: hearthstone.card
+  fields:
+      title: Championne en vrai-argent
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_097.png
+      type: Weapon
+      cost: 4
+      attack: 4
+
+- model: hearthstone.card
+  fields:
+      title: Chevalier de Hurlevent
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_131.png
+      type: Minion
+      cost: 4
+      health: 5
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Consécration
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_093.png
+      type: Spell
+      cost: 4
+
+- model: hearthstone.card
+  fields:
+      title: Élémentaire d’eau
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_033.png
+      type: Minion
+      cost: 4
+      health: 6
+      attack: 3
+
+- model: hearthstone.card
+  fields:
+      title: Flammes infernales
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_062.png
+      type: Spell
+      cost: 4
+
+- model: hearthstone.card
+  fields:
+      title: Flèches multiples
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/DS1_183.png
+      type: Spell
+      cost: 4
+
+- model: hearthstone.card
+  fields:
+      title: Gueule d’acier des oasis
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_119.png
+      type: Minion
+      cost: 4
+      health: 7
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Inventrice gnome
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_147.png
+      type: Minion
+      cost: 4
+      health: 4
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Maître-bouclier de Sen’jin
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_179.png
+      type: Minion
+      cost: 4
+      health: 5
+      attack: 3
+
+- model: hearthstone.card
+  fields:
+      title: Maître-chien
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/DS1_070.png
+      type: Minion
+      cost: 4
+      health: 3
+      attack: 4
+
+- model: hearthstone.card
+  fields:
+      title: Maléfice
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_246.png
+      type: Spell
+      cost: 4
+
+- model: hearthstone.card
+  fields:
+      title: Marteau de courroux
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_094.png
+      type: Spell
+      cost: 4
+
+- model: hearthstone.card
+  fields:
+      title: Mécano de petit dragon
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_025.png
+      type: Minion
+      cost: 4
+      health: 4
+      attack: 2
+
+- model: hearthstone.card
+  fields:
+      title: Métamorphose
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_022.png
+      type: Spell
+      cost: 4
+
+- model: hearthstone.card
+  fields:
+      title: Ogre-magi
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/CS2_197.png
+      type: Minion
+      cost: 4
+      health: 4
+      attack: 4
+
+- model: hearthstone.card
+  fields:
+      title: Parlevent
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/EX1_587.png
+      type: Minion
+      cost: 4
+      health: 3
+      attack: 3
+
+- model: hearthstone.card
+  fields:
+      title: Soldat d’élite kor’kron
+      img: http://wow.zamimg.com/images/hearthstone/cards/frfr/original/NEW1_011.png
+      type: Minion
+      cost: 4
+      health: 3
+      attack: 4

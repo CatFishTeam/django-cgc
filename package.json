@@ -4,7 +4,7 @@
   "scripts": {
     "pretest": "eslint django/ js_tests/admin/ js_tests/gis/",
     "test": "grunt test --verbose",
-    "webpack": ""
+    "watch": "webpack --watch"
   },
   "engines": {
     "npm": ">=1.3.0 <3.0.0"

@@ -9,8 +9,7 @@
       {% for card in cards %}
       <div class="col-3 text-center single-card my-4">
         <a class="single-card__link" href="{% url 'card' card.id %}">
-          <h4>{{ card.title }}</h4>
-          <img src="https://res.cloudinary.com/ds8br8lm0/image/upload/v1539448305/django/{{ card.slug }}.png" alt="{{ card.title }}" class="single-card__link__img">
+          <img src="{{ card.img }}" alt="{{ card.title }}" class="single-card__link__img">
         </a>
       </div>
       {% empty %}
