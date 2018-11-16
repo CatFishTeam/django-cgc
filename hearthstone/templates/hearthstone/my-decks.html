@@ -11,13 +11,15 @@
           <a href="{% url 'showDeck' deck.id %}">{{ deck.title }}</a>
         </div>
       {% empty %}
-      <div class="col">
+      <div class="col my-4">
         Vous n'avez pas encore de decks.
       </div>
       {% endfor %}
     </div>
     <div class="row">
-      <a class="btn btn-dark" href="{% url 'createDeck' %}">Créer un nouveau deck</a>
+      <div class="col">
+        <a class="btn btn-dark" href="{% url 'createDeck' %}">Créer un nouveau deck</a>
+      </div>
     </div>
   </div>
 </div>
