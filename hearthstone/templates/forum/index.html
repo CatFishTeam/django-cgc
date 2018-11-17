@@ -9,12 +9,18 @@
       <a href="{% url 'createTopic' %}" class="btn btn-primary forum__links__single">Créer un sujet</a>
     </div>
 
-    <div class="topics">
+    <div class="topics list-group mb-5">
       {% for topic in topics %}
-        <div class="topics__single">
-          <h3>{{topic.title}}</h3>
-          <p>Par {{topic.author.username}}</p>
-          <p>{{messages_count.forloop.counter0}} messages</p>
+        <div class="topics__single list-group-item">
+          <div>
+            <h3>{{topic.title}} <span>Créé le {{topic.created_at}}</span></h3>
+            <small>Par {{topic.author.username}}</small>
+          </div>
+
+          <div>
+            <p><a href="{% url 'topic' topic.id %}">Voir le sujet</a></p>
+            <p>{{topic.number_of_messages}} messages</p>
+          </div>
         </div>
       {% empty %}
         <p>Aucun sujet pour le moment.</p>

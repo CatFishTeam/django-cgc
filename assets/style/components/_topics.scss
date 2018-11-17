@@ -1,0 +1,31 @@
+.topics {
+    &__single {
+        display: flex;
+        justify-content: space-between;
+        background: #fafafa;
+
+        h3 {
+            span {
+                font-size: 11px;
+                color: #777;
+            }
+        }
+    }
+}
+
+.topic {
+    p {
+    background: #fafafa;
+
+        span {
+            font-size: 11px;
+            color: #777;
+        }
+    }
+}
+
+.messages {
+    &__single, p {
+        background: #fafafa;
+    }
+}

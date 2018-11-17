@@ -19,6 +19,7 @@ urlpatterns = [
     path('logout', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='app_logout'),
     path('forum', views.forum, name='forum'),
     path('create-topic', views.createTopic, name='createTopic'),
+    path('topic/<int:topic_id>', views.topic, name='topic'),
     path('profile', views.profile, name='profile'),
     path('change-password', views.changePassword, name='changePassword'),
 ]

@@ -1,11 +1,12 @@
 from random import randint
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, TopicCreationForm, MessageCreationForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .models import Card, Deck, Game, CardUser, CardDeck, Topic, Message
+from django.db.models import Count
 import json
 import requests
 
@@ -155,25 +156,55 @@ def saveDeck(request):
 #     return redirect('home')
 
 def forum(request):
-    topics = Topic.objects.all()
-    messages = Message.objects.all()
-    messages_count = []
-
-    for index, topic in enumerate(topics):
-        messages_count[index] = 0
-        for message in messages:
-            if message.topic == topic:
-                messages_count[index] += 1
+    topics = Topic.objects.order_by('-created_at').annotate(number_of_messages=Count('message'))
 
     context = {
         'topics': topics,
-        'messages_count': messages_count
     }
 
     return render(request, 'forum/index.html', context)
 
 def createTopic(request):
-    return render(request, 'forum/create.html', {})
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = TopicCreationForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            topic = form.save(commit=False)
+            topic.author = request.user
+            topic.save()
+            messages.success(request, f'Votre sujet a bien été créé !')
+            return redirect('topic', topic_id=topic.id)
+    else:
+        form = TopicCreationForm()
+    return render(request, 'forum/create.html', {'form': form})
+
+
+def topic(request, topic_id):
+    topic = get_object_or_404(Topic, pk=topic_id)
+
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = MessageCreationForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            new_message = form.save(commit=False)
+            new_message.author = request.user
+            new_message.topic = topic
+            new_message.save()
+            messages.success(request, f'Votre message a bien été ajouté au sujet !')
+    else:
+        form = MessageCreationForm()
+
+    msgs = Message.objects.all().filter(topic=topic)
+
+    context = {
+        'topic': topic,
+        'msgs': msgs,
+        'form': form,
+    }
+
+    return render(request, 'forum/topic.html', context)
 
 def profile(request):
     return render(request, 'hearthstone/profile.html', {})
