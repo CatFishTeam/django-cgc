@@ -15,11 +15,11 @@
       <p class="list-group-item">{{topic.content}}</p>
     </div>
 
-    <div class="messages my-4 list-group">
+    <div class="messages my-4">
       {% for msg in msgs %}
-        <div class="messages__single list-group-item">
-          <p>Par {{msg.author.username}}</p>
-          <p>{{msg.content}}</p>
+        <div class="messages__single my-2 list-group">
+          <p class="list-group-item">Par {{msg.author.username}}</p>
+          <p class="list-group-item">{{msg.content}}</p>
         </div>
       {% empty %}
         <p class="list-group-item">Aucun message pour le moment.</p>
