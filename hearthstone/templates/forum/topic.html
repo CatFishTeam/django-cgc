@@ -26,11 +26,15 @@
       {% endfor %}
     </div>
 
+    {% if request.user.is_authenticated %}
     <form class="mb-5" method="post">
       {% csrf_token %}
       {{ form|crispy }}
       <button type="submit" class="btn btn-outline-primary">Enregistrer</button>
     </form>
+    {% else %}
+    <p><a href="{% url 'app_login' %}">Connectez-vous</a> pour répondre au sujet.</p>
+    {% endif %}
   </div>
 </div>
 

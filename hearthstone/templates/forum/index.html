@@ -5,9 +5,13 @@
   <div class="col-md-12">
     <h1>Forum</h1>
 
+    {% if request.user.is_authenticated %}
     <div class="forum__links my-4">
       <a href="{% url 'createTopic' %}" class="btn btn-primary forum__links__single">Créer un sujet</a>
     </div>
+    {% else %}
+    <p><a href="{% url 'app_login' %}">Connectez-vous</a> pour créer un sujet.</p>
+    {% endif %}
 
     <div class="topics list-group mb-5">
       {% for topic in topics %}
