@@ -10,6 +10,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <link href="{% sass_src 'style/main.sass' %}" rel="stylesheet" type="text/css" />
+  <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 
   {% if title %}
   <title>Hearthstone - {{ title }}</title>
@@ -42,7 +43,7 @@
         </li>
         <span class="flex-centered text-light">|</span>
         <li class="nav-item">
-          <a class="nav-link">Crédit : {{ request.user.profile.credit }}</a>
+          <a class="nav-link" href="{% url 'buyCards' %}">Crédit : {{ request.user.profile.credit }}</a>
         </li>
         <span class="flex-centered text-light">|</span>
         <li class="nav-item">
