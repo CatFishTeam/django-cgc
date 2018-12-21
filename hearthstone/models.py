@@ -96,3 +96,9 @@ class Message(models.Model):
 
     def __str__(self):
         return self.content
+
+class Battle(models.Model):
+    player1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_1_provider_profile')
+    player2 = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='user_2_provider_profile')
+    round = models.IntegerField(null=False, blank=True)
+    result = models.IntegerField(null=False, blank=True) # 1 player1 | 0 null | -1 player2
