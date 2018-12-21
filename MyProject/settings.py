@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'sass_processor',
     'debug_toolbar',
     'webpack_loader',
@@ -167,3 +168,5 @@ WEBPACK_LOADER = {
     }
 }
 
+
+ASGI_APPLICATION = "hearthstone.routing.application"
