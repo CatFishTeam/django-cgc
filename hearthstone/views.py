@@ -8,10 +8,12 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Q
 from .models import Card, Deck, Game, CardUser, CardDeck, Topic, Message, User, Battle
 from django.db.models import Count
+from django.core.paginator import Paginator
 import json
 import requests
 
 #import pdb; pdb.set_trace()
+
 
 def home(request):
     #TODO Redirect if connected
@@ -62,6 +64,7 @@ def game(request):
     decks = Deck.objects.all().filter(user_id=request.user.id)
     return render(request, 'hearthstone/game.html', {'decks': decks})
 
+
 def launchGame(request, deck_id):
     if request.user.is_authenticated:
         deck_played = Deck.objects.get(id=deck_id)
@@ -92,6 +95,7 @@ def launchGame(request, deck_id):
     else:
         messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
         return redirect('home')
+
 
 def card(request, card_id):
     card = get_object_or_404(Card, pk=card_id)
@@ -136,6 +140,7 @@ def myDecks(request):
     decks = Deck.objects.all().filter(user_id=request.user.id)
     return render(request, 'hearthstone/my-decks.html', {'decks': decks})
 
+
 def showDeck(request, deck_id):
     deck = Deck.objects.get(id=deck_id)
     print(deck)
@@ -169,6 +174,7 @@ def createDeck(request):
             cards[card] = 1
     return render(request, 'hearthstone/create-deck.html', {'cards': cards})
 
+
 def saveDeck(request):
     if request.method == "POST":
         if request.user.is_authenticated:
@@ -194,6 +200,7 @@ def saveDeck(request):
 #     messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
 #     return redirect('home')
 
+
 def forum(request):
     topics = Topic.objects.order_by('-created_at').annotate(number_of_messages=Count('message'))
 
@@ -202,6 +209,7 @@ def forum(request):
     }
 
     return render(request, 'forum/index.html', context)
+
 
 def createTopic(request):
     if request.method == 'POST':
@@ -245,8 +253,10 @@ def topic(request, topic_id):
 
     return render(request, 'forum/topic.html', context)
 
+
 def profile(request):
     return render(request, 'hearthstone/profile.html', {})
+
 
 def changePassword(request):
     if request.method == 'POST':
@@ -263,3 +273,13 @@ def changePassword(request):
     return render(request, 'registration/change-password.html', {
         'form': form
     })
+
+
+def ladder(request):
+    users = User.objects.all()
+    paginator = Paginator(users, 2)
+
+    page = request.GET.get('page')
+    users = paginator.get_page(page)
+
+    return render(request, 'hearthstone/ladder.html', {'users': users})
