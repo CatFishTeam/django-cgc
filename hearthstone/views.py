@@ -5,6 +5,7 @@ from .forms import UserRegisterForm, TopicCreationForm, MessageCreationForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.db.models import Q
 from .models import Card, Deck, Game, CardUser, CardDeck, Topic, Message, User, Battle
 from django.db.models import Count
 import json
@@ -100,34 +101,35 @@ def card(request, card_id):
 def buyCards(request):
     cardCounter = Card.objects.all().count()
     cards = []
-    if request.user.is_authenticated and request.user.profile.credit >= 100:
+    credit = request.user.profile.credit
+    if request.user.is_authenticated and credit >= 100:
         for i in range(8):
             random_index = randint(0, cardCounter - 1)
-            card = Card.objects.all()[random_index]
+            card = Card.objects.all().filter(~Q(type="Hero Power"))[random_index]
             cards.append(card)
             cardUser = CardUser(card=card, user=request.user)
             cardUser.save()
         request.user.profile.credit -= 100
         request.user.save()
-    elif request.user.is_authenticated and request.user.profile.credit < 100:
+    elif request.user.is_authenticated and credit < 100:
         messages.warning(request, f'Vous n\'avez pas assez de crédit :(')
         return redirect('home')
     else:
         messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
         return redirect('home')
-
-    return render(request, 'hearthstone/buy-cards.html', {'cards': cards})
+    return render(request, 'hearthstone/buy-cards.html', {'cards': cards, 'credit': credit})
 
 
 def myCards(request):
     cardsUser = CardUser.objects.all().filter(user_id=request.user.id)
+    credit = request.user.profile.credit
     cards = []
 
     for cardUser in cardsUser:
         card = cardUser.card
         cards.append(card)
 
-    return render(request, 'hearthstone/my-cards.html', {'cards': cards})
+    return render(request, 'hearthstone/my-cards.html', {'cards': cards, 'credit': credit})
 
 
 def myDecks(request):
