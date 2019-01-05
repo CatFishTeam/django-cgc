@@ -2,6 +2,9 @@
     &__single {
         display: flex;
         justify-content: space-between;
-        background: #fafafa;
+
+        .list-group-item {
+            background: $transparent-background;
+        }
     }
 }
