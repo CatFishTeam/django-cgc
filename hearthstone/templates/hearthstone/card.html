@@ -13,8 +13,10 @@
       <strong>Nom : </strong>{{card.title|default:"Aucun"}}<br><br>
       <strong>Type : </strong>{{card.type|default:"Aucun"}}<br><br>
       <strong>Coût : </strong>{{card.cost|default:"Aucun"}}<br><br>
+      {% if card.type != "Spell" %}
       <strong>Santé : </strong>{{card.health|default:"Aucun"}}<br><br>
       <strong>Attaque : </strong>{{card.attack|default:"Aucun"}}<br><br>
+      {% endif %}
     </div>
   </div>
 </div>

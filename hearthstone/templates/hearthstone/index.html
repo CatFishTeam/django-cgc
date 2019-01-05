@@ -3,18 +3,18 @@
 {% block content %}
 
 <!-- Jumbotron Header -->
-<header class="jumbotron my-4">
+<header class="jumbotron my-3">
   <h1 class="display-3">Bienvenue sur Hearthstone</h1>
   <p class="lead">Ceci est un site de simulation de partie de cartes en ligne.<br>
     <a href="{% url 'register' %}">Inscrivez-vous</a> ou <a href="{% url 'login' %}">connectez-vous</a> afin de gagner des cartes, construire vos decks, et jouer !</p>
   <a href="{% url 'game' %}" class="btn btn-primary btn-lg">Jouer</a>
   <h2 class="display-6 my-4">Quelques cartes...</h2>
 
-  <div class="row">
+  <div class="row cards-home">
     {% for card in cards %}
-    <div class="col-3 text-center single-card my-4">
-      <a class="single-card__link" href="{% url 'card' card.id %}">
-        <img src="{{ card.img }}" alt="{{ card.title }}" class="single-card__link__img">
+    <div class="card-home">
+      <a href="{% url 'card' card.id %}">
+        <img src="{{ card.img }}" alt="{{ card.title }}">
       </a>
     </div>
     {% empty %}

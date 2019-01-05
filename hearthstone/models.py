@@ -9,7 +9,7 @@ from random import randint
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     credit = models.IntegerField(default=200)
-
+    elo = models.IntegerField(default=1400)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -101,3 +101,9 @@ class Message(models.Model):
 
     def __str__(self):
         return self.content
+
+class Battle(models.Model):
+    player1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_1_provider_profile')
+    player2 = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='user_2_provider_profile')
+    round = models.IntegerField(null=False, blank=True)
+    result = models.IntegerField(null=False, blank=True) # 1 player1 | 0 null | -1 player2

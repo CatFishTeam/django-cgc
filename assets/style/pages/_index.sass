@@ -1,0 +1,30 @@
+$cardWidth: 170px
+
+.cards-home
+    height: 300px
+
+.card-home
+    width: $cardWidth
+    position: absolute
+    left: calc(50% - #{$cardWidth/2})
+    img
+        max-width: 100%
+    &:nth-child(1)
+        transform: translate(118px, 15px) rotate(36deg)
+    &:nth-child(2)
+        transform: translate(85px) rotate(30deg)
+    &:nth-child(3)
+        transform: translate(55px) rotate(20deg)
+    &:nth-child(4)
+        transform: translate(25px, 5px) rotate(11deg)
+    &:nth-child(6)
+        transform: translate(-25px, 10px) rotate(-11deg)
+    &:nth-child(7)
+        transform: translate(-55px, 15px) rotate(-20deg)
+    &:nth-child(8)
+        transform: translate(-85px, 37px) rotate(-30deg)
+    &:hover
+        z-index: 2
+
+.jumbotron
+    background: inherit

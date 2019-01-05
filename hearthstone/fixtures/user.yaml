@@ -1,0 +1,8 @@
+- model: auth.user
+  fields:
+      password: $2y$10$FOKz3JpMJ9B.zoACAM.D/uSkBziyKdNHUYP9IGvt75ORm6XLIHb3u
+      username: welldon
+      email: mael.mayon@free.fr
+      is_superuser: true
+      is_staff: true
+      is_active: true

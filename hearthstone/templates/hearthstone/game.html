@@ -4,11 +4,18 @@
 <div class="row my-5">
   <div class="col-md-12">
     <h1>Jouer au jeu</h1>
-
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aspernatur aut corporis debitis dolore eius fugiat incidunt iusto laboriosam nesciunt nisi nostrum qui, vel voluptatibus voluptatum. Facilis nihil quis quod.</p>
+    <h3>Lancer une partie avec </h3>
+    {% for deck in decks %}
+    <div class="col-3 text-center my-4">
+      <a class="btn btn-hearthstone" href="{% url 'launchGame' deck.id %}">{{ deck.title }}</a>
+    </div>
+    {% empty %}
+    <div class="col my-4">
+      Vous n'avez pas encore de decks.
+    </div>
+    {% endfor %}
   </div>
 </div>
-
 {% endblock content %}
 
 
