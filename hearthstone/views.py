@@ -10,6 +10,7 @@ from django.db.models import Count
 import json
 import requests
 
+#import pdb; pdb.set_trace()
 
 def home(request):
     #TODO Redirect if connected
@@ -27,11 +28,16 @@ def home(request):
     # r = requests.get(url, headers=headers)
     # cardsJson = r.json()
     # cardsText = r.text
+    cards = []
+    allCards = Card.objects.all()
+    for i in range(0, 8):
+        card = Card.objects.all()[randint(0, allCards.count() - 1)]
+        cards.append(card)
 
     context = {
         'title': title,
         'games': Game.objects.all()[:15],
-        'cards': Card.objects.all()[:8],
+        'cards': cards,
         'slugs': slugs
     }
 
@@ -79,9 +85,6 @@ def launchGame(request, deck_id):
 
         battle = Battle(player1_id=request.user.id, player2_id=contender.id, result=randint(-1, 1), round=randint(15, 30))
         battle.save()
-
-
-        #import pdb; pdb.set_trace()
 
 
         return render(request, 'hearthstone/launchGame.html', {'conteder': contender, 'battle': battle})

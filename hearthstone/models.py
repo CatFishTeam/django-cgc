@@ -8,7 +8,7 @@ from random import randint
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     credit = models.IntegerField(default=200)
-
+    elo = models.IntegerField(default=1400)
 
 
 @receiver(post_save, sender=User)
