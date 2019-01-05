@@ -5,6 +5,11 @@
   <div class="col-md-12">
     <h1>Votre collection de cartes</h1>
 
+    <div class="col-12 my-5">
+      <p>Vous avez {{profil.credit}} credits</p>
+      <a href="{% url 'buyCards' %}" class="btn btn-hearthstone">Obtenir plus de carte (100)</a>
+    </div>
+
     <div class="row">
       {% for card in cards %}
       <div class="col-3 text-center single-card my-4">
@@ -17,10 +22,6 @@
         Vous n'avez pas encore de cartes.
       </div>
       {% endfor %}
-      <div class="col-12 my-5">
-        <a href="{% url 'buyCards' %}" class="btn btn-dark">Obtenir plus de carte</a>
-        TODO : Alert
-      </div>
     </div>
   </div>
 </div>

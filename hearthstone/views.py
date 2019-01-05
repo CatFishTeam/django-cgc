@@ -5,11 +5,12 @@ from .forms import UserRegisterForm, TopicCreationForm, MessageCreationForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from .models import Card, Deck, Game, CardUser, CardDeck, Topic, Message
+from .models import Card, Deck, Game, CardUser, CardDeck, Topic, Message, User, Battle
 from django.db.models import Count
 import json
 import requests
 
+#import pdb; pdb.set_trace()
 
 def home(request):
     #TODO Redirect if connected
@@ -27,11 +28,16 @@ def home(request):
     # r = requests.get(url, headers=headers)
     # cardsJson = r.json()
     # cardsText = r.text
+    cards = []
+    allCards = Card.objects.all()
+    for i in range(0, 8):
+        card = Card.objects.all()[randint(0, allCards.count() - 1)]
+        cards.append(card)
 
     context = {
         'title': title,
         'games': Game.objects.all()[:15],
-        'cards': Card.objects.all()[:8],
+        'cards': cards,
         'slugs': slugs
     }
 
@@ -52,8 +58,39 @@ def register(request):
 
 
 def game(request):
-    return render(request, 'hearthstone/game.html')
+    decks = Deck.objects.all().filter(user_id=request.user.id)
+    return render(request, 'hearthstone/game.html', {'decks': decks})
 
+def launchGame(request, deck_id):
+    if request.user.is_authenticated:
+        deck_played = Deck.objects.get(id=deck_id)
+        cards_played = CardDeck.objects.filter(deck_id=deck_played.id)
+
+        decks = Deck.objects.exclude(user_id=request.user.id)
+        contender_deck = decks[randint(0, decks.count() - 1)] #Choose a random contender
+        contender = User.objects.get(id=contender_deck.user_id)
+
+        contender_cards = CardDeck.objects.filter(deck_id=contender_deck.id)
+
+#        player1_hp = 30
+#        player2_hp = 30
+
+#
+#        for card_1 in cards_played:
+#            for card_2 in contender_cards:
+#                dmg = card_1.attack - card_2.attack
+#                if dmg > 0 :
+#
+#                if player1_hp <= 0:
+
+        battle = Battle(player1_id=request.user.id, player2_id=contender.id, result=randint(-1, 1), round=randint(15, 30))
+        battle.save()
+
+
+        return render(request, 'hearthstone/launchGame.html', {'conteder': contender, 'battle': battle})
+    else:
+        messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
+        return redirect('home')
 
 def card(request, card_id):
     card = get_object_or_404(Card, pk=card_id)
