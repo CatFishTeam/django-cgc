@@ -5,14 +5,14 @@ from .forms import UserRegisterForm, TopicCreationForm, MessageCreationForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from .models import Card, Deck, Game, CardUser, CardDeck, Topic, Message
+from .models import Profile, Card, Deck, Game, CardUser, CardDeck, Topic, Message
 from django.db.models import Count
 import json
 import requests
 
 
 def home(request):
-    #TODO Redirect if connected
+    # TODO Redirect if connected
     title = 'Accueil'
     slugs = [
         'test',
@@ -61,15 +61,15 @@ def card(request, card_id):
 
 
 def buyCards(request):
-    cardCounter = Card.objects.all().count()
+    card_counter = Card.objects.all().count()
     cards = []
     if request.user.is_authenticated and request.user.profile.credit >= 100:
         for i in range(8):
-            random_index = randint(0, cardCounter - 1)
+            random_index = randint(0, card_counter - 1)
             card = Card.objects.all()[random_index]
             cards.append(card)
-            cardUser = CardUser(card=card, user=request.user)
-            cardUser.save()
+            card_user = CardUser(card=card, user=request.user)
+            card_user.save()
         request.user.profile.credit -= 100
         request.user.save()
     elif request.user.is_authenticated and request.user.profile.credit < 100:
@@ -83,11 +83,11 @@ def buyCards(request):
 
 
 def myCards(request):
-    cardsUser = CardUser.objects.all().filter(user_id=request.user.id)
+    cards_user = CardUser.objects.all().filter(user_id=request.user.id)
     cards = []
 
-    for cardUser in cardsUser:
-        card = cardUser.card
+    for card_user in cards_user:
+        card = card_user.card
         cards.append(card)
 
     return render(request, 'hearthstone/my-cards.html', {'cards': cards})
@@ -97,21 +97,23 @@ def myDecks(request):
     decks = Deck.objects.all().filter(user_id=request.user.id)
     return render(request, 'hearthstone/my-decks.html', {'decks': decks})
 
+
 def showDeck(request, deck_id):
     deck = Deck.objects.get(id=deck_id)
     print(deck)
     cards = []
-    cardsInDeck = CardDeck.objects.all().filter(deck_id=deck_id)
-    for cardInDeck in cardsInDeck:
-        card = cardInDeck.card
+    cards_in_deck = CardDeck.objects.all().filter(deck_id=deck_id)
+    for card_in_deck in cards_in_deck:
+        card = card_in_deck.card
         cards.append(card)
     return render(request, 'hearthstone/show-deck.html', {'cards': cards, 'deck': deck})
 
-    #for cardInDeck in cardsInDeck:
+    # for cardInDeck in cardsInDeck:
     #    if cardInDeck in cards:
     #        cards[cardInDeck] += 1
     #    else:
     #        cards[cardInDeck] = 1
+
 
 def deleteDeck(request, deck):
     Deck(id=deck).delete()
@@ -120,15 +122,16 @@ def deleteDeck(request, deck):
 
 
 def createDeck(request):
-    cardsUser = CardUser.objects.all().filter(user_id=request.user.id)
+    cards_user = CardUser.objects.all().filter(user_id=request.user.id)
     cards = {}
-    for cardUser in cardsUser:
-        card = cardUser.card
+    for card_user in cards_user:
+        card = card_user.card
         if card in cards:
             cards[card] += 1
         else:
             cards[card] = 1
     return render(request, 'hearthstone/create-deck.html', {'cards': cards})
+
 
 def saveDeck(request):
     if request.method == "POST":
@@ -140,13 +143,14 @@ def saveDeck(request):
             deck = Deck(title=title, user=request.user)
             deck.save()
 
-            #TODO Check disponibility
+            # TODO Check disponibility
             for card in cards:
                 for x in range(card['count']):
                     card2add = Card(id=card['id'])
-                    cardDeck = CardDeck(card=card2add, deck=deck)
-                    cardDeck.save()
+                    card_deck = CardDeck(card=card2add, deck=deck)
+                    card_deck.save()
             return JsonResponse(deck.id, safe=False)
+
 
 # elif request.user.is_authenticated and request.user.profile.credit < 100:
 #     messages.warning(request, f'Vous n\'avez pas assez de crédit :(')
@@ -155,14 +159,14 @@ def saveDeck(request):
 #     messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
 #     return redirect('home')
 
+
 def forum(request):
     topics = Topic.objects.order_by('-created_at').annotate(number_of_messages=Count('message'))
-
     context = {
         'topics': topics,
     }
-
     return render(request, 'forum/index.html', context)
+
 
 def createTopic(request):
     if request.method == 'POST':
@@ -206,8 +210,10 @@ def topic(request, topic_id):
 
     return render(request, 'forum/topic.html', context)
 
+
 def profile(request):
     return render(request, 'hearthstone/profile.html', {})
+
 
 def changePassword(request):
     if request.method == 'POST':
@@ -224,3 +230,18 @@ def changePassword(request):
     return render(request, 'registration/change-password.html', {
         'form': form
     })
+
+
+def community(request):
+    profiles = Profile.objects.all()
+    users = []
+    for profile in profiles:
+        user = {
+            'profile': profile,
+            'user': profile.user
+        }
+        users.append(user)
+    context = {
+        'users': users
+    }
+    return render(request, 'hearthstone/community.html', context)

@@ -22,4 +22,5 @@ urlpatterns = [
     path('topic/<int:topic_id>', views.topic, name='topic'),
     path('profile', views.profile, name='profile'),
     path('change-password', views.changePassword, name='changePassword'),
+    path('community', views.community, name='community'),
 ]

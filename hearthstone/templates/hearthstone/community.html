@@ -1,0 +1,25 @@
+{% extends "hearthstone/base.html" %}
+
+{% block content %}
+<div class="row my-5">
+  <div class="col-md-12">
+    <h1>Communauté</h1>
+
+    <div class="users">
+
+      {% for user in users %}
+      <div class="users__single list-group my-3">
+        <h3 class="list-group-item">{{user.user.username}}</h3>
+        <p class="list-group-item">Crédit : <span>{{user.profile.credit}}</span></p>
+      </div>
+      {% empty %}
+      <p>Aucun utilisateur n'a été trouvé.</p>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+
