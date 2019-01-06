@@ -25,6 +25,7 @@ urlpatterns = [
 
     path('profile', views.profile, name='profile'),
     path('change-password', views.changePassword, name='changePassword'),
+    path('user/<int:user_id>', views.user, name='user'),
 
 
     path('forum', views.forum, name='forum'),
@@ -33,4 +34,5 @@ urlpatterns = [
     path('profile', views.profile, name='profile'),
     path('change-password', views.changePassword, name='changePassword'),
     path('community', views.community, name='community'),
+    path('activities', views.activities, name='activities'),
 ]

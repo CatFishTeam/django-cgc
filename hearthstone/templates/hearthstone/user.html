@@ -1,0 +1,18 @@
+{% extends "hearthstone/base.html" %}
+
+{% block content %}
+<div class="row my-5">
+  <div class="col-md-12">
+    <h1>Informations sur {{profile.user.username}}</h1>
+
+    <div class="userProfile">
+      <p><strong>Identifiant : </strong>{{profile.user.username}}</p>
+      <p><strong>Crédits : </strong>{{profile.credit}}</p>
+      <p><strong>Score ELO : </strong>{{profile.elo}}</p>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+

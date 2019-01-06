@@ -5,8 +5,8 @@ from .forms import UserRegisterForm, TopicCreationForm, MessageCreationForm
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-from .models import Profile, Card, Deck, Game, CardUser, CardDeck, Topic, Message, User, Battle
-from django.db.models import Count
+from .models import Profile, Card, Deck, Game, CardUser, CardDeck, Topic, Message, Battle, Activity
+from django.db.models import Count, Q
 import json
 import requests
 
@@ -61,6 +61,7 @@ def game(request):
     decks = Deck.objects.all().filter(user_id=request.user.id)
     return render(request, 'hearthstone/game.html', {'decks': decks})
 
+
 def launchGame(request, deck_id):
     if request.user.is_authenticated:
         deck_played = Deck.objects.get(id=deck_id)
@@ -68,7 +69,7 @@ def launchGame(request, deck_id):
 
         decks = Deck.objects.exclude(user_id=request.user.id)
         contender_deck = decks[randint(0, decks.count() - 1)] #Choose a random contender
-        contender = User.objects.get(id=contender_deck.user_id)
+        contender = Profile.objects.get(id=contender_deck.user_id)
 
         contender_cards = CardDeck.objects.filter(deck_id=contender_deck.id)
 
@@ -253,6 +254,16 @@ def profile(request):
     return render(request, 'hearthstone/profile.html', {})
 
 
+def user(request, user_id):
+    profile = get_object_or_404(Profile, pk=user_id)
+
+    context = {
+        'profile': profile
+    }
+
+    return render(request, 'hearthstone/user.html', context)
+
+
 def changePassword(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -283,3 +294,11 @@ def community(request):
         'users': users
     }
     return render(request, 'hearthstone/community.html', context)
+
+
+def activities(request):
+    activities = Activity.objects.all().filter(Q(author=request.user.id) | Q(related_user=request.user.id))
+    context = {
+        'activities': activities
+    }
+    return render(request, 'hearthstone/activities.html', context)

@@ -11,6 +11,7 @@ class Profile(models.Model):
     credit = models.IntegerField(default=200)
     elo = models.IntegerField(default=1400)
 
+
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -23,6 +24,11 @@ def create_user_profile(sender, instance, created, **kwargs):
             cards.append(card)
             card_user = CardUser(card=card, user=instance)
             card_user.save()
+        activity = Activity(
+            author=instance,
+            content=instance.username + " a rejoint Hearthstone !",
+            type="register")
+        activity.save()
         instance.save()
 
 
@@ -84,6 +90,32 @@ class Game(models.Model):
         return self.winner.username
 
 
+class Activity(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='from_user')
+    content = models.CharField(max_length=2000)
+    type = models.CharField(max_length=150)
+    related_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_user', null=True, blank=True)
+
+    def __str__(self):
+        return self.content
+
+
+class Subscribe(models.Model):
+    follower = models.ForeignKey(User, on_delete=models.CASCADE, related_name='follower_user')
+    followed = models.ForeignKey(User, on_delete=models.CASCADE, related_name='followed_user')
+
+
+@receiver(post_save, sender=Subscribe)
+def save_subscribe_activity(sender, instance, created, **kwargs):
+    if created:
+        activity = Activity(
+            author=instance.follower,
+            content=instance.follower.username + " suit maintenant " + instance.followed.username,
+            type="subscribe",
+            related_user=instance.followed)
+        activity.save()
+
+
 class Topic(models.Model):
     title = models.CharField(max_length=150)
     content = models.CharField(max_length=2000)
@@ -92,6 +124,16 @@ class Topic(models.Model):
 
     def __str__(self):
         return self.title
+
+
+@receiver(post_save, sender=Topic)
+def save_topic_activity(sender, instance, created, **kwargs):
+    if created:
+        activity = Activity(
+            author=instance.author,
+            content=instance.author.username + " a créé un sujet sur le forum : " + instance.title,
+            type="topic")
+        activity.save()
 
 
 class Message(models.Model):
@@ -104,8 +146,29 @@ class Message(models.Model):
         return self.content
 
 
+@receiver(post_save, sender=Message)
+def save_message_activity(sender, instance, created, **kwargs):
+    if created:
+        activity = Activity(
+            author=instance.author,
+            content=instance.author.username + " a répondu sur un sujet du forum : " + instance.topic.title,
+            type="message")
+        activity.save()
+
+
 class Battle(models.Model):
     player1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_1_provider_profile')
     player2 = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='user_2_provider_profile')
     round = models.IntegerField(null=False, blank=True)
     result = models.IntegerField(null=False, blank=True) # 1 player1 | 0 null | -1 player2
+
+
+@receiver(post_save, sender=Battle)
+def save_battle_activity(sender, instance, created, **kwargs):
+    if created:
+        activity = Activity(
+            author=instance.player1,
+            content=instance.player1 + " a joué contre " + instance.player2,
+            type="topic",
+            related_user=instance.player2)
+        activity.save()
