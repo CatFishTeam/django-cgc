@@ -5,15 +5,15 @@
   <div class="row my-5">
     <table class="table table-dark">
       <thead>
-      <tr>
-        <th scope="col">Rank</th>
-        <th scope="col">Username</th>
+      <tr class="text-center">
+        <th scope="col">Rang</th>
+        <th scope="col">Pseudo</th>
         <th scope="col">Score</th>
       </tr>
       </thead>
       <tbody>
       {% for user in users %}
-        <tr>
+        <tr class="text-center">
           <td>{{ forloop.counter0|add:users.start_index }}</td>
           <td>{{ user.username }}</td>
           <td>{{ user.profile.elo }}</td>
@@ -21,22 +21,22 @@
         <p></p>
       {% endfor %}
     </table>
-    <div class="pagination">
-    <span class="step-links">
-        {% if users.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ users.previous_page_number }}">previous</a>
-        {% endif %}
+    <div class="pagination d-flex w-100">
+      <span class="step-links m-auto">
+          {% if users.has_previous %}
+              <a class="btn btn-dark" href="?page=1">&laquo; </a>
+              <a class="btn btn-dark" href="?page={{ users.previous_page_number }}"><</a>
+          {% endif %}
 
-        <span class="current">
-            Page {{ users.number }} of {{ users.paginator.num_pages }}.
-        </span>
+          <span class="current center mx-3">
+            <b>{{ users.number }}</b> sur {{ users.paginator.num_pages }}
+          </span>
 
-        {% if users.has_next %}
-            <a href="?page={{ users.next_page_number }}">next</a>
-            <a href="?page={{ users.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
+          {% if users.has_next %}
+              <a class="btn btn-dark" href="?page={{ users.next_page_number }}">></a>
+              <a class="btn btn-dark" href="?page={{ users.paginator.num_pages }}"> &raquo;</a>
+          {% endif %}
+      </span>
     </div>
   </div>
 {% endblock content %}
