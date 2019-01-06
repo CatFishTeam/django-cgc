@@ -74,7 +74,7 @@ def launchGame(request, deck_id):
         player_cards = CardDeck.objects.all().filter(deck_id=deck_id)
         opponent_deck = CardDeck.objects.all().filter(deck_id=opponent_deck.id)
 
-        player_cards = Card.
+        #player_cards = Card.
         import pdb; pdb.set_trace()
 
     #     if request.user.is_authenticated:
