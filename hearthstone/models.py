@@ -95,6 +95,7 @@ class Activity(models.Model):
     content = models.CharField(max_length=2000)
     type = models.CharField(max_length=150)
     related_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_user', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now=True, editable=False)
 
     def __str__(self):
         return self.content
@@ -111,7 +112,7 @@ def save_subscribe_activity(sender, instance, created, **kwargs):
         activity = Activity(
             author=instance.follower,
             content=instance.follower.username + " suit maintenant " + instance.followed.username,
-            type="subscribe",
+            type="follow",
             related_user=instance.followed)
         activity.save()
 
@@ -132,7 +133,7 @@ def save_topic_activity(sender, instance, created, **kwargs):
         activity = Activity(
             author=instance.author,
             content=instance.author.username + " a créé un sujet sur le forum : " + instance.title,
-            type="topic")
+            type="forum")
         activity.save()
 
 
@@ -152,7 +153,7 @@ def save_message_activity(sender, instance, created, **kwargs):
         activity = Activity(
             author=instance.author,
             content=instance.author.username + " a répondu sur un sujet du forum : " + instance.topic.title,
-            type="message")
+            type="forum")
         activity.save()
 
 
@@ -169,6 +170,6 @@ def save_battle_activity(sender, instance, created, **kwargs):
         activity = Activity(
             author=instance.player1,
             content=instance.player1 + " a joué contre " + instance.player2,
-            type="topic",
+            type="game",
             related_user=instance.player2)
         activity.save()

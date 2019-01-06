@@ -10,10 +10,11 @@ from django.db.models import Count, Q
 import json
 import requests
 
-#import pdb; pdb.set_trace()
+# import pdb; pdb.set_trace()
+
 
 def home(request):
-    #TODO Redirect if connected
+    # TODO Redirect if connected
     title = 'Accueil'
     slugs = [
         'test',
@@ -62,7 +63,7 @@ def game(request):
     return render(request, 'hearthstone/game.html', {'decks': decks})
 
 
-def launchGame(request, deck_id):
+def launch_game(request, deck_id):
     if request.user.is_authenticated:
         deck_played = Deck.objects.get(id=deck_id)
         cards_played = CardDeck.objects.filter(deck_id=deck_played.id)
@@ -99,7 +100,7 @@ def card(request, card_id):
     return render(request, 'hearthstone/card.html', {'card': card})
 
 
-def buyCards(request):
+def buy_cards(request):
     card_counter = Card.objects.all().count()
     cards = []
     if request.user.is_authenticated and request.user.profile.credit >= 100:
@@ -121,7 +122,8 @@ def buyCards(request):
     return render(request, 'hearthstone/buy-cards.html', {'cards': cards})
 
 
-def myCards(request):
+def my_cards(request):
+    profile = get_object_or_404(Profile, pk=request.user.id)
     cards_user = CardUser.objects.all().filter(user_id=request.user.id)
     cards = []
 
@@ -129,15 +131,20 @@ def myCards(request):
         card = card_user.card
         cards.append(card)
 
-    return render(request, 'hearthstone/my-cards.html', {'cards': cards})
+    context = {
+        'cards': cards,
+        'profile': profile
+    }
+
+    return render(request, 'hearthstone/my-cards.html', context)
 
 
-def myDecks(request):
+def my_decks(request):
     decks = Deck.objects.all().filter(user_id=request.user.id)
     return render(request, 'hearthstone/my-decks.html', {'decks': decks})
 
 
-def showDeck(request, deck_id):
+def show_deck(request, deck_id):
     deck = Deck.objects.get(id=deck_id)
     print(deck)
     cards = []
@@ -154,13 +161,13 @@ def showDeck(request, deck_id):
     #        cards[cardInDeck] = 1
 
 
-def deleteDeck(request, deck):
+def delete_deck(request, deck):
     Deck(id=deck).delete()
     messages.success(request, f'Votre deck a bien été supprimé :) ')
     return redirect('myDecks')
 
 
-def createDeck(request):
+def create_deck(request):
     cards_user = CardUser.objects.all().filter(user_id=request.user.id)
     cards = {}
     for card_user in cards_user:
@@ -172,7 +179,7 @@ def createDeck(request):
     return render(request, 'hearthstone/create-deck.html', {'cards': cards})
 
 
-def saveDeck(request):
+def save_deck(request):
     if request.method == "POST":
         if request.user.is_authenticated:
             json_data = json.loads(request.body)
@@ -207,7 +214,7 @@ def forum(request):
     return render(request, 'forum/index.html', context)
 
 
-def createTopic(request):
+def create_topic(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = TopicCreationForm(request.POST)
@@ -264,7 +271,7 @@ def user(request, user_id):
     return render(request, 'hearthstone/user.html', context)
 
 
-def changePassword(request):
+def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -297,7 +304,7 @@ def community(request):
 
 
 def activities(request):
-    activities = Activity.objects.all().filter(Q(author=request.user.id) | Q(related_user=request.user.id))
+    activities = Activity.objects.all().order_by('-id').filter(Q(author=request.user.id) | Q(related_user=request.user.id))
     context = {
         'activities': activities
     }

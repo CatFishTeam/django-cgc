@@ -1,0 +1,50 @@
+.activities {
+    &__single {
+        background-color: $transparent-background;
+        position: relative;
+        border-radius: 4px;
+        padding: 15px 20px 5px;
+        margin: 10px 0;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+
+        &__date {
+            font-size: 12px;
+            font-style: italic;
+            color: #666;
+        }
+
+        &__tag {
+            opacity: 0.9;
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 12px;
+            color: #fff;
+            background-color: red;
+            border-radius: 0 4px 0 4px;
+            padding: 5px 10px;
+
+            &.tag {
+                &-register {
+                    background-color: #e58e26;
+                }
+
+                &-game {
+                    background-color: #b71540;
+                }
+
+                &-follow {
+                    background-color: #079992;
+                }
+
+                &-community {
+                    background-color: #0c2461;
+                }
+
+                &-topic, &-message, &-forum {
+                    background-color: #0a3d62;
+                }
+            }
+        }
+    }
+}
