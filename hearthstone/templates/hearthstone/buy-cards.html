@@ -1,18 +1,23 @@
 {% extends "hearthstone/base.html" %}
 
 {% block content %}
-<div class="row my-5">
+<div id="buyCard" class="row my-5">
   <div class="col-md-12">
     <h1>Merci, ces 8 cartes ont été ajoutées à votre collection</h1>
 
     <div class="row">
       {% for card in cards %}
-      <div class="col-3 text-center single-card my-4">
-        <a class="single-card__link" href="{% url 'card' card.id %}">
-          <img src="{{ card.img }}" alt="{{ card.title }}" class="single-card__link__img">
-        </a>
-      </div>
+        <div class="cards">
+          <a href="{% url 'card' card.id %}">
+            <img src="{{ card.img }}" alt="{{ card.title }}" class="single-card__link__img">
+          </a>
+        </div>
       {% endfor %}
+    </div>
+    <div class="row justify-content-center align-items-baseline">
+      <p>Il vous reste <b>{{credit}}</b> crédits.</p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="{% url 'buyCards' %}" class="btn btn-hearthstone">Obtenir plus de carte (100)</a>
     </div>
   </div>
 </div>

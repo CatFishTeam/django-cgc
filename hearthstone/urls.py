@@ -18,6 +18,7 @@ urlpatterns = [
     path('show-deck/<int:deck_id>', views.showDeck, name='showDeck'),
     path('delete-deck/<int:deck>', views.deleteDeck, name='deleteDeck'),
 
+    path('ladder', views.ladder, name='ladder'),
 
     path('register', views.register, name='register'),
     path('login', auth_views.LoginView.as_view(template_name='registration/login.html'), name='app_login'),
