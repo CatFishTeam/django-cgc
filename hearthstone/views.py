@@ -9,8 +9,8 @@ from django.db.models import Q
 from .models import Card, Deck, Game, CardUser, CardDeck, Topic, Message, User, Battle
 from django.db.models import Count
 from django.core.paginator import Paginator
+import random
 import json
-import requests
 
 #import pdb; pdb.set_trace()
 
@@ -67,31 +67,40 @@ def game(request):
 
 def launchGame(request, deck_id):
     if request.user.is_authenticated:
-        deck_played = Deck.objects.get(id=deck_id)
-        cards_played = CardDeck.objects.filter(deck_id=deck_played.id)
+        opponent_deck = Deck.objects.all().exclude(user_id=request.user.id)
+        opponent_deck = opponent_deck[random.randint(0, opponent_deck.count() - 1)]
+        opponent = User.objects.get(pk=opponent_deck.user_id)
 
-        decks = Deck.objects.exclude(user_id=request.user.id)
-        contender_deck = decks[randint(0, decks.count() - 1)] #Choose a random contender
-        contender = User.objects.get(id=contender_deck.user_id)
+        player_cards = CardDeck.objects.all().filter(deck_id=deck_id)
+        opponent_deck = CardDeck.objects.all().filter(deck_id=opponent_deck.id)
 
-        contender_cards = CardDeck.objects.filter(deck_id=contender_deck.id)
+        player_cards = Card.
+        import pdb; pdb.set_trace()
 
-#        player1_hp = 30
-#        player2_hp = 30
-
+    #     if request.user.is_authenticated:
+#         deck_played = Deck.objects.get(id=deck_id)
+#         cards_played = CardDeck.objects.filter(deck_id=deck_played.id)
 #
-#        for card_1 in cards_played:
-#            for card_2 in contender_cards:
-#                dmg = card_1.attack - card_2.attack
-#                if dmg > 0 :
+#         decks = Deck.objects.exclude(user_id=request.user.id)
+#         contender_deck = decks[randint(0, decks.count() - 1)] #Choose a random contender
+#         contender = User.objects.get(id=contender_deck.user_id)
 #
-#                if player1_hp <= 0:
-
-        battle = Battle(player1_id=request.user.id, player2_id=contender.id, result=randint(-1, 1), round=randint(15, 30))
-        battle.save()
-
-
-        return render(request, 'hearthstone/launchGame.html', {'conteder': contender, 'battle': battle})
+#         contender_cards = CardDeck.objects.filter(deck_id=contender_deck.id)
+#
+# #        player1_hp = 30
+# #        player2_hp = 30
+#
+# #
+# #        for card_1 in cards_played:
+# #            for card_2 in contender_cards:
+# #                dmg = card_1.attack - card_2.attack
+# #                if dmg > 0 :
+# #
+# #                if player1_hp <= 0:
+#
+#         battle = Battle(player1_id=request.user.id, player2_id=contender.id, result=randint(-1, 1), round=randint(15, 30))
+#         battle.save()
+#        return render(request, 'hearthstone/launchGame.html', {'conteder': contender, 'battle': battle})
     else:
         messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
         return redirect('home')
