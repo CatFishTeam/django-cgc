@@ -40,7 +40,7 @@ class Card(models.Model):
     health = models.IntegerField(null=True, blank=True)
     attack = models.IntegerField(null=True, blank=True)
     deck = models.ForeignKey(Deck, on_delete=models.PROTECT, null=True)
-    user = models.ManyToManyField(User)
+    owner = models.ManyToManyField(User, related_name="cards")
 
     def __str__(self):
         return self.title

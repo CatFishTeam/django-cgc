@@ -17,7 +17,7 @@ import json
 
 def home(request):
     if request.user.is_authenticated:
-        if Card.objects.all().filter(user=request.user.is_authenticated).count() == 0:
+        if request.user.cards.count() == 0:
             return render(request, 'hearthstone/first_visit.html')
     #TODO Redirect if connected
     title = 'Accueil'
@@ -52,16 +52,17 @@ def home(request):
 
 def open_first_deck(request):
     if request.user.is_authenticated:
-        if Card.objects.all().filter(user=request.user.is_authenticated).count() == 0:
-            number_of_card = Card.objects.all().count()
+        if request.user.cards.count() == 0:
+            number_of_card = Card.objects.exclude(type="Hero Power").count()
             for i in range(30):
-                random_card = Card.objects.all()[randint(0, number_of_card - 1)]
+                random_card = Card.objects.exclude(type="Hero Power")[randint(0, number_of_card - 1)]
                 user = User.objects.get(id=request.user.id)
-                user.card.add(random_card)
+                user.cards.add(random_card)
                 user.save()
+            return render(request, 'hearthstone/first_opening.html')
         else:
-            messages.warning(request, f'Tentative de triche détéctée !! ')
-            return redirect('home')
+            messages.warning(request, f'Vous avez tenté de tricher !')
+            return render(request, 'hearthstoneindex.html')
 
 def register(request):
     if request.method == 'POST':
