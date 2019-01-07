@@ -1,4 +1,5 @@
 {% extends "hearthstone/base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="row my-5">
@@ -11,10 +12,13 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row decks">
       {% for deck in decks %}
-        <div class="col-3 text-center my-4">
-          <a href="{% url 'showDeck' deck.id %}">{{ deck.title }}</a>
+        <div class="col-3 text-center my-4 decks__single">
+          <a href="{% url 'showDeck' deck.id %}">
+            <img src="{% static 'images/deck.png' %}" alt="Deck {{ deck.title }}"><br>
+            <div class="decks__single__title">{{ deck.title }}</div>
+          </a>
         </div>
       {% empty %}
       <div class="col my-4">

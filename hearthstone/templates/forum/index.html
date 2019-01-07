@@ -17,7 +17,7 @@
       {% for topic in topics %}
         <div class="topics__single list-group-item">
           <div>
-            <h3>{{topic.title}} <span>Créé le {{topic.created_at}}</span></h3>
+            <h3><a href="{% url 'topic' topic.id %}">{{topic.title}}</a> <span>Créé le {{topic.created_at}}</span></h3>
             <small>Par {{topic.author.username}}</small>
           </div>
 
