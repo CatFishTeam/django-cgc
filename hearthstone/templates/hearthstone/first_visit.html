@@ -2,9 +2,11 @@
 {% load staticfiles%}
 
 {% block content %}
-<div>
-  <a href="/open_first_deck">
-    <img src="{% static 'images/booster_hearthstone.png' %}">
+<div class="row">
+  <h1 class="w-100 text-center">Ceci est votre première visite !!</h1>
+  <h2 class="w-100 text-center">Voici de quoi commencer à jouer 😉</h2>
+  <a class="m-auto" href="/open_first_deck" >
+    <img class="mb-3" src="{% static 'images/booster_hearthstone.png' %}">
   </a>
 </div>
 {% endblock content %}

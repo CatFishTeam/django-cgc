@@ -46,10 +46,16 @@ class Card(models.Model):
     health = models.IntegerField(null=True, blank=True)
     attack = models.IntegerField(null=True, blank=True)
     deck = models.ForeignKey(Deck, on_delete=models.PROTECT, null=True)
-    owner = models.ManyToManyField(User, related_name="cards")
+    owner = models.ManyToManyField(User, related_name="cards", through='CardsUser')
 
     def __str__(self):
         return self.title
+
+
+class CardsUser(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    count = models.IntegerField()
 
 
 @receiver(pre_save, sender=Card)
@@ -62,16 +68,6 @@ def slugify(sender, instance, *args, **kwargs):
         .replace('-', '_')
     instance.slug = instance.slug.replace('__', '_')
     instance.slug = instance.slug.rstrip('_')
-
-
-class CardUser(models.Model):
-    card = models.ForeignKey(Card, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
-class CardDeck(models.Model):
-    card = models.ForeignKey(Card, on_delete=models.CASCADE)
-    deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
 
 
 class Game(models.Model):

@@ -11,7 +11,7 @@
     </div>
 
     <div class="row">
-      {% for card in cards %}
+      {% for card in user.cards.all %}
       <div class="col-3 text-center single-card my-4">
         <a class="single-card__link" href="{% url 'card' card.id %}">
           <img src="{{ card.img }}" alt="{{ card.title }}" class="single-card__link__img">

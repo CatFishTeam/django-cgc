@@ -7,7 +7,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Count, Q
 from django.core.paginator import Paginator
-from .models import Profile, Card, Deck, Game, CardUser, CardDeck, Topic, Message, User, Battle, Activity
+from .models import Profile, Card, Deck, CardsUser, Game, Topic, Message, User, Battle, Activity
 import random
 import json
 import requests
@@ -56,9 +56,12 @@ def open_first_deck(request):
             number_of_card = Card.objects.exclude(type="Hero Power").count()
             for i in range(30):
                 random_card = Card.objects.exclude(type="Hero Power")[randint(0, number_of_card - 1)]
-                user = User.objects.get(id=request.user.id)
-                user.cards.add(random_card)
-                user.save()
+                card, created = CardsUser.objects.get_or_create(user=request.user, card=random_card, defaults={'count': 1})
+                if created:
+                    card.save()
+                else:
+                    card.count = card.count + 1
+                    card.save()
             return render(request, 'hearthstone/first_opening.html')
         else:
             messages.warning(request, f'Vous avez tenté de tricher !')
@@ -153,15 +156,8 @@ def buy_cards(request):
 
 def my_cards(request):
     profile = get_object_or_404(Profile, pk=request.user.id)
-    cards_user = CardUser.objects.all().filter(user_id=request.user.id)
     credit = request.user.profile.credit
-    cards = []
-
-    for card_user in cards_user:
-        card = card_user.card
-        cards.append(card)
-
-    return render(request, 'hearthstone/my-cards.html', {'cards': cards, 'credit': credit, 'profile': profile})
+    return render(request, 'hearthstone/my-cards.html', {'credit': credit, 'profile': profile})
 
 
 def my_decks(request):
