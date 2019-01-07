@@ -133,17 +133,22 @@ def card(request, card_id):
 
 
 def buy_cards(request):
-    card_counter = Card.objects.all().count()
+    card_counter = Card.objects.all().filter(~Q(type="Hero Power")).count()
     cards = []
     credit = request.user.profile.credit
     if request.user.is_authenticated and credit >= 100:
         for i in range(8):
             random_index = randint(0, card_counter - 1)
-            card = Card.objects.all().filter(~Q(type="Hero Power"))[random_index]
-            cards.append(card)
-            card_user = CardUser(card=card, user=request.user)
-            card_user.save()
-        request.user.profile.credit -= 100
+            random_card = Card.objects.all().filter(~Q(type="Hero Power"))[random_index]
+            card, created = CardsUser.objects.get_or_create(user=request.user, card=random_card, defaults={'count': 1})
+            if created:
+                card.save()
+            else:
+                card.count = card.count + 1
+                card.save()
+            cards.append(random_card)
+        credit -= 100
+        request.user.profile.credit -= credit
         request.user.save()
     elif request.user.is_authenticated and credit < 100:
         messages.warning(request, f'Vous n\'avez pas assez de crédit :(')
