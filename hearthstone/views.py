@@ -156,15 +156,8 @@ def buy_cards(request):
 
 def my_cards(request):
     profile = get_object_or_404(Profile, pk=request.user.id)
-    cards_user = CardUser.objects.all().filter(user_id=request.user.id)
     credit = request.user.profile.credit
-    cards = []
-
-    for card_user in cards_user:
-        card = card_user.card
-        cards.append(card)
-
-    return render(request, 'hearthstone/my-cards.html', {'cards': cards, 'credit': credit, 'profile': profile})
+    return render(request, 'hearthstone/my-cards.html', {'credit': credit, 'profile': profile})
 
 
 def my_decks(request):
