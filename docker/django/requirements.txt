@@ -8,3 +8,4 @@ django-webpack-loader
 libsass
 django-compressor
 django-sass-processor
+django_extensions

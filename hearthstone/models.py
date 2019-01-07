@@ -15,14 +15,6 @@ class Profile(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-        card_counter = Card.objects.all().count()
-        cards = []
-        for i in range(30):
-            random_index = randint(0, card_counter - 1)
-            card = Card.objects.all()[random_index]
-            cards.append(card)
-            card_user = CardUser(card=card, user=instance)
-            card_user.save()
         instance.save()
 
 
@@ -34,6 +26,7 @@ def save_user_profile(sender, instance, **kwargs):
 class Deck(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
+
     def __str__(self):
         return self.title
 
@@ -46,6 +39,8 @@ class Card(models.Model):
     cost = models.IntegerField(null=True, blank=True)
     health = models.IntegerField(null=True, blank=True)
     attack = models.IntegerField(null=True, blank=True)
+    deck = models.ForeignKey(Deck, on_delete=models.PROTECT, null=True)
+    owner = models.ManyToManyField(User, related_name="cards")
 
     def __str__(self):
         return self.title
@@ -63,14 +58,6 @@ def slugify(sender, instance, *args, **kwargs):
     instance.slug = instance.slug.rstrip('_')
 
 
-class CardUser(models.Model):
-    card = models.ForeignKey(Card, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-class CardDeck(models.Model):
-    card = models.ForeignKey(Card, on_delete=models.CASCADE)
-    deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
-
 class Game(models.Model):
     user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='player_one')
     user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='player_two')
@@ -79,6 +66,7 @@ class Game(models.Model):
 
     def __str__(self):
         return self.winner.username
+
 
 class Topic(models.Model):
     title = models.CharField(max_length=150)
@@ -89,6 +77,7 @@ class Topic(models.Model):
     def __str__(self):
         return self.title
 
+
 class Message(models.Model):
     content = models.CharField(max_length=1000)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -96,6 +85,7 @@ class Message(models.Model):
 
     def __str__(self):
         return self.content
+
 
 class Battle(models.Model):
     player1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_1_provider_profile')

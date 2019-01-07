@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Q
-from .models import Card, Deck, Game, CardUser, CardDeck, Topic, Message, User, Battle
+from .models import Card, Deck, Game, Topic, Message, User, Battle
 from django.db.models import Count
 from django.core.paginator import Paginator
 import random
@@ -16,6 +16,9 @@ import json
 
 
 def home(request):
+    if request.user.is_authenticated:
+        if request.user.cards.count() == 0:
+            return render(request, 'hearthstone/first_visit.html')
     #TODO Redirect if connected
     title = 'Accueil'
     slugs = [
@@ -25,7 +28,7 @@ def home(request):
     ]
 
     #  Get all cards from Mashable Hearthstone API
-    url = 'https://omgvamp-hearthstone-v1.p.mashape.com/cards?locale=frFR'
+    url = 'https://omgvamp-hearthstone-v1.p.mashape.com/cards'
     headers = {"X-Mashape-Key": "XTUi1bdLD6mshqZg64hA0G1f5c5xp1VB2XxjsntfVEFVdnzQ25"}
 
     # r = requests.get(url, headers=headers)
@@ -46,6 +49,20 @@ def home(request):
 
     return render(request, 'hearthstone/index.html', context)
 
+
+def open_first_deck(request):
+    if request.user.is_authenticated:
+        if request.user.cards.count() == 0:
+            number_of_card = Card.objects.exclude(type="Hero Power").count()
+            for i in range(30):
+                random_card = Card.objects.exclude(type="Hero Power")[randint(0, number_of_card - 1)]
+                user = User.objects.get(id=request.user.id)
+                user.cards.add(random_card)
+                user.save()
+            return render(request, 'hearthstone/first_opening.html')
+        else:
+            messages.warning(request, f'Vous avez tenté de tricher !')
+            return render(request, 'hearthstoneindex.html')
 
 def register(request):
     if request.method == 'POST':
