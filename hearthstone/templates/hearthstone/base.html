@@ -19,67 +19,70 @@
   {% endif %}
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'home' %}">
-        <img src="{% static 'images/logo.png' %}">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          {% if not request.user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'register' %}">S'inscrire</a>
-          </li>
-          <span class="flex-centered text-light">|</span>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'app_login' %}">Se connecter</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'game' %}">Jouer</a>
-          </li>
-          <span class="flex-centered text-light">|</span>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'myCards' %}">Mes cartes</a>
-          </li>
-          <span class="flex-centered text-light">|</span>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'myDecks' %}">Mes decks</a>
-          </li>
-          <span class="flex-centered text-light">|</span>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'ladder' %}">Classement</a>
-          </li>
-          {% if request.user.is_staff %}
-          <span class="flex-centered text-light">|</span>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'admin:index' %}">Administration</a>
-          </li>
-          {% endif %}
-          <span class="flex-centered text-light">|</span>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{ request.user.username }}
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{% url 'profile' %}">Profil</a>
-              <a class="dropdown-item" href="#">Edit</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{% url 'app_logout' %}">Se déconnecter</a>
-            </div>
-          </li>
-          {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'forum' %}">Forum</a>
-          </li>
-        </ul>
-      </div>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="{% static 'images/logo.png' %}">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        {% if not request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}">S'inscrire</a>
+        </li>
+        <span class="flex-centered text-light">|</span>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'app_login' %}">Se connecter</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'game' %}">Jouer</a>
+        </li>
+        <span class="flex-centered text-light">|</span>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'myCards' %}">Mes cartes</a>
+        </li>
+        <span class="flex-centered text-light">|</span>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'myDecks' %}">Mes decks</a>
+        </li>
+        {% if request.user.is_staff %}
+        <span class="flex-centered text-light">|</span>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'admin:index' %}">Administration</a>
+        </li>
+        {% endif %}
+        <span class="flex-centered text-light">|</span>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ request.user.username }}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'profile' %}">Profil</a>
+            <a class="dropdown-item" href="#">Edit</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'app_logout' %}">Se déconnecter</a>
+          </div>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'forum' %}">Forum</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'community' %}">Communauté</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'activities' %}">Activités</a>
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 
   <!-- Body content -->
   <div class="container content">

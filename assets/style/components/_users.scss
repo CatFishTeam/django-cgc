@@ -1,0 +1,10 @@
+.users {
+    &__single {
+        display: flex;
+        justify-content: space-between;
+
+        .list-group-item {
+            background: $transparent-background;
+        }
+    }
+}

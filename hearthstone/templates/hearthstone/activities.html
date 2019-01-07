@@ -1,0 +1,24 @@
+{% extends "hearthstone/base.html" %}
+
+{% block content %}
+<div class="row my-5">
+  <div class="col-md-12">
+    <h1>Activités</h1>
+
+    <div class="activities">
+      {% for activity in activities %}
+      <div class="activities__single">
+        <span class="activities__single__date">le {{activity.created_at}}</span>
+        <span class="activities__single__tag tag-{{activity.type}}">#{{activity.type}}</span>
+        <p>{{activity.content}}</p>
+      </div>
+      {% empty %}
+        <p>Aucune activité pour le moment.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+

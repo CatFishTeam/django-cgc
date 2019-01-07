@@ -1,19 +1,26 @@
 {% extends "hearthstone/base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="row my-5">
   <div class="col-md-12">
     <h1>Jouer au jeu</h1>
     <h3>Lancer une partie avec </h3>
-    {% for deck in decks %}
-    <div class="col-3 text-center my-4">
-      <a class="btn btn-hearthstone" href="{% url 'launchGame' deck.id %}">{{ deck.title }}</a>
+
+    <div class="row decks">
+      {% for deck in decks %}
+      <div class="col-3 text-center my-4 decks__single">
+        <a href="{% url 'launchGame' deck.id %}">
+          <img src="{% static 'images/deck.png' %}" alt="Deck {{ deck.title }}"><br>
+          <div class="decks__single__title">{{ deck.title }}</div>
+        </a>
+      </div>
+      {% empty %}
+      <div class="col my-4">
+        Vous n'avez pas encore de decks.
+      </div>
+      {% endfor %}
     </div>
-    {% empty %}
-    <div class="col my-4">
-      Vous n'avez pas encore de decks.
-    </div>
-    {% endfor %}
   </div>
 </div>
 {% endblock content %}

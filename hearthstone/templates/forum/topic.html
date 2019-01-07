@@ -18,7 +18,7 @@
     <div class="messages my-4">
       {% for msg in msgs %}
         <div class="messages__single my-2 list-group">
-          <p class="list-group-item">Par {{msg.author.username}}</p>
+          <p class="list-group-item">Par {{msg.author.username}} <span>le {{msg.created_at}}</span></p>
           <p class="list-group-item">{{msg.content}}</p>
         </div>
       {% empty %}
