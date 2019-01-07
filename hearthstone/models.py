@@ -55,7 +55,7 @@ class Card(models.Model):
 class CardsUser(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    count = models.IntegerField()
+    quantity = models.IntegerField()
 
 
 @receiver(pre_save, sender=Card)

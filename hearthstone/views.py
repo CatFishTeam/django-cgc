@@ -56,11 +56,11 @@ def open_first_deck(request):
             number_of_card = Card.objects.exclude(type="Hero Power").count()
             for i in range(30):
                 random_card = Card.objects.exclude(type="Hero Power")[randint(0, number_of_card - 1)]
-                card, created = CardsUser.objects.get_or_create(user=request.user, card=random_card, defaults={'count': 1})
+                card, created = CardsUser.objects.get_or_create(user=request.user, card=random_card, defaults={'quantity': 1})
                 if created:
                     card.save()
                 else:
-                    card.count = card.count + 1
+                    card.quantity += 1
                     card.save()
             return render(request, 'hearthstone/first_opening.html')
         else:
@@ -194,15 +194,7 @@ def delete_deck(request, deck):
 
 
 def create_deck(request):
-    cards_user = CardUser.objects.all().filter(user_id=request.user.id)
-    cards = {}
-    for card_user in cards_user:
-        card = card_user.card
-        if card in cards:
-            cards[card] += 1
-        else:
-            cards[card] = 1
-    return render(request, 'hearthstone/create-deck.html', {'cards': cards})
+    return render(request, 'hearthstone/create-deck.html')
 
 
 def save_deck(request):
