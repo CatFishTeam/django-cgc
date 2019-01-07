@@ -64,6 +64,7 @@ def open_first_deck(request):
             messages.warning(request, f'Vous avez tenté de tricher !')
             return render(request, 'hearthstoneindex.html')
 
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
