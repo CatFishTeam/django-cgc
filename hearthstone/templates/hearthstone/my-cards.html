@@ -11,11 +11,12 @@
     </div>
 
     <div class="row">
-      {% for card in user.cards.all %}
+      {% for carduser in user.cardsuser_set.all %}
       <div class="col-3 text-center single-card my-4">
-        <a class="single-card__link" href="{% url 'card' card.id %}">
-          <img src="{{ card.img }}" alt="{{ card.title }}" class="single-card__link__img">
+        <a class="single-card__link" href="{% url 'card' carduser.card.id %}">
+          <img src="{{ carduser.card.img }}" alt="{{ carduser.card.title }}" class="single-card__link__img">
         </a>
+        <div class="single-card__number">{{carduser.count}}</div>
       </div>
       {% empty %}
       <div class="col">
