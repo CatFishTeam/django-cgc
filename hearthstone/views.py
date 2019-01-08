@@ -172,7 +172,7 @@ def my_decks(request):
 
 def show_deck(request, deck_id):
     deck = Deck.objects.get(id=deck_id)
-    return render(request, 'hearthstone/show-deck.html', {'cards': cards, 'deck': deck})
+    return render(request, 'hearthstone/show-deck.html', {'deck': deck})
 
 
 def delete_deck(request, deck):
