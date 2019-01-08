@@ -141,7 +141,7 @@ def buy_cards(request):
             random_index = randint(0, card_counter - 1)
             card = Card.objects.all().filter(~Q(type="Hero Power"))[random_index]
             cards.append(card)
-            card_user = CardUser(card=card, user=request.user)
+            card_user = CardsUser(card=card, user=request.user)
             card_user.save()
         request.user.profile.credit -= 100
         request.user.save()
@@ -189,7 +189,7 @@ def delete_deck(request, deck):
 
 
 def create_deck(request):
-    cards_user = CardUser.objects.all().filter(user_id=request.user.id)
+    cards_user = CardsUser.objects.all().filter(user_id=request.user.id)
     cards = {}
     for card_user in cards_user:
         card = card_user.card
