@@ -7,7 +7,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Count, Q
 from django.core.paginator import Paginator
-from .models import Profile, Card, Deck, CardsUser, Game, Topic, Message, User, Battle, Activity
+from .models import Profile, Card, Deck, CardsUser, CardsDeck, Game, Topic, Message, User, Battle, Activity
 import random
 import json
 import requests
@@ -172,19 +172,7 @@ def my_decks(request):
 
 def show_deck(request, deck_id):
     deck = Deck.objects.get(id=deck_id)
-    print(deck)
-    cards = []
-    cards_in_deck = CardDeck.objects.all().filter(deck_id=deck_id)
-    for card_in_deck in cards_in_deck:
-        card = card_in_deck.card
-        cards.append(card)
     return render(request, 'hearthstone/show-deck.html', {'cards': cards, 'deck': deck})
-
-    # for cardInDeck in cardsInDeck:
-    #    if cardInDeck in cards:
-    #        cards[cardInDeck] += 1
-    #    else:
-    #        cards[cardInDeck] = 1
 
 
 def delete_deck(request, deck):
@@ -209,10 +197,9 @@ def save_deck(request):
 
             # TODO Check disponibility
             for card in cards:
-                for x in range(card['count']):
-                    card2add = Card(id=card['id'])
-                    card_deck = CardDeck(card=card2add, deck=deck)
-                    card_deck.save()
+                card2add = Card(id=card['id'])
+                cards_deck = CardsDeck(card=card2add, deck=deck, quantity=card['count'])
+                cards_deck.save()
             return JsonResponse(deck.id, safe=False)
 
 
