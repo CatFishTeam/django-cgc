@@ -7,12 +7,12 @@
     <h1>Voici vos 30 premières cartes gratuites</h1>
 
     <div class="row">
-      {% for card in user.cards.all %}
-      <div class="cards">
-        <a href="{% url 'card' card.id %}">
-          <img src="{{ card.img }}" alt="{{ card.title }}" class="single-card__link__img">
-        </a>
-      </div>
+      {% for carduser in user.cardsuser_set.all %}
+        <div class="cards">
+          <a href="{% url 'card' carduser.card.id %}">
+            <img src="{{ carduser.card.img }}" alt="{{ carduser.card.title }}" class="single-card__link__img">
+          </a>
+        </div>
       {% endfor %}
     </div>
 
