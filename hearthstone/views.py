@@ -7,7 +7,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Count, Q
 from django.core.paginator import Paginator
-from .models import Profile, Card, Deck, CardsUser, Game, Topic, Message, User, Battle, Activity
+from .models import Profile, Card, Deck, CardsUser, CardsDeck, Game, Topic, Message, User, Battle, Activity
 import random
 import json
 import requests
@@ -56,11 +56,11 @@ def open_first_deck(request):
             number_of_card = Card.objects.exclude(type="Hero Power").count()
             for i in range(30):
                 random_card = Card.objects.exclude(type="Hero Power")[randint(0, number_of_card - 1)]
-                card, created = CardsUser.objects.get_or_create(user=request.user, card=random_card, defaults={'count': 1})
+                card, created = CardsUser.objects.get_or_create(user=request.user, card=random_card, defaults={'quantity': 1})
                 if created:
                     card.save()
                 else:
-                    card.count = card.count + 1
+                    card.quantity += 1
                     card.save()
             return render(request, 'hearthstone/first_opening.html')
         else:
@@ -133,17 +133,22 @@ def card(request, card_id):
 
 
 def buy_cards(request):
-    card_counter = Card.objects.all().count()
+    card_counter = Card.objects.all().filter(~Q(type="Hero Power")).count()
     cards = []
     credit = request.user.profile.credit
     if request.user.is_authenticated and credit >= 100:
         for i in range(8):
             random_index = randint(0, card_counter - 1)
-            card = Card.objects.all().filter(~Q(type="Hero Power"))[random_index]
-            cards.append(card)
-            card_user = CardsUser(card=card, user=request.user)
-            card_user.save()
-        request.user.profile.credit -= 100
+            random_card = Card.objects.all().filter(~Q(type="Hero Power"))[random_index]
+            card, created = CardsUser.objects.get_or_create(user=request.user, card=random_card, defaults={'quantity': 1})
+            if created:
+                card.save()
+            else:
+                card.quantity += 1
+                card.save()
+            cards.append(random_card)
+        credit -= 100
+        request.user.profile.credit = credit
         request.user.save()
     elif request.user.is_authenticated and credit < 100:
         messages.warning(request, f'Vous n\'avez pas assez de crédit :(')
@@ -167,19 +172,7 @@ def my_decks(request):
 
 def show_deck(request, deck_id):
     deck = Deck.objects.get(id=deck_id)
-    print(deck)
-    cards = []
-    cards_in_deck = CardDeck.objects.all().filter(deck_id=deck_id)
-    for card_in_deck in cards_in_deck:
-        card = card_in_deck.card
-        cards.append(card)
     return render(request, 'hearthstone/show-deck.html', {'cards': cards, 'deck': deck})
-
-    # for cardInDeck in cardsInDeck:
-    #    if cardInDeck in cards:
-    #        cards[cardInDeck] += 1
-    #    else:
-    #        cards[cardInDeck] = 1
 
 
 def delete_deck(request, deck):
@@ -189,15 +182,7 @@ def delete_deck(request, deck):
 
 
 def create_deck(request):
-    cards_user = CardsUser.objects.all().filter(user_id=request.user.id)
-    cards = {}
-    for card_user in cards_user:
-        card = card_user.card
-        if card in cards:
-            cards[card] += 1
-        else:
-            cards[card] = 1
-    return render(request, 'hearthstone/create-deck.html', {'cards': cards})
+    return render(request, 'hearthstone/create-deck.html')
 
 
 def save_deck(request):
@@ -212,10 +197,9 @@ def save_deck(request):
 
             # TODO Check disponibility
             for card in cards:
-                for x in range(card['count']):
-                    card2add = Card(id=card['id'])
-                    card_deck = CardDeck(card=card2add, deck=deck)
-                    card_deck.save()
+                card2add = Card(id=card['id'])
+                cards_deck = CardsDeck(card=card2add, deck=deck, quantity=card['count'])
+                cards_deck.save()
             return JsonResponse(deck.id, safe=False)
 
 

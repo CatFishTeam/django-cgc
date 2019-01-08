@@ -45,7 +45,7 @@ class Card(models.Model):
     cost = models.IntegerField(null=True, blank=True)
     health = models.IntegerField(null=True, blank=True)
     attack = models.IntegerField(null=True, blank=True)
-    deck = models.ForeignKey(Deck, on_delete=models.PROTECT, null=True)
+    pack = models.ManyToManyField(Deck, related_name="pack", through='CardsDeck')
     owner = models.ManyToManyField(User, related_name="cards", through='CardsUser')
 
     def __str__(self):
@@ -55,7 +55,13 @@ class Card(models.Model):
 class CardsUser(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    count = models.IntegerField()
+    quantity = models.IntegerField()
+
+
+class CardsDeck(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
 
 
 @receiver(pre_save, sender=Card)

@@ -4,10 +4,10 @@
 <div class="row my-5" id="createDeck">
   <h1>Cartes disponibles dans le deck : {{ deck }}</h1>
   <div class="col-10 row">
-    {% for card in cards %}
-    <div class="col-3 text-center single-card my-4" data-name="{{ card.title }}" data-id="{{ card.id }}">
-      <!--<div class="single-card__number">{{ number }}</div>-->
-      <img class="single-card__img" src="{{ card.img }}" alt="{{ card.title }}">
+    {% for cardsdeck in deck.cardsdeck_set.all %}
+    <div class="col-3 text-center single-card my-4" data-name="{{ cardsdeck.card.title }}" data-id="{{ cardsdeck.card.id }}">
+      <div class="single-card__number">{{ cardsdeck.quantity }}</div>
+      <img class="single-card__img" src="{{ cardsdeck.card.img }}" alt="{{ cardsdeck.card.title }}">
     </div>
     {% endfor %}
   </div>
