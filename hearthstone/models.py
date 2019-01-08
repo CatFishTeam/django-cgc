@@ -154,10 +154,10 @@ def save_message_activity(sender, instance, created, **kwargs):
 
 
 class Battle(models.Model):
-    player1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_1_provider_profile')
-    player2 = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='user_2_provider_profile')
+    player = models.ForeignKey(User, on_delete=models.CASCADE, related_name='player')
+    opponent = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='opponent')
     round = models.IntegerField(null=False, blank=True)
-    result = models.IntegerField(null=False, blank=True) # 1 player1 | 0 null | -1 player2
+    result = models.IntegerField(null=False, blank=True) # 1 player1 |  -1 player2
 
 
 @receiver(post_save, sender=Battle)

@@ -62,6 +62,7 @@ def open_first_deck(request):
                 else:
                     card.quantity += 1
                     card.save()
+
             return render(request, 'hearthstone/first_opening.html')
         else:
             messages.warning(request, f'Vous avez tenté de tricher !')
@@ -88,40 +89,52 @@ def game(request):
 
 def launch_game(request, deck_id):
     if request.user.is_authenticated:
+
         opponent_deck = Deck.objects.all().exclude(user_id=request.user.id)
         opponent_deck = opponent_deck[random.randint(0, opponent_deck.count() - 1)]
+
         opponent = User.objects.get(pk=opponent_deck.user_id)
 
-        player_cards = CardDeck.objects.all().filter(deck_id=deck_id)
-        opponent_deck = CardDeck.objects.all().filter(deck_id=opponent_deck.id)
+        player_cards = CardsDeck.objects.all().filter(deck_id=deck_id)
+        player_deck = []
+        for player_card in player_cards:
+            for i in range(player_card.quantity):
+                player_deck.append(player_card)
 
-#        player1_hp = 30
-#        player2_hp = 30
+        opponent_cards = CardsDeck.objects.all().filter(deck_id=opponent_deck.id)
+        opponent_deck = []
+        for opponent_card in opponent_cards:
+            for i in range(opponent_card.quantity):
+                opponent_deck.append(opponent_card)
 
-    #     if request.user.is_authenticated:
-#         deck_played = Deck.objects.get(id=deck_id)
-#         cards_played = CardDeck.objects.filter(deck_id=deck_played.id)
-#
-#         decks = Deck.objects.exclude(user_id=request.user.id)
-#         contender_deck = decks[randint(0, decks.count() - 1)] #Choose a random contender
-#         contender = User.objects.get(id=contender_deck.user_id)
-#
-#         contender_cards = CardDeck.objects.filter(deck_id=contender_deck.id)
-#
-# #        player1_hp = 30
-# #        player2_hp = 30
-#
-# #
-# #        for card_1 in cards_played:
-# #            for card_2 in contender_cards:
-# #                dmg = card_1.attack - card_2.attack
-# #                if dmg > 0 :
-# #
-# #                if player1_hp <= 0:
-#
-#         battle = Battle(player1_id=request.user.id, player2_id=contender.id, result=randint(-1, 1), round=randint(15, 30))
-#         battle.save()
-#        return render(request, 'hearthstone/launchGame.html', {'conteder': contender, 'battle': battle})
+        player_hp = 30
+        opponent_hp = 30
+        turn = 0
+
+        while player_hp and opponent_hp >= 0:
+            turn += 1
+            player_card = player_deck.pop(randint(0, len(player_deck) - 1))
+            opponent_card = opponent_deck.pop(randint(0, len(opponent_deck) - 1))
+
+            if player_card.card.type == 'Spell':
+                opponent_hp -= player_card.card.cost if player_card.card.cost is not None else 0
+            if player_card.card.type == 'Weapon':
+                continue
+            if player_card.card.type == "Minion":
+                if opponent_card.card.type == "Minion":
+                    dmg = opponent_card.card.attack if opponent_card.card.attack is not None else 0 - player_card.card.attack if player_card.card.attack is not None else 0
+                    if dmg >= 0:
+                        opponent_hp -= dmg
+                    else:
+                        player_hp -= dmg
+                if opponent_card.card.type == "Spell":
+                    player_hp -= opponent_card.card.cost if opponent_card.card.cost is not None else 0
+                if opponent_card.card.type == "Weapon":
+                    opponent_hp -= player_card.card.attack if player_card.card.attack is not None else 0
+
+        result = 1 if player_hp > opponent_hp else -1
+        battle = Battle.objects.create(player=request.user, opponent=opponent, result=result, round=turn)
+        return render(request, 'hearthstone/launchGame.html', {'opponent': opponent, 'battle': battle})
     else:
         messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
         return redirect('home')
