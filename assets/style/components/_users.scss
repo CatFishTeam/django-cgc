@@ -3,8 +3,18 @@
         display: flex;
         justify-content: space-between;
 
+        h3 {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
         .list-group-item {
             background: $transparent-background;
+        }
+
+        &__follow {
+            font-size: 12px;
         }
     }
 }

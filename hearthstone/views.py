@@ -7,13 +7,12 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Count, Q
 from django.core.paginator import Paginator
-from .models import Profile, Card, Deck, CardsUser, Game, Topic, Message, User, Battle, Activity
+from .models import Profile, Card, Deck, CardsUser, Game, Topic, Message, User, Battle, Activity, Subscribe
 import random
 import json
 import requests
 
-# import pdb; pdb.set_trace()
-
+#import pdb; pdb.set_trace()
 
 def home(request):
     # TODO Redirect if connected
@@ -95,33 +94,33 @@ def launch_game(request, deck_id):
         player_cards = CardDeck.objects.all().filter(deck_id=deck_id)
         opponent_deck = CardDeck.objects.all().filter(deck_id=opponent_deck.id)
 
-#        player1_hp = 30
-#        player2_hp = 30
+    #        player1_hp = 30
+    #        player2_hp = 30
 
     #     if request.user.is_authenticated:
-#         deck_played = Deck.objects.get(id=deck_id)
-#         cards_played = CardDeck.objects.filter(deck_id=deck_played.id)
-#
-#         decks = Deck.objects.exclude(user_id=request.user.id)
-#         contender_deck = decks[randint(0, decks.count() - 1)] #Choose a random contender
-#         contender = User.objects.get(id=contender_deck.user_id)
-#
-#         contender_cards = CardDeck.objects.filter(deck_id=contender_deck.id)
-#
-# #        player1_hp = 30
-# #        player2_hp = 30
-#
-# #
-# #        for card_1 in cards_played:
-# #            for card_2 in contender_cards:
-# #                dmg = card_1.attack - card_2.attack
-# #                if dmg > 0 :
-# #
-# #                if player1_hp <= 0:
-#
-#         battle = Battle(player1_id=request.user.id, player2_id=contender.id, result=randint(-1, 1), round=randint(15, 30))
-#         battle.save()
-#        return render(request, 'hearthstone/launchGame.html', {'conteder': contender, 'battle': battle})
+    #         deck_played = Deck.objects.get(id=deck_id)
+    #         cards_played = CardDeck.objects.filter(deck_id=deck_played.id)
+    #
+    #         decks = Deck.objects.exclude(user_id=request.user.id)
+    #         contender_deck = decks[randint(0, decks.count() - 1)] #Choose a random contender
+    #         contender = User.objects.get(id=contender_deck.user_id)
+    #
+    #         contender_cards = CardDeck.objects.filter(deck_id=contender_deck.id)
+    #
+    # #        player1_hp = 30
+    # #        player2_hp = 30
+    #
+    # #
+    # #        for card_1 in cards_played:
+    # #            for card_2 in contender_cards:
+    # #                dmg = card_1.attack - card_2.attack
+    # #                if dmg > 0 :
+    # #
+    # #                if player1_hp <= 0:
+    #
+    #         battle = Battle(player1_id=request.user.id, player2_id=contender.id, result=randint(-1, 1), round=randint(15, 30))
+    #         battle.save()
+    #        return render(request, 'hearthstone/launchGame.html', {'conteder': contender, 'battle': battle})
     else:
         messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
         return redirect('home')
@@ -311,6 +310,10 @@ def change_password(request):
 
 def community(request):
     profiles = Profile.objects.all()
+    subscribes = Subscribe.objects.all().filter(follower_id=request.user.id)
+    followed_users = []
+    for subscribe in subscribes:
+        followed_users.append(subscribe.followed)
     users = []
     for profile in profiles:
         user = {
@@ -319,15 +322,26 @@ def community(request):
         }
         users.append(user)
     context = {
-        'users': users
+        'users': users,
+        'followed_users': followed_users
     }
     return render(request, 'hearthstone/community.html', context)
 
 
 def activities(request):
+    all_activities = []
     activities = Activity.objects.all().order_by('-id').filter(Q(author=request.user.id) | Q(related_user=request.user.id))
+    for activity in activities:
+        all_activities.append(activity)
+    subscribes = Subscribe.objects.all().filter(follower_id=request.user.id)
+    for subscribe in subscribes:
+        friends_activities = Activity.objects.all().order_by('-id').filter(Q(author=subscribe.followed) | Q(related_user=subscribe.followed))
+        for friends_activity in friends_activities:
+            if friends_activity not in all_activities:
+                all_activities.append(friends_activity)
+
     context = {
-        'activities': activities
+        'activities': all_activities
     }
     return render(request, 'hearthstone/activities.html', context)
 
@@ -340,3 +354,40 @@ def ladder(request):
     users = paginator.get_page(page)
 
     return render(request, 'hearthstone/ladder.html', {'users': users})
+
+
+def subscribe(request, user_id):
+    followed_user = get_object_or_404(Profile, pk=user_id)
+
+    subscribe, created = Subscribe.objects.get_or_create(follower=request.user, followed=followed_user.user)
+
+    if created:
+        messages.success(request, f'Vous êtes maintenant abonné à {followed_user.user.username}')
+    else:
+        messages.warning(request, f'Vous êtes déjà abonné à {followed_user.user.username}')
+
+    subscribe.save()
+
+    context = {
+        'followed_user': followed_user
+    }
+
+    return render(request, 'hearthstone/subscribe.html', context)
+
+
+def exchange(request, card_id):
+    card = get_object_or_404(Card, pk=card_id)
+    profiles = Profile.objects.all()
+    context = {
+        'card': card,
+        'profiles': profiles
+    }
+    return render(request, 'hearthstone/exchange.html', context)
+
+
+def sell(request, card_id):
+    card = get_object_or_404(Card, pk=card_id)
+    context = {
+        'card': card
+    }
+    return render(request, 'hearthstone/sell.html', context)

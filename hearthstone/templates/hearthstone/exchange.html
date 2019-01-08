@@ -1,0 +1,29 @@
+{% extends "hearthstone/base.html" %}
+
+{% block content %}
+<div class="row my-5">
+  <div class="col-md-12">
+    <h1>Echange de carte</h1>
+
+    <div class="exchange">
+      <p>Vous souhaitez échanger la carte <strong>{{ card.title }}</strong></p>
+      <form action="">
+        <div class="form-group">
+          <label for="users">Choisissez un utilisateur à qui proposer un échange :</label>
+          <select name="users" id="users" class="form-control">
+            {% for profile in profiles %}
+              {% if profile.user != request.user %}
+              <option value="{{ profile.user.username }}">{{ profile.user.username }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <input type="submit" class="btn btn-primary">
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+

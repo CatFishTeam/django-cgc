@@ -1,0 +1,16 @@
+{% extends "hearthstone/base.html" %}
+
+{% block content %}
+<div class="row my-5">
+  <div class="col-md-12">
+    <h1>Vous suivez maintenant {{followed_user.user.username}}</h1>
+
+    <div class="subscribe">
+      <p>Rendez-vous sur <a href="{% url 'activities' %}">votre fil d'actualités</a> pour voir ses activités.</p>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+
