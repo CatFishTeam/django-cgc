@@ -81,6 +81,7 @@ def register(request):
             except User.DoesNotExist:
                 user = User.objects.create_user(username, username, password)
             login(request, user)
+            messages.success(request, f'<b>{username}</b><br>  Votre compte a bien été créé !')
             return redirect('home')
     else:
         form = UserRegisterForm()
