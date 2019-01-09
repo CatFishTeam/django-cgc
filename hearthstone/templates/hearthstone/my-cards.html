@@ -16,7 +16,7 @@
         <a class="single-card__link" href="{% url 'card' carduser.card.id %}">
           <img src="{{ carduser.card.img }}" alt="{{ carduser.card.title }}" class="single-card__link__img">
         </a>
-        <div class="single-card__number">{{carduser.count}}</div>
+        <div class="single-card__number">{{ carduser.quantity }}</div>
       </div>
       {% empty %}
       <div class="col">

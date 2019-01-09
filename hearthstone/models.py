@@ -76,16 +76,6 @@ def slugify(sender, instance, *args, **kwargs):
     instance.slug = instance.slug.rstrip('_')
 
 
-class Game(models.Model):
-    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='player_one')
-    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='player_two')
-    winner = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateTimeField(default=timezone.now)
-
-    def __str__(self):
-        return self.winner.username
-
-
 class Activity(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='from_user')
     content = models.CharField(max_length=2000)
@@ -154,18 +144,19 @@ def save_message_activity(sender, instance, created, **kwargs):
 
 
 class Battle(models.Model):
-    player1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_1_provider_profile')
-    player2 = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='user_2_provider_profile')
+    player = models.ForeignKey(User, on_delete=models.CASCADE, related_name='player')
+    opponent = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='opponent')
     round = models.IntegerField(null=False, blank=True)
-    result = models.IntegerField(null=False, blank=True) # 1 player1 | 0 null | -1 player2
+    result = models.IntegerField(null=False, blank=True) # 1 player1 |  -1 player2
+    date = models.DateTimeField(default=timezone.now)
 
 
 @receiver(post_save, sender=Battle)
 def save_battle_activity(sender, instance, created, **kwargs):
     if created:
         activity = Activity(
-            author=instance.player1,
-            content=instance.player1 + " a joué contre " + instance.player2,
+            author=instance.player,
+            content=instance.player.username + " a joué contre " + instance.opponent.username,
             type="game",
-            related_user=instance.player2)
+            related_user=instance.opponent)
         activity.save()
