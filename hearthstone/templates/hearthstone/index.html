@@ -44,10 +44,10 @@
     <h2>Liste des dernières parties</h2>
     <div class="games mb-5">
 
-      {% for game in games %}
-      <p class="lead">{{ game.user1.username }} vs. {{ game.user2.username }} <a class="small" href="{% url 'game' %}">Voir le match</a></p>
+      {% for battle in battles %}
+        <p class="lead">{{ battle.player.username }} vs. {{ battle.opponent.username }} <a class="small" href="{% url 'battle' battle.id %}">Voir le match</a></p>
       {% empty %}
-      <p>Aucune partie pour le moment.</p>
+        <p>Aucune partie pour le moment.</p>
       {% endfor %}
 
     </div>

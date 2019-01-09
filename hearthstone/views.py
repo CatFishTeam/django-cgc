@@ -7,12 +7,19 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Count, Q
 from django.core.paginator import Paginator
-from .models import Profile, Card, Deck, CardsUser, CardsDeck, Game, Topic, Message, User, Battle, Activity
+from .models import Profile, Card, Deck, CardsUser, CardsDeck, Topic, Message, User, Battle, Activity
 import random
 import json
-import requests
 
 # import pdb; pdb.set_trace()
+
+#  Get all cards from Mashable Hearthstone API
+#url = 'https://omgvamp-hearthstone-v1.p.mashape.com/cards?locale=frFR'
+#headers = {"X-Mashape-Key": "XTUi1bdLD6mshqZg64hA0G1f5c5xp1VB2XxjsntfVEFVdnzQ25"}
+
+# r = requests.get(url, headers=headers)
+# cardsJson = r.json()
+# cardsText = r.text
 
 
 def home(request):
@@ -27,13 +34,6 @@ def home(request):
         'tost',
     ]
 
-    #  Get all cards from Mashable Hearthstone API
-    url = 'https://omgvamp-hearthstone-v1.p.mashape.com/cards?locale=frFR'
-    headers = {"X-Mashape-Key": "XTUi1bdLD6mshqZg64hA0G1f5c5xp1VB2XxjsntfVEFVdnzQ25"}
-
-    # r = requests.get(url, headers=headers)
-    # cardsJson = r.json()
-    # cardsText = r.text
     cards = []
     allCards = Card.objects.all()
     for i in range(0, 8):
@@ -42,10 +42,11 @@ def home(request):
 
     context = {
         'title': title,
-        'games': Game.objects.all()[:15],
+        'battles': Battle.objects.all()[:15],
         'cards': cards,
         'slugs': slugs
     }
+
 
     return render(request, 'hearthstone/index.html', context)
 
@@ -81,10 +82,6 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'form': form})
 
-
-def game(request):
-    decks = Deck.objects.all().filter(user_id=request.user.id)
-    return render(request, 'hearthstone/game.html', {'decks': decks})
 
 
 def launch_game(request, deck_id):
@@ -134,10 +131,19 @@ def launch_game(request, deck_id):
 
         result = 1 if player_hp > opponent_hp else -1
         battle = Battle.objects.create(player=request.user, opponent=opponent, result=result, round=turn)
-        return render(request, 'hearthstone/launchGame.html', {'opponent': opponent, 'battle': battle})
+        return render(request, 'hearthstone/launchGame.html', {'battle': battle})
     else:
         messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
         return redirect('home')
+
+
+def battle(request, battle_id):
+    battle = Battle.objects.get(pk=battle_id)
+    return render(request, 'hearthstone/game.html', {'battle': battle})
+
+
+def game(request):
+    return render(request, 'hearthstone/game.html')
 
 
 def card(request, card_id):
