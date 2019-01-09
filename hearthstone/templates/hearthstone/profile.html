@@ -30,6 +30,8 @@
                   <strong>Statut : </strong> {{ exchange.status }} <a class="ml-5" href="{% url 'exchange_status' exchange.id %}">Voir</a>
                 </div>
               </div>
+            {% empty %}
+              <p>Aucun échange pour le moment</p>
             {% endfor %}
           </div>
         </div>

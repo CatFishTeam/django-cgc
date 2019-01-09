@@ -511,7 +511,22 @@ def exchange_refuse(request, exchange_id):
 
 def sell(request, card_id):
     card = get_object_or_404(Card, pk=card_id)
-    context = {
-        'card': card
-    }
-    return render(request, 'hearthstone/sell.html', context)
+    card_to_sell = CardsUser.objects.get(user=request.user, card=card)
+    if card_to_sell is not None:
+        activity = Activity.objects.create(
+            author=request.user,
+            content=request.user.username + " a vendu la carte : " + card.title,
+            type="vente")
+        card_to_sell.quantity -= 1
+        if card_to_sell.quantity == 0:
+            card_to_sell.delete()
+        else:
+            card_to_sell.save()
+        profile = get_object_or_404(Profile, pk=request.user.id)
+        profile.credit += 30
+        profile.save()
+        messages.success(request, f"Vous avez bien vendu cette carte (30 crédits)")
+    else:
+        messages.error(request, f"Vous ne pouvez pas vendre une carte que vous n'avez pas !")
+
+    return redirect('myCards')
