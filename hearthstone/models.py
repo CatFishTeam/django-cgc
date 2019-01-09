@@ -45,7 +45,7 @@ class Card(models.Model):
     cost = models.IntegerField(null=True, blank=True)
     health = models.IntegerField(null=True, blank=True)
     attack = models.IntegerField(null=True, blank=True)
-    deck = models.ForeignKey(Deck, on_delete=models.PROTECT, null=True)
+    pack = models.ManyToManyField(Deck, related_name="pack", through='CardsDeck')
     owner = models.ManyToManyField(User, related_name="cards", through='CardsUser')
 
     def __str__(self):
@@ -55,7 +55,13 @@ class Card(models.Model):
 class CardsUser(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    count = models.IntegerField()
+    quantity = models.IntegerField()
+
+
+class CardsDeck(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE)
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
 
 
 @receiver(pre_save, sender=Card)
@@ -149,9 +155,9 @@ def save_message_activity(sender, instance, created, **kwargs):
 
 class Battle(models.Model):
     player1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_1_provider_profile')
-    player2 = models.ForeignKey(User,  on_delete=models.CASCADE, related_name='user_2_provider_profile')
+    player2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_2_provider_profile')
     round = models.IntegerField(null=False, blank=True)
-    result = models.IntegerField(null=False, blank=True) # 1 player1 | 0 null | -1 player2
+    result = models.IntegerField(null=False, blank=True)  # 1 player1 | 0 null | -1 player2
 
 
 @receiver(post_save, sender=Battle)
@@ -159,7 +165,52 @@ def save_battle_activity(sender, instance, created, **kwargs):
     if created:
         activity = Activity(
             author=instance.player1,
-            content=instance.player1 + " a joué contre " + instance.player2,
+            content=instance.player1.username + " a joué contre " + instance.player2.username,
             type="game",
             related_user=instance.player2)
         activity.save()
+
+
+class Exchange(models.Model):
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_1_exchange')
+    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_2_exchange')
+    card1 = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='card_1_exchange')
+    card2 = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='card_2_exchange', null=True, blank=True)
+    status = models.CharField(default='En attente', max_length=150)
+
+
+@receiver(post_save, sender=Exchange)
+def save_start_exchange_activity(sender, instance, created, **kwargs):
+    if created:
+        activity = Activity(
+            author=instance.user1,
+            content=instance.user1.username + " a proposé un échange de carte avec " + instance.user2.username + \
+                    "<a class='ml-3' href='/exchange_status/"+ str(instance.id)+"'>Voir l'échange</a>",
+            type="echange",
+            related_user=instance.user2)
+        activity.save()
+    else:
+        if instance.status == 'Refusé':
+            activity = Activity(
+                author=instance.user2,
+                content=instance.user2.username + " a refusé un échange de carte avec " + instance.user1.username + \
+                        "<a class='ml-3' href='/exchange_status/"+ str(instance.id)+"'>Voir l'échange</a>",
+                type="echange",
+                related_user=instance.user1)
+            activity.save()
+        elif instance.status == 'En attente':
+            activity = Activity(
+                author=instance.user2,
+                content=instance.user2.username + " a fait une proposition d'échange de carte à " + instance.user1.username + \
+                    "<a class='ml-3' href='/exchange_status/"+ str(instance.id)+"'>Voir l'échange</a>",
+                type="echange",
+                related_user=instance.user1)
+            activity.save()
+        elif instance.status == 'Accepté':
+            activity = Activity(
+                author=instance.user1,
+                content=instance.user1.username + " a finalisé un échange de carte avec " + instance.user2.username + \
+                        "<a class='ml-3' href='/exchange_status/"+ str(instance.id)+"'>Voir l'échange</a>",
+                type="echange",
+                related_user=instance.user2)
+            activity.save()

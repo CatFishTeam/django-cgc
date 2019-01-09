@@ -1,4 +1,6 @@
 {% extends "hearthstone/base.html" %}
+{% load crispy_forms_tags %}
+
 
 {% block content %}
 <div class="row my-5">
@@ -7,17 +9,20 @@
 
     <div class="exchange">
       <p>Vous souhaitez échanger la carte <strong>{{ card.title }}</strong></p>
-      <form action="">
+      <form method="post" action="{% url 'start_exchange' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
         <div class="form-group">
-          <label for="users">Choisissez un utilisateur à qui proposer un échange :</label>
-          <select name="users" id="users" class="form-control">
+          <label for="user_id">Choisissez un utilisateur à qui proposer un échange :</label>
+          <select name="user_id" id="user_id" class="form-control">
             {% for profile in profiles %}
               {% if profile.user != request.user %}
-              <option value="{{ profile.user.username }}">{{ profile.user.username }}</option>
+              <option value="{{ profile.user.id }}">{{ profile.user.username }}</option>
               {% endif %}
             {% endfor %}
           </select>
         </div>
+        <input type="hidden" name="card_id" value="{{ card.id }}">
         <input type="submit" class="btn btn-primary">
       </form>
     </div>

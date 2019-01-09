@@ -10,7 +10,7 @@
       <div class="activities__single">
         <span class="activities__single__date">le {{activity.created_at}}</span>
         <span class="activities__single__tag tag-{{activity.type}}">#{{activity.type}}</span>
-        <p>{{activity.content}}</p>
+        <p>{{activity.content | safe}}</p>
       </div>
       {% empty %}
         <p>Aucune activité pour le moment.</p>

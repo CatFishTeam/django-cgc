@@ -24,7 +24,7 @@
             <a href="{% url 'sell' carduser.card.id %}">Vendre cette carte</a>
           </div>
         </div>
-        <div class="single-card__number">{{carduser.count}}</div>
+        <div class="single-card__number">{{carduser.quantity}}</div>
       </div>
       {% empty %}
       <div class="col">

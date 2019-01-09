@@ -44,5 +44,9 @@ urlpatterns = [
     path('activities', views.activities, name='activities'),
     path('subscribe/<int:user_id>', views.subscribe, name='subscribe'),
     path('exchange/<int:card_id>', views.exchange, name='exchange'),
+    path('exchange_choose/<int:exchange_id>', views.exchange_choose, name='exchange_choose'),
+    path('exchange_refuse/<int:exchange_id>', views.exchange_refuse, name='exchange_refuse'),
+    path('start_exchange', views.start_exchange, name='start_exchange'),
+    path('exchange_status/<int:exchange_id>', views.exchange_status, name='exchange_status'),
     path('sell/<int:card_id>', views.sell, name='sell'),
 ]

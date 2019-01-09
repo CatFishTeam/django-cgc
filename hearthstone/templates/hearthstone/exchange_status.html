@@ -1,0 +1,51 @@
+{% extends "hearthstone/base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="row my-5">
+    <div class="col-md-12">
+      <h1 class="text-center">Statut de l'échange</h1>
+
+      <div class="exchange-status mt-5">
+        <div class="exchange-status__left">
+          <h2>{{ exchange.user1.username }}</h2>
+          <img src="{{ exchange.card1.img }}" alt="{{ exchange.card1.title }}">
+        </div>
+        <div class="exchange-status__center">
+          <h3>veut échanger avec</h3>
+          <img class="exchange-status__arrow" src="{% static 'images/hearthstone-arrow.png' %}" alt="Flèche">
+        </div>
+        <div class="exchange-status__right">
+          <h2>{{ exchange.user2.username }}</h2>
+          {% if exchange.card2 is not None %}
+            <img src="{{ exchange.card2.img }}" alt="{{ exchange.card2.title }}">
+          {% else %}
+            {% if request.user == exchange.user2 %}
+              <div class="exchange-status__right__buttons">
+                <img class="exchange-status__not-selected" id="exchange_receiver" src="{% static 'images/cardback.png' %}" alt="Carte Non Sélectionnée">
+                <div class="exchange-status__overlay">
+                  <div class="exchange-status__overlay__choose">
+                    <a href="{% url 'exchange_choose' exchange.id %}">Choisir une carte</a>
+                  </div>
+                  <div class="exchange-status__overlay__refuse">
+                    <a href="{% url 'exchange_refuse' exchange.id %}">Refuser l'échange</a>
+                  </div>
+                </div>
+              </div>
+            {% else %}
+              <div class="exchange-status__right__buttons">
+                <img class="exchange-status__not-selected" id="exchange_receiver" src="{% static 'images/cardback.png' %}" alt="Carte Non Sélectionnée">
+                <div class="exchange-status__overlay">
+                  <p>En attente d'une réponse<br>de {{ exchange.user2.username }}</p>
+                </div>
+              </div>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+
