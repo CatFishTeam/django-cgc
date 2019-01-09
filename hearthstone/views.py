@@ -262,7 +262,13 @@ def topic(request, topic_id):
 
 
 def profile(request):
-    return render(request, 'hearthstone/profile.html', {})
+    exchanges = Exchange.objects.all().order_by('-id').filter(Q(user1=request.user.id) | Q(user2=request.user.id))
+
+    context = {
+        'exchanges': exchanges,
+    }
+
+    return render(request, 'hearthstone/profile.html', context)
 
 
 def user(request, user_id):

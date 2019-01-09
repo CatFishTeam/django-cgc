@@ -1,16 +1,41 @@
 {% extends "hearthstone/base.html" %}
 
 {% block content %}
-<div class="row my-5">
-  <div class="col-md-12">
-    <h1>Profil</h1>
+  <div class="row my-5">
+    <div class="col-md-12">
+      <h1>Profil</h1>
 
-    <div class="profile">
-      <p><strong>Identifiant : </strong>{{request.user.username}}</p>
-      <p><a href="{% url 'changePassword' %}" class="btn btn-primary">Changer votre mot de passe</a></p>
+      <div class="profile">
+        <p><strong>Identifiant : </strong>{{request.user.username}}</p>
+        <p><a href="{% url 'changePassword' %}" class="btn btn-primary">Changer votre mot de passe</a></p>
+
+        <div class="profile__exchanges mt-5">
+          <h2 class="my-3">Historique de vos échanges</h2>
+          <div class="profile__exchanges__list">
+            {% for exchange in exchanges %}
+              <div class="profile__exchanges__single">
+                <div class="profile__exchanges__single__users">
+                  {{ exchange.user1.username }} veut échanger avec {{ exchange.user2.username }}
+                </div>
+                <div class="profile__exchanges__single__cards">
+                  {{ exchange.card1.title }}
+                  <=>
+                  {% if exchange.card2 is not None %}
+                  {{ exchange.card2.title }}
+                  {% else %}
+                  (en attente d'une proposition)
+                  {% endif %}
+                </div>
+                <div class="profile__exchanges__single__status">
+                  <strong>Statut : </strong> {{ exchange.status }} <a class="ml-5" href="{% url 'exchange_status' exchange.id %}">Voir</a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
 {% endblock content %}
 

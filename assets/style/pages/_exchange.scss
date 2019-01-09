@@ -94,3 +94,19 @@
         left: 0;
     }
 }
+
+.profile__exchanges {
+    &__list {
+    }
+
+    &__single {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: $transparent-background;
+        border-radius: 4px;
+        padding: 15px 20px;
+        margin: 10px 0;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+}
