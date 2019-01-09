@@ -106,7 +106,7 @@
   {% if messages %}
     <script>
       {% for message in messages %}
-        Toastr.{{ message.tags }}("{{ message }}");
+        Toastr.{{ message.tags }}("{{ message | safe }}");
       {% endfor %}
     </script>
   {% endif %}
