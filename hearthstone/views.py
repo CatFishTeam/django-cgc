@@ -69,14 +69,17 @@ def open_first_deck(request):
             return render(request, 'hearthstoneindex.html')
 
 
-def register(self, request):
+def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Le compte de {username} a bien été créé !')
-            user.backend = 'django.contrib.auth.backends.ModelBackend'
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                user = User.objects.create_user(username, username, password)
             login(request, user)
             return redirect('home')
     else:
