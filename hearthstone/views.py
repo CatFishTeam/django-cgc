@@ -3,12 +3,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .forms import UserRegisterForm, TopicCreationForm, MessageCreationForm
 from django.contrib import messages
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import update_session_auth_hash, authenticate, logout, login
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Count, Q
 from django.core.paginator import Paginator
 from .models import Profile, Card, Deck, CardsUser, CardsDeck, Topic, Message, User, Battle, Activity
-import random
 import json
 
 # import pdb; pdb.set_trace()
@@ -70,13 +69,15 @@ def open_first_deck(request):
             return render(request, 'hearthstoneindex.html')
 
 
-def register(request):
+def register(self, request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Le compte de {username} a bien été créé !')
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
+            login(request, user)
             return redirect('home')
     else:
         form = UserRegisterForm()
@@ -88,7 +89,7 @@ def launch_game(request, deck_id):
     if request.user.is_authenticated:
 
         opponent_deck = Deck.objects.all().exclude(user_id=request.user.id)
-        opponent_deck = opponent_deck[random.randint(0, opponent_deck.count() - 1)]
+        opponent_deck = opponent_deck[randint(0, opponent_deck.count() - 1)]
 
         opponent = User.objects.get(pk=opponent_deck.user_id)
 
