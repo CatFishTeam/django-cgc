@@ -10,6 +10,30 @@
         <div class="exchange-status__left">
           <h2>{{ exchange.user1.username }}</h2>
           <img src="{{ exchange.card1.img }}" alt="{{ exchange.card1.title }}">
+          {% if exchange.card1 is not None and exchange.card2 is not None %}
+            {% if exchange.user1_response == 'OK' %}
+              <p>
+                <small>{{ exchange.user1.username }} a validé l'échange</small>
+              </p>
+            {% elif exchange.user1_response == 'NOK' %}
+              <p>
+                <small>{{ exchange.user1.username }} a refusé l'échange</small>
+              </p>
+            {% else %}
+              {% if request.user == exchange.user1 %}
+                <div class="exchange-status__accept">
+                  <a href="{% url 'validate_exchange' exchange.id %}">Je valide cet échange</a>
+                </div>
+                <div class="exchange-status__reject">
+                  <a href="{% url 'cancel_exchange' exchange.id %}">J'annule l'échange</a>
+                </div>
+              {% else %}
+                <p>
+                  <small>{{ exchange.user1.username }} n'a pas encore validé cet échange</small>
+                </p>
+              {% endif %}
+            {% endif %}
+          {% endif %}
         </div>
         <div class="exchange-status__center">
           <h3>veut échanger avec</h3>
@@ -41,7 +65,42 @@
               </div>
             {% endif %}
           {% endif %}
+          {% if exchange.card1 is not None and exchange.card2 is not None %}
+            {% if exchange.user2_response == 'OK' %}
+              <p>
+                <small>{{ exchange.user2.username }} a validé l'échange</small>
+              </p>
+            {% elif exchange.user2_response == 'NOK' %}
+              <p>
+                <small>{{ exchange.user2.username }} a refusé l'échange</small>
+              </p>
+            {% else %}
+              {% if request.user == exchange.user2 %}
+                <div class="exchange-status__accept">
+                  <a href="{% url 'validate_exchange' exchange.id %}">Je valide cet échange</a>
+                </div>
+                <div class="exchange-status__reject">
+                  <a href="{% url 'cancel_exchange' exchange.id %}">J'annule l'échange</a>
+                </div>
+              {% else %}
+                <p>
+                  <small>{{ exchange.user2.username }} n'a pas encore validé cet échange</small>
+                </p>
+              {% endif %}
+            {% endif %}
+          {% endif %}
         </div>
+      </div>
+      <div class="exchange-result">
+        {% if exchange.status == 'En attente' %}
+          <p class="exchange-result__pending">
+            {% elif exchange.status == 'Accepté' %}
+          <p class="exchange-result__accepted">
+            {% elif exchange.status == 'Refusé' %}
+          <p class="exchange-result__canceled">
+        {% endif %}
+          {{ exchange.status }}
+        </p>
       </div>
     </div>
   </div>

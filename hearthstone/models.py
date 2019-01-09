@@ -177,6 +177,8 @@ class Exchange(models.Model):
     card1 = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='card_1_exchange')
     card2 = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='card_2_exchange', null=True, blank=True)
     status = models.CharField(default='En attente', max_length=150)
+    user1_response = models.CharField(default='En attente', max_length=150, null=True, blank=True)
+    user2_response = models.CharField(default='En attente', max_length=150, null=True, blank=True)
 
 
 @receiver(post_save, sender=Exchange)

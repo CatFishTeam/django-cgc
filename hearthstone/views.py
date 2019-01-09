@@ -1,3 +1,4 @@
+# coding=utf-8
 from random import randint
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
@@ -365,6 +366,7 @@ def subscribe(request, user_id):
     return render(request, 'hearthstone/subscribe.html', context)
 
 
+# Echange : page pour le user1 de choisir une carte pour l'échange
 def exchange(request, card_id):
     card = get_object_or_404(Card, pk=card_id)
     profiles = Profile.objects.all()
@@ -375,6 +377,7 @@ def exchange(request, card_id):
     return render(request, 'hearthstone/exchange.html', context)
 
 
+# Echange : le user1 a envoyé sa proposition d'échange au user2
 def start_exchange(request):
     card = get_object_or_404(Card, pk=request.POST['card_id'])
     exchange_starter = request.user
@@ -386,6 +389,97 @@ def start_exchange(request):
     return redirect('myCards')
 
 
+# Echange : le user2 a soumis sa proposition
+def continue_exchange(request):
+    exchange = get_object_or_404(Exchange, pk=request.POST['exchange_id'])
+    card = get_object_or_404(Card, pk=request.POST['card_id'])
+    exchange.card2 = card
+    exchange.save()
+
+    messages.success(request, f"Votre proposition a bien été soumise")
+    return redirect('exchange_status', exchange_id=exchange.id)
+
+
+# Echange : user1 ou 2 a validé l'échange
+def validate_exchange(request, exchange_id):
+    exchange = get_object_or_404(Exchange, pk=exchange_id)
+
+    if request.user == exchange.user1:
+        exchange.user1_response = "OK"
+        exchange.save()
+        messages.success(request, f"Vous avez bien validé cet échange")
+    elif request.user == exchange.user2:
+        exchange.user2_response = "OK"
+        exchange.save()
+        messages.success(request, f"Vous avez bien validé cet échange")
+    else:
+        messages.error(request, f"Vous n'êtes pas autorisé à valider cet échange")
+
+    # Accepté : on procède à l'échange des cartes entre joueurs
+    if exchange.user1_response == 'OK' and exchange.user2_response == 'OK':
+        exchange.status = 'Accepté'
+        exchange.save()
+        messages.success(request, f"L'échange a été accepté !")
+
+        previous_card1 = CardsUser.objects.get(user=exchange.user1, card=exchange.card1)
+        previous_card1.quantity -= 1
+        if previous_card1.quantity == 0:
+            previous_card1.delete()
+        else:
+            previous_card1.save()
+
+        card1, created = CardsUser.objects.get_or_create(user=exchange.user2, card=exchange.card1, defaults={'quantity': 1})
+        if created:
+            card1.save()
+        else:
+            card1.quantity += 1
+            card1.save()
+
+        previous_card2 = CardsUser.objects.get(user=exchange.user2, card=exchange.card2)
+        previous_card2.quantity -= 1
+        if previous_card2.quantity == 0:
+            previous_card2.delete()
+        else:
+            previous_card2.save()
+
+        card2, created = CardsUser.objects.get_or_create(user=exchange.user1, card=exchange.card2, defaults={'quantity': 1})
+        if created:
+            card2.save()
+        else:
+            card2.quantity += 1
+            card2.save()
+    # Annulé : on ne fait pas l'échange
+    elif (exchange.user1_response == 'NOK' or exchange.user2_response == 'NOK') and exchange.status != 'Refusé':
+        exchange.status = 'Refusé'
+        exchange.save()
+        messages.success(request, f"L'échange a été annulé")
+
+    return redirect('exchange_status', exchange_id=exchange.id)
+
+
+# Echange : user1 ou 2 a annulé l'échange
+def cancel_exchange(request, exchange_id):
+    exchange = get_object_or_404(Exchange, pk=exchange_id)
+
+    if request.user == exchange.user1:
+        exchange.user1_response = "NOK"
+        exchange.save()
+        messages.success(request, f"Vous avez bien annulé cet échange")
+    elif request.user == exchange.user2:
+        exchange.user2_response = "NOK"
+        exchange.save()
+        messages.success(request, f"Vous avez bien annulé cet échange")
+    else:
+        messages.error(request, f"Vous n'êtes pas autorisé à annuler cet échange")
+
+    exchange.status = 'Refusé'
+    exchange.save()
+    messages.success(request, f"L'échange a été annulé")
+
+    return redirect('exchange_status', exchange_id=exchange.id)
+
+
+# Echange : statut de l'échange
 def exchange_status(request, exchange_id):
     exchange = get_object_or_404(Exchange, pk=exchange_id)
     context = {
@@ -394,14 +488,19 @@ def exchange_status(request, exchange_id):
     return render(request, 'hearthstone/exchange_status.html', context)
 
 
+# Echange : page pour le user2 de sélectionner une carte d'échange
 def exchange_choose(request, exchange_id):
     exchange = get_object_or_404(Exchange, pk=exchange_id)
+    profile = get_object_or_404(Profile, pk=request.user.id)
+
     context = {
         'exchange': exchange,
+        'profile': profile,
     }
     return render(request, 'hearthstone/exchange_choose.html', context)
 
 
+# Echange : user1 ou user2 a refusé la proposition
 def exchange_refuse(request, exchange_id):
     exchange = get_object_or_404(Exchange, pk=exchange_id)
     context = {
