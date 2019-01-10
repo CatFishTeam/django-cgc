@@ -149,7 +149,7 @@ def launch_game(request, deck_id):
 
 def battle(request, battle_id):
     battle = Battle.objects.get(pk=battle_id)
-    return render(request, 'hearthstone/game.html', {'battle': battle})
+    return render(request, 'hearthstone/battle.html', {'battle': battle})
 
 
 def game(request):
@@ -293,10 +293,13 @@ def topic(request, topic_id):
 
 
 def profile(request):
+    profile = get_object_or_404(Profile, pk=request.user.id)
     exchanges = Exchange.objects.all().order_by('-id').filter(Q(user1=request.user.id) | Q(user2=request.user.id))
-
+    battles = Battle.objects.all().order_by('-id').filter(Q(player=request.user.id) | Q(opponent=request.user.id))
     context = {
+        'profile': profile,
         'exchanges': exchanges,
+        'battles': battles
     }
 
     return render(request, 'hearthstone/profile.html', context)
