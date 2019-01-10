@@ -148,7 +148,8 @@ def battle(request, battle_id):
 
 
 def game(request):
-    return render(request, 'hearthstone/game.html')
+    decks = Deck.objects.all().filter(user_id=request.user.id)
+    return render(request, 'hearthstone/game.html',  {'decks': decks})
 
 
 def card(request, card_id):
