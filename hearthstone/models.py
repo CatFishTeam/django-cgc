@@ -160,3 +160,50 @@ def save_battle_activity(sender, instance, created, **kwargs):
             type="game",
             related_user=instance.opponent)
         activity.save()
+
+
+class Exchange(models.Model):
+    user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_1_exchange')
+    user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_2_exchange')
+    card1 = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='card_1_exchange')
+    card2 = models.ForeignKey(Card, on_delete=models.CASCADE, related_name='card_2_exchange', null=True, blank=True)
+    status = models.CharField(default='En attente', max_length=150)
+    user1_response = models.CharField(default='En attente', max_length=150, null=True, blank=True)
+    user2_response = models.CharField(default='En attente', max_length=150, null=True, blank=True)
+
+
+@receiver(post_save, sender=Exchange)
+def save_start_exchange_activity(sender, instance, created, **kwargs):
+    if created:
+        activity = Activity(
+            author=instance.user1,
+            content=instance.user1.username + " a proposé un échange de carte avec " + instance.user2.username + \
+                    "<a class='ml-3' href='/exchange_status/"+ str(instance.id)+"'>Voir l'échange</a>",
+            type="echange",
+            related_user=instance.user2)
+        activity.save()
+    else:
+        if instance.status == 'Refusé':
+            activity = Activity(
+                author=instance.user2,
+                content=instance.user2.username + " a refusé un échange de carte avec " + instance.user1.username + \
+                        "<a class='ml-3' href='/exchange_status/"+ str(instance.id)+"'>Voir l'échange</a>",
+                type="echange",
+                related_user=instance.user1)
+            activity.save()
+        elif instance.status == 'En attente':
+            activity = Activity(
+                author=instance.user2,
+                content=instance.user2.username + " a fait une proposition d'échange de carte à " + instance.user1.username + \
+                    "<a class='ml-3' href='/exchange_status/"+ str(instance.id)+"'>Voir l'échange</a>",
+                type="echange",
+                related_user=instance.user1)
+            activity.save()
+        elif instance.status == 'Accepté':
+            activity = Activity(
+                author=instance.user1,
+                content=instance.user1.username + " a finalisé un échange de carte avec " + instance.user2.username + \
+                        "<a class='ml-3' href='/exchange_status/"+ str(instance.id)+"'>Voir l'échange</a>",
+                type="echange",
+                related_user=instance.user2)
+            activity.save()

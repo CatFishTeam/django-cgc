@@ -1,0 +1,37 @@
+{% extends "hearthstone/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+  <div class="row my-5">
+    <div class="col-md-12">
+      <h1>Echange de carte</h1>
+
+      <div class="exchange">
+        {% if request.user == exchange.user2 %}
+          <p>Vous souhaitez échanger avec l'utilisateur <strong>{{ exchange.user1.username }}</strong></p>
+          <p><strong>{{ exchange.user1.username }}</strong> vous propose la carte : <strong>{{ exchange.card1.title }}</strong></p>
+          <form method="post" action="{% url 'continue_exchange' %}" class="my-5">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="form-group">
+              <label for="card_id">Choisissez une de vos cartes pour cet échange :</label>
+              <select name="card_id" id="card_id" class="form-control">
+                {% for carduser in user.cardsuser_set.all %}
+                    <option value="{{ carduser.card.id }}">{{ carduser.card.title }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <input type="hidden" name="exchange_id" value="{{ exchange.id }}">
+            <input type="submit" class="btn btn-primary">
+          </form>
+        {% else %}
+          <p>Vous n'êtes pas autorisé à voir cette page. <a href="{% url 'exchange_status' exchange.id %}">Retour à l'échange</a></p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+

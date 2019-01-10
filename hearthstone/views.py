@@ -7,7 +7,7 @@ from django.contrib.auth import update_session_auth_hash, authenticate, logout, 
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Count, Q
 from django.core.paginator import Paginator
-from .models import Profile, Card, Deck, CardsUser, CardsDeck, Topic, Message, User, Battle, Activity
+from .models import Profile, Card, Deck, CardsUser, CardsDeck, Topic, Message, User, Battle, Activity, Subscribe, Exchange
 import json
 
 # import pdb; pdb.set_trace()
@@ -287,7 +287,13 @@ def topic(request, topic_id):
 
 
 def profile(request):
-    return render(request, 'hearthstone/profile.html', {})
+    exchanges = Exchange.objects.all().order_by('-id').filter(Q(user1=request.user.id) | Q(user2=request.user.id))
+
+    context = {
+        'exchanges': exchanges,
+    }
+
+    return render(request, 'hearthstone/profile.html', context)
 
 
 def user(request, user_id):
@@ -319,6 +325,10 @@ def change_password(request):
 
 def community(request):
     profiles = Profile.objects.all()
+    subscribes = Subscribe.objects.all().filter(follower_id=request.user.id)
+    followed_users = []
+    for subscribe in subscribes:
+        followed_users.append(subscribe.followed)
     users = []
     for profile in profiles:
         user = {
@@ -327,15 +337,26 @@ def community(request):
         }
         users.append(user)
     context = {
-        'users': users
+        'users': users,
+        'followed_users': followed_users
     }
     return render(request, 'hearthstone/community.html', context)
 
 
 def activities(request):
+    all_activities = []
     activities = Activity.objects.all().order_by('-id').filter(Q(author=request.user.id) | Q(related_user=request.user.id))
+    for activity in activities:
+        all_activities.append(activity)
+    subscribes = Subscribe.objects.all().filter(follower_id=request.user.id)
+    for subscribe in subscribes:
+        friends_activities = Activity.objects.all().order_by('-id').filter(Q(author=subscribe.followed) | Q(related_user=subscribe.followed))
+        for friends_activity in friends_activities:
+            if friends_activity not in all_activities:
+                all_activities.append(friends_activity)
+
     context = {
-        'activities': activities
+        'activities': all_activities
     }
     return render(request, 'hearthstone/activities.html', context)
 
@@ -348,3 +369,188 @@ def ladder(request):
     users = paginator.get_page(page)
 
     return render(request, 'hearthstone/ladder.html', {'users': users})
+
+
+def subscribe(request, user_id):
+    followed_user = get_object_or_404(Profile, pk=user_id)
+
+    subscribe, created = Subscribe.objects.get_or_create(follower=request.user, followed=followed_user.user)
+
+    if created:
+        messages.success(request, f'Vous êtes maintenant abonné à {followed_user.user.username}')
+    else:
+        messages.warning(request, f'Vous êtes déjà abonné à {followed_user.user.username}')
+
+    subscribe.save()
+
+    context = {
+        'followed_user': followed_user
+    }
+
+    return render(request, 'hearthstone/subscribe.html', context)
+
+
+# Echange : page pour le user1 de choisir une carte pour l'échange
+def exchange(request, card_id):
+    card = get_object_or_404(Card, pk=card_id)
+    profiles = Profile.objects.all()
+    context = {
+        'card': card,
+        'profiles': profiles
+    }
+    return render(request, 'hearthstone/exchange.html', context)
+
+
+# Echange : le user1 a envoyé sa proposition d'échange au user2
+def start_exchange(request):
+    card = get_object_or_404(Card, pk=request.POST['card_id'])
+    exchange_starter = request.user
+    exchange_receiver = get_object_or_404(User, pk=request.POST['user_id'])
+
+    exchange = Exchange.objects.create(user1=exchange_starter, user2=exchange_receiver, card1=card)
+
+    messages.success(request, f"Votre demande d\'échange a bien été envoyée<br><a style='text-decoration: underline;' href='/exchange_status/{exchange.id}'>Voir l'échange</a>")
+    return redirect('myCards')
+
+
+# Echange : le user2 a soumis sa proposition
+def continue_exchange(request):
+    exchange = get_object_or_404(Exchange, pk=request.POST['exchange_id'])
+    card = get_object_or_404(Card, pk=request.POST['card_id'])
+    exchange.card2 = card
+    exchange.save()
+
+    messages.success(request, f"Votre proposition a bien été soumise")
+    return redirect('exchange_status', exchange_id=exchange.id)
+
+
+# Echange : user1 ou 2 a validé l'échange
+def validate_exchange(request, exchange_id):
+    exchange = get_object_or_404(Exchange, pk=exchange_id)
+
+    if request.user == exchange.user1:
+        exchange.user1_response = "OK"
+        exchange.save()
+        messages.success(request, f"Vous avez bien validé cet échange")
+    elif request.user == exchange.user2:
+        exchange.user2_response = "OK"
+        exchange.save()
+        messages.success(request, f"Vous avez bien validé cet échange")
+    else:
+        messages.error(request, f"Vous n'êtes pas autorisé à valider cet échange")
+
+    # Accepté : on procède à l'échange des cartes entre joueurs
+    if exchange.user1_response == 'OK' and exchange.user2_response == 'OK':
+        exchange.status = 'Accepté'
+        exchange.save()
+        messages.success(request, f"L'échange a été accepté !")
+
+        previous_card1 = CardsUser.objects.get(user=exchange.user1, card=exchange.card1)
+        previous_card1.quantity -= 1
+        if previous_card1.quantity == 0:
+            previous_card1.delete()
+        else:
+            previous_card1.save()
+
+        card1, created = CardsUser.objects.get_or_create(user=exchange.user2, card=exchange.card1, defaults={'quantity': 1})
+        if created:
+            card1.save()
+        else:
+            card1.quantity += 1
+            card1.save()
+
+        previous_card2 = CardsUser.objects.get(user=exchange.user2, card=exchange.card2)
+        previous_card2.quantity -= 1
+        if previous_card2.quantity == 0:
+            previous_card2.delete()
+        else:
+            previous_card2.save()
+
+        card2, created = CardsUser.objects.get_or_create(user=exchange.user1, card=exchange.card2, defaults={'quantity': 1})
+        if created:
+            card2.save()
+        else:
+            card2.quantity += 1
+            card2.save()
+    # Annulé : on ne fait pas l'échange
+    elif (exchange.user1_response == 'NOK' or exchange.user2_response == 'NOK') and exchange.status != 'Refusé':
+        exchange.status = 'Refusé'
+        exchange.save()
+        messages.success(request, f"L'échange a été annulé")
+
+    return redirect('exchange_status', exchange_id=exchange.id)
+
+
+# Echange : user1 ou 2 a annulé l'échange
+def cancel_exchange(request, exchange_id):
+    exchange = get_object_or_404(Exchange, pk=exchange_id)
+
+    if request.user == exchange.user1:
+        exchange.user1_response = "NOK"
+        exchange.save()
+        messages.success(request, f"Vous avez bien annulé cet échange")
+    elif request.user == exchange.user2:
+        exchange.user2_response = "NOK"
+        exchange.save()
+        messages.success(request, f"Vous avez bien annulé cet échange")
+    else:
+        messages.error(request, f"Vous n'êtes pas autorisé à annuler cet échange")
+
+    exchange.status = 'Refusé'
+    exchange.save()
+    messages.success(request, f"L'échange a été annulé")
+
+    return redirect('exchange_status', exchange_id=exchange.id)
+
+
+# Echange : statut de l'échange
+def exchange_status(request, exchange_id):
+    exchange = get_object_or_404(Exchange, pk=exchange_id)
+    context = {
+        'exchange': exchange,
+    }
+    return render(request, 'hearthstone/exchange_status.html', context)
+
+
+# Echange : page pour le user2 de sélectionner une carte d'échange
+def exchange_choose(request, exchange_id):
+    exchange = get_object_or_404(Exchange, pk=exchange_id)
+    profile = get_object_or_404(Profile, pk=request.user.id)
+
+    context = {
+        'exchange': exchange,
+        'profile': profile,
+    }
+    return render(request, 'hearthstone/exchange_choose.html', context)
+
+
+# Echange : user1 ou user2 a refusé la proposition
+def exchange_refuse(request, exchange_id):
+    exchange = get_object_or_404(Exchange, pk=exchange_id)
+    context = {
+        'exchange': exchange,
+    }
+    return render(request, 'hearthstone/exchange_refuse.html', context)
+
+
+def sell(request, card_id):
+    card = get_object_or_404(Card, pk=card_id)
+    card_to_sell = CardsUser.objects.get(user=request.user, card=card)
+    if card_to_sell is not None:
+        activity = Activity.objects.create(
+            author=request.user,
+            content=request.user.username + " a vendu la carte : " + card.title,
+            type="vente")
+        card_to_sell.quantity -= 1
+        if card_to_sell.quantity == 0:
+            card_to_sell.delete()
+        else:
+            card_to_sell.save()
+        profile = get_object_or_404(Profile, pk=request.user.id)
+        profile.credit += 30
+        profile.save()
+        messages.success(request, f"Vous avez bien vendu cette carte (30 crédits)")
+    else:
+        messages.error(request, f"Vous ne pouvez pas vendre une carte que vous n'avez pas !")
+
+    return redirect('myCards')

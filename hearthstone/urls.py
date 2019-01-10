@@ -22,15 +22,20 @@ urlpatterns = [
 
     path('ladder', views.ladder, name='ladder'),
 
+
+    # Authentification
     path('register', views.register, name='register'),
     path('login', auth_views.LoginView.as_view(template_name='registration/login.html'), name='app_login'),
     path('logout', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='app_logout'),
 
+
+    # Utilisateur
     path('profile', views.profile, name='profile'),
     path('change-password', views.change_password, name='changePassword'),
     path('user/<int:user_id>', views.user, name='user'),
 
 
+    # Communauté
     path('forum', views.forum, name='forum'),
     path('create-topic', views.create_topic, name='createTopic'),
     path('topic/<int:topic_id>', views.topic, name='topic'),
@@ -38,4 +43,14 @@ urlpatterns = [
     path('change-password', views.change_password, name='changePassword'),
     path('community', views.community, name='community'),
     path('activities', views.activities, name='activities'),
+    path('subscribe/<int:user_id>', views.subscribe, name='subscribe'),
+    path('exchange/<int:card_id>', views.exchange, name='exchange'),
+    path('exchange_status/<int:exchange_id>', views.exchange_status, name='exchange_status'),
+    path('exchange_choose/<int:exchange_id>', views.exchange_choose, name='exchange_choose'),
+    path('exchange_refuse/<int:exchange_id>', views.exchange_refuse, name='exchange_refuse'),
+    path('start_exchange', views.start_exchange, name='start_exchange'),
+    path('continue_exchange', views.continue_exchange, name='continue_exchange'),
+    path('validate_exchange/<int:exchange_id>', views.validate_exchange, name='validate_exchange'),
+    path('cancel_exchange/<int:exchange_id>', views.cancel_exchange, name='cancel_exchange'),
+    path('sell/<int:card_id>', views.sell, name='sell'),
 ]
