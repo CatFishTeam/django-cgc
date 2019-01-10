@@ -93,50 +93,55 @@ def launch_game(request, deck_id):
     if request.user.is_authenticated:
 
         opponent_deck = Deck.objects.all().exclude(user_id=request.user.id)
-        opponent_deck = opponent_deck[randint(0, opponent_deck.count() - 1)]
 
-        opponent = User.objects.get(pk=opponent_deck.user_id)
+        if opponent_deck.exists():
+            opponent_deck = opponent_deck[randint(0, opponent_deck.count() - 1)]
 
-        player_cards = CardsDeck.objects.all().filter(deck_id=deck_id)
-        player_deck = []
-        for player_card in player_cards:
-            for i in range(player_card.quantity):
-                player_deck.append(player_card)
+            opponent = User.objects.get(pk=opponent_deck.user_id)
 
-        opponent_cards = CardsDeck.objects.all().filter(deck_id=opponent_deck.id)
-        opponent_deck = []
-        for opponent_card in opponent_cards:
-            for i in range(opponent_card.quantity):
-                opponent_deck.append(opponent_card)
+            player_cards = CardsDeck.objects.all().filter(deck_id=deck_id)
+            player_deck = []
+            for player_card in player_cards:
+                for i in range(player_card.quantity):
+                    player_deck.append(player_card)
 
-        player_hp = 30
-        opponent_hp = 30
-        turn = 0
+            opponent_cards = CardsDeck.objects.all().filter(deck_id=opponent_deck.id)
+            opponent_deck = []
+            for opponent_card in opponent_cards:
+                for i in range(opponent_card.quantity):
+                    opponent_deck.append(opponent_card)
 
-        while player_hp and opponent_hp >= 0:
-            turn += 1
-            player_card = player_deck.pop(randint(0, len(player_deck) - 1))
-            opponent_card = opponent_deck.pop(randint(0, len(opponent_deck) - 1))
+            player_hp = 30
+            opponent_hp = 30
+            turn = 0
 
-            if player_card.card.type == 'Spell':
-                opponent_hp -= player_card.card.cost if player_card.card.cost is not None else 0
-            if player_card.card.type == 'Weapon':
-                continue
-            if player_card.card.type == "Minion":
-                if opponent_card.card.type == "Minion":
-                    dmg = opponent_card.card.attack if opponent_card.card.attack is not None else 0 - player_card.card.attack if player_card.card.attack is not None else 0
-                    if dmg >= 0:
-                        opponent_hp -= dmg
-                    else:
-                        player_hp -= dmg
-                if opponent_card.card.type == "Spell":
-                    player_hp -= opponent_card.card.cost if opponent_card.card.cost is not None else 0
-                if opponent_card.card.type == "Weapon":
-                    opponent_hp -= player_card.card.attack if player_card.card.attack is not None else 0
+            while player_hp and opponent_hp >= 0:
+                turn += 1
+                player_card = player_deck.pop(randint(0, len(player_deck) - 1))
+                opponent_card = opponent_deck.pop(randint(0, len(opponent_deck) - 1))
 
-        result = 1 if player_hp > opponent_hp else -1
-        battle = Battle.objects.create(player=request.user, opponent=opponent, result=result, round=turn)
-        return render(request, 'hearthstone/launchGame.html', {'battle': battle})
+                if player_card.card.type == 'Spell':
+                    opponent_hp -= player_card.card.cost if player_card.card.cost is not None else 0
+                if player_card.card.type == 'Weapon':
+                    continue
+                if player_card.card.type == "Minion":
+                    if opponent_card.card.type == "Minion":
+                        dmg = opponent_card.card.attack if opponent_card.card.attack is not None else 0 - player_card.card.attack if player_card.card.attack is not None else 0
+                        if dmg >= 0:
+                            opponent_hp -= dmg
+                        else:
+                            player_hp -= dmg
+                    if opponent_card.card.type == "Spell":
+                        player_hp -= opponent_card.card.cost if opponent_card.card.cost is not None else 0
+                    if opponent_card.card.type == "Weapon":
+                        opponent_hp -= player_card.card.attack if player_card.card.attack is not None else 0
+
+            result = 1 if player_hp > opponent_hp else -1
+            battle = Battle.objects.create(player=request.user, opponent=opponent, result=result, round=turn)
+            return render(request, 'hearthstone/launchGame.html', {'battle': battle})
+        else:
+            messages.error(request, f"Il n'y a pas assez de decks pour faire une partie")
+            return redirect('home')
     else:
         messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
         return redirect('home')
