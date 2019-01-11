@@ -1,17 +1,12 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [requires]
-
 python_version = "3.7"
 
-
 [packages]
-
 "psycopg2-binary" = "*"
 django-heroku = "*"
 "gunicorn" = "*"
@@ -24,6 +19,6 @@ django-heroku = "*"
 "libsass" = "*"
 "django-compressor" = "*"
 "django_extensions" = "*"
+django-jeroku = "*"
 
 [dev-packages]
-

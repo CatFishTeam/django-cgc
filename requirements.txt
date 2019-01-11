@@ -5,3 +5,4 @@ django-crispy-forms
 pyyaml
 requests
 django-heroku
+whitenoise
