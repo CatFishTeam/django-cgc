@@ -21,9 +21,3 @@ django-heroku = "*"
 "libsass" = "*"
 "django-compressor" = "*"
 "django_extensions" = "*"
-
-[dev-packages]
-
-"django-debug-toolbar" = "*"
-"django-webpack-loader" = "*"
-"django-sass-processor" = "*"
