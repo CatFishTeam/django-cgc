@@ -145,7 +145,7 @@ INTERNAL_IPS = ('127.0.0.1',)
 
 # Sass loader
 SASS_ROOT = os.path.join('assets', 'style')
-SASS_PROCESSOR_ROOT = 'staticfiles/style/'
+SASS_PROCESSOR_ROOT = 'assets/style/'
 SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.scss$'
 
 STATICFILES_FINDERS = [
