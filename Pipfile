@@ -19,6 +19,5 @@ django-heroku = "*"
 "libsass" = "*"
 "django-compressor" = "*"
 "django_extensions" = "*"
-django-jeroku = "*"
 
 [dev-packages]
