@@ -132,9 +132,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 STATIC_URL = '/static/'
 
 # Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'assets'),
-)
+# STATICFILES_DIRS = (
+#         os.path.join(BASE_DIR, 'assets'),
+# )
 
 LOGIN_REDIRECT_URL = '/'
 
