@@ -1,12 +1,7 @@
 Django>=2.1
 psycopg2
+gunicorn
 django-crispy-forms
 pyyaml
 requests
-django-debug-toolbar
-django-webpack-loader
-libsass
-django-compressor
-django-sass-processor
-django_extensions
 django-heroku

@@ -1,0 +1,162 @@
+.exchange-status {
+    display: flex;
+    justify-content: space-evenly;
+
+    &__accept, &__reject {
+        width: 80%;
+        margin: 8px auto;
+        border-radius: 4px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.45);
+
+        a {
+            font-family: "Suez One", sans-serif;
+            font-size: 16px;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.3), 0 0 8px rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            display: block;
+            border-radius: 4px;
+            color: #fff;
+        }
+    }
+
+    &__accept {
+        a {
+            background: linear-gradient(to right, #122c38, #2ea7ce, #122c38);
+        }
+    }
+    &__reject {
+        a {
+            background: linear-gradient(to right, #4c0d7a, #b921c4, #4c0d7a);
+        }
+    }
+
+    &__left, &__center, &__right {
+        text-align: center;
+    }
+
+    &__left {
+
+    }
+
+    &__center{
+
+    }
+
+    &__right {
+        &__buttons {
+            position: relative;
+            display: block;
+
+            &:hover {
+                .exchange-status__overlay {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: space-evenly;
+                }
+            }
+        }
+    }
+
+    &__arrow {
+        margin-top: 160px;
+    }
+
+    &__not-selected {
+        margin-top: 50px;
+
+        &#exchange_receiver {
+            cursor: pointer;
+            position: relative;
+        }
+    }
+    
+    &__overlay {
+        display: none;
+        background-color: rgba(0,0,0,0.6);
+        width: 255px;
+        height: 379px;
+        position: absolute;
+        top: 58px;
+        left: 17px;
+        border-radius: 21px;
+        
+        p {
+            color: #fff;
+        }
+
+        &__choose, &__refuse {
+            width: 80%;
+            margin: 8px auto;
+            border-radius: 4px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.45);
+
+            a {
+                font-family: "Suez One", sans-serif;
+                font-size: 16px;
+                text-shadow: 0 0 4px rgba(0, 0, 0, 0.3), 0 0 8px rgba(0, 0, 0, 0.3);
+                padding: 8px;
+                display: block;
+                border-radius: 4px;
+                color: #fff;
+            }
+        }
+
+        &__choose {
+            a {
+                background: linear-gradient(to right, #122c38, #2ea7ce, #122c38);
+            }
+        }
+        &__refuse {
+            a {
+                background: linear-gradient(to right, #4c0d7a, #b921c4, #4c0d7a);
+            }
+        }
+    }
+
+    &__buttons {
+        display: none;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+    }
+}
+
+.exchange-result {
+    p {
+        text-align: center;
+        font-family: 'Suez One', serif;
+        font-size: 24px;
+
+        &.exchange-result {
+            &__pending {
+                color: #0a3d62;
+            }
+
+            &__accepted {
+                color: #079992;
+            }
+
+            &__canceled {
+                color: #b71540;
+            }
+        }
+    }
+}
+
+.profile__exchanges {
+    &__list {
+    }
+
+    &__single {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: $transparent-background;
+        border-radius: 4px;
+        padding: 15px 20px;
+        margin: 10px 0;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+}

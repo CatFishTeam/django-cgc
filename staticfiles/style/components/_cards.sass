@@ -1,0 +1,69 @@
+.single-card
+    &:hover
+        background-color: $transparent-background
+        border-radius: 5px
+        display: block
+        text-decoration: none
+        transition-duration: .3s
+        box-shadow: 0 1px $transparent-background inset, 0 1px 3px rgba(34, 25, 25, 0.4)
+        &__link
+            h4
+                border-radius: 0 0 5px 5px
+        .single-card__buttons
+            display: block
+    &__link
+        text-decoration: none
+        position: relative
+        display: block
+        h4
+            position: absolute
+            z-index: 1
+            color: #fefefe
+            background: rgba(0,0,0,0.6)
+            border-radius: 5px
+            bottom: -9px
+            width: 100%
+            padding: 10px 0
+            font-size: 16px
+            font-weight: 100
+        &__img
+            width: 100%
+    &__img
+        width: 100%
+    &__number
+        position: absolute
+        right: 0
+        top: 2%
+        font-size: 3rem
+        color: #63d1e3
+        font-family: 'Open Sans', sans-serif
+        font-weight: 900
+        transform: rotate(20deg)
+        &:before
+            content: "x"
+            font-size: 2rem
+    &__buttons
+        display: none
+        position: absolute
+        width: 100%
+        bottom: 0
+        left: 0
+        &__exchange, &__sell
+            width: 80%
+            margin: 8px auto
+            border-radius: 4px
+            box-shadow: 0 3px 6px 0 rgba(0,0,0,.45)
+            a
+                font-family: 'Suez One', sans-serif
+                font-size: 16px
+                text-shadow: 0 0 4px rgba(0,0,0,.3), 0 0 8px rgba(0,0,0,.3)
+                padding: 8px
+                display: block
+                border-radius: 4px
+                color: #fff
+        &__exchange
+            a
+                background: linear-gradient(to right, #4c0d7a, #b921c4, #4c0d7a)
+        &__sell
+            a
+                background: linear-gradient(to right, #122c38, #2ea7ce, #122c38)
