@@ -1,14 +1,28 @@
 {% extends "hearthstone/base.html" %}
+{% load static %}
 
 {% block content %}
-<div class="row my-5">
-  <div class="col-md-12">
-    <p>
-      Vous jouez contre {{ battle.opponent.username }}
-    </p>
-    <p>
-      La partie s'est terminée sur un {% if battle.result == 1  %} <span class="text-victory">victoire</span> {% else %} <span class="text-defeat">defaite</span> {% endif %} au bout de {{ battle.round }} tours.
-    </p>
+  <div class="row my-5">
+    <div class="col-md-12">
+      <h3 class="text-center">
+        {{ battle.player.username }} VS {{ battle.opponent.username }}
+      </h3>
+      <div class="game-actions">
+        {% for action in actions %}
+          {% for key, value in action.items %}
+            <div class="game-actions__single">
+              <img src="{{ key }}">
+              {% if 'points de vie' in value %}
+                <img class="blood" src="{% static 'images/blood.svg' %}" alt="">
+              {% endif %}
+              <p class="ml-4">{{ value }}</p>
+            </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+      <h4 class="text-center">
+        La partie s'est terminée sur un {% if battle.result == 1  %} <span class="text-victory">victoire</span> {% else %} <span class="text-defeat">defaite</span> {% endif %} au bout de {{ battle.round }} tours.
+      </h4>
+    </div>
   </div>
-</div>
 {% endblock content %}

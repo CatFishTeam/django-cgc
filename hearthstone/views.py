@@ -114,14 +114,19 @@ def launch_game(request, deck_id):
             player_hp = 30
             opponent_hp = 30
             turn = 0
+            actions = []
 
             while player_hp and opponent_hp >= 0:
                 turn += 1
                 player_card = player_deck.pop(randint(0, len(player_deck) - 1))
+                actions.append({player_card.card.img:request.user.username + " a joué la carte " + player_card.card.title})
                 opponent_card = opponent_deck.pop(randint(0, len(opponent_deck) - 1))
+                actions.append({opponent_card.card.img:opponent.username + " a joué la carte " + opponent_card.card.title})
 
                 if player_card.card.type == 'Spell':
-                    opponent_hp -= player_card.card.cost if player_card.card.cost is not None else 0
+                    dmg = player_card.card.cost if player_card.card.cost is not None else 0
+                    opponent_hp -= dmg
+                    actions.append({player_card.card.img:"Carte Sort : " + opponent.username + " a perdu " + str(dmg) + " points de vie"})
                 if player_card.card.type == 'Weapon':
                     continue
                 if player_card.card.type == "Minion":
@@ -129,16 +134,22 @@ def launch_game(request, deck_id):
                         dmg = opponent_card.card.attack if opponent_card.card.attack is not None else 0 - player_card.card.attack if player_card.card.attack is not None else 0
                         if dmg >= 0:
                             opponent_hp -= dmg
+                            actions.append({player_card.card.img:"Carte Minion : " + opponent.username + " a perdu " + str(dmg) + " points de vie"})
                         else:
                             player_hp -= dmg
+                            actions.append({opponent_card.card.img:"Carte Minion : " + request.user.username + " a perdu " + str(dmg) + " points de vie"})
                     if opponent_card.card.type == "Spell":
-                        player_hp -= opponent_card.card.cost if opponent_card.card.cost is not None else 0
+                        dmg = opponent_card.card.cost if opponent_card.card.cost is not None else 0
+                        player_hp -= dmg
+                        actions.append({opponent_card.card.img:"Carte Sort : " + opponent.username + " a perdu " + str(dmg) + " points de vie"})
                     if opponent_card.card.type == "Weapon":
-                        opponent_hp -= player_card.card.attack if player_card.card.attack is not None else 0
+                        dmg = player_card.card.attack if player_card.card.attack is not None else 0
+                        opponent_hp -= dmg
+                        actions.append({player_card.card.img:"Carte Arme : " + opponent.username + " a perdu " + str(dmg) + " points de vie"})
 
             result = 1 if player_hp > opponent_hp else -1
             battle = Battle.objects.create(player=request.user, opponent=opponent, result=result, round=turn)
-            return render(request, 'hearthstone/launchGame.html', {'battle': battle})
+            return render(request, 'hearthstone/launchGame.html', {'battle': battle, 'actions': actions})
         else:
             messages.error(request, f"Il n'y a pas assez de decks pour faire une partie")
             return redirect('home')
