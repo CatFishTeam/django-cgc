@@ -16,8 +16,14 @@ python_version = "3.7"
 django-heroku = "*"
 "gunicorn" = "*"
 "django-crispy-forms" = "*"
+"django-debug-toolbar" = "*"
+"django-webpack-loader" = "*"
+"django-sass-processor" = "*"
 "pyyaml" = "*"
 "requests" = "*"
 "libsass" = "*"
 "django-compressor" = "*"
 "django_extensions" = "*"
+
+[dev-packages]
+
