@@ -24,7 +24,7 @@ SECRET_KEY = '$rl2(c(djdr&r*w19(k5!^4os5#ho)5ghf!jgbhxbf0@houui='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['hearthstone-django.herokuapp.com']
 
 # Application definition
 INSTALLED_APPS = [
@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'MyProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'skyflow',
-        'USER': 'skyflow',
-        'PASSWORD': 'root',
-        'HOST': 'postgres_fg2kvjo4y8cw7',
+        'NAME': 'd1idv1fhp18gtj',
+        'USER': 'cwbxqjbpypzzup',
+        'PASSWORD': '633aab1739c32228055007e504774ec9b9a18483836c1a5ce45ced23add043f2',
+        'HOST': 'ec2-54-247-82-210.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }
