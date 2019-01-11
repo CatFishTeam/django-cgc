@@ -143,35 +143,35 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 #Debug bar
 INTERNAL_IPS = ('127.0.0.1',)
 
-# # Sass loader
-# SASS_ROOT = os.path.join('assets', 'style')
-# SASS_PROCESSOR_ROOT = '/assets/style/'
-# SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.scss$'
-#
-# STATICFILES_FINDERS = [
-#     'django.contrib.staticfiles.finders.FileSystemFinder',
-#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#     'sass_processor.finders.CssFinder',
-# ]
-#
-# SASS_PROCESSOR_INCLUDE_DIRS = [
-#     os.path.join('/node_modules'),
-#     SASS_ROOT
-# ]
-#
-# SASS_PROCESSOR_ENABLED = True
-#
-# # Webpack
-# WEBPACK_LOADER = {
-#     'DEFAULT': {
-#         'CACHE': not DEBUG,
-#         'BUNDLE_DIR_NAME': 'webpack_bundles/', # must end with slash
-#         'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
-#         'POLL_INTERVAL': 0.1,
-#         'TIMEOUT': None,
-#         'IGNORE': ['.+\.hot-update.js', '.+\.map']
-#     }
-# }
+# Sass loader
+SASS_ROOT = os.path.join('assets', 'style')
+SASS_PROCESSOR_ROOT = '/assets/style/'
+SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.scss$'
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'sass_processor.finders.CssFinder',
+]
+
+SASS_PROCESSOR_INCLUDE_DIRS = [
+    os.path.join('/node_modules'),
+    SASS_ROOT
+]
+
+SASS_PROCESSOR_ENABLED = True
+
+# Webpack
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'webpack_bundles/', # must end with slash
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'TIMEOUT': None,
+        'IGNORE': ['.+\.hot-update.js', '.+\.map']
+    }
+}
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
