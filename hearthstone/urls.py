@@ -6,10 +6,12 @@ from . import views
 urlpatterns = [
     path('', views.home, name='home'),
 
+    # Parties
     path('game', views.game, name='game'),
     path('battle/<int:battle_id>', views.battle, name='battle'),
     path('launchGame/<int:deck_id>', views.launch_game, name='launchGame'),
 
+    # Cartes et decks
     path('open_first_deck', views.open_first_deck, name='open_first_deck'),
     path('card/<int:card_id>', views.card, name='card'),
     path('buy-cards', views.buy_cards, name='buyCards'),
@@ -20,20 +22,15 @@ urlpatterns = [
     path('show-deck/<int:deck_id>', views.show_deck, name='showDeck'),
     path('delete-deck/<int:deck>', views.delete_deck, name='deleteDeck'),
 
-    path('ladder', views.ladder, name='ladder'),
-
-
     # Authentification
     path('register', views.register, name='register'),
     path('login', auth_views.LoginView.as_view(template_name='registration/login.html'), name='app_login'),
     path('logout', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='app_logout'),
 
-
     # Utilisateur
     path('profile', views.profile, name='profile'),
     path('change-password', views.change_password, name='changePassword'),
     path('user/<int:user_id>', views.user, name='user'),
-
 
     # Communauté
     path('forum', views.forum, name='forum'),
@@ -53,4 +50,5 @@ urlpatterns = [
     path('validate_exchange/<int:exchange_id>', views.validate_exchange, name='validate_exchange'),
     path('cancel_exchange/<int:exchange_id>', views.cancel_exchange, name='cancel_exchange'),
     path('sell/<int:card_id>', views.sell, name='sell'),
+    path('ladder', views.ladder, name='ladder'),
 ]

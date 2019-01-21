@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -25,7 +24,7 @@ SECRET_KEY = '$rl2(c(djdr&r*w19(k5!^4os5#ho)5ghf!jgbhxbf0@houui='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['hearthstone-django.herokuapp.com']
 
 # Application definition
 INSTALLED_APPS = [
@@ -52,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'MyProject.urls'
@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'MyProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'skyflow',
-        'USER': 'skyflow',
-        'PASSWORD': 'root',
-        'HOST': 'postgres_fg2kvjo4y8cw7',
+        'NAME': 'd1idv1fhp18gtj',
+        'USER': 'cwbxqjbpypzzup',
+        'PASSWORD': '633aab1739c32228055007e504774ec9b9a18483836c1a5ce45ced23add043f2',
+        'HOST': 'ec2-54-247-82-210.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }
@@ -126,10 +126,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'assets'),
-)
+
+# Extra places for collectstatic to find static files.
+# STATICFILES_DIRS = (
+#         os.path.join(BASE_DIR, 'assets'),
+# )
 
 LOGIN_REDIRECT_URL = '/'
 
@@ -139,8 +144,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 INTERNAL_IPS = ('127.0.0.1',)
 
 # Sass loader
-SASS_ROOT = os.path.join('assets', 'style')
-SASS_PROCESSOR_ROOT = '/assets/style/'
+SASS_ROOT = os.path.join('staticfiles', 'style')
+SASS_PROCESSOR_ROOT = 'staticfiles/style/'
 SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r'^.+\.scss$'
 
 STATICFILES_FINDERS = [
@@ -168,3 +173,8 @@ WEBPACK_LOADER = {
     }
 }
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Configure Django App for Heroku.
+import django_heroku
+django_heroku.settings(locals())

@@ -93,50 +93,66 @@ def launch_game(request, deck_id):
     if request.user.is_authenticated:
 
         opponent_deck = Deck.objects.all().exclude(user_id=request.user.id)
-        opponent_deck = opponent_deck[randint(0, opponent_deck.count() - 1)]
 
-        opponent = User.objects.get(pk=opponent_deck.user_id)
+        if opponent_deck.exists():
+            opponent_deck = opponent_deck[randint(0, opponent_deck.count() - 1)]
 
-        player_cards = CardsDeck.objects.all().filter(deck_id=deck_id)
-        player_deck = []
-        for player_card in player_cards:
-            for i in range(player_card.quantity):
-                player_deck.append(player_card)
+            opponent = User.objects.get(pk=opponent_deck.user_id)
 
-        opponent_cards = CardsDeck.objects.all().filter(deck_id=opponent_deck.id)
-        opponent_deck = []
-        for opponent_card in opponent_cards:
-            for i in range(opponent_card.quantity):
-                opponent_deck.append(opponent_card)
+            player_cards = CardsDeck.objects.all().filter(deck_id=deck_id)
+            player_deck = []
+            for player_card in player_cards:
+                for i in range(player_card.quantity):
+                    player_deck.append(player_card)
 
-        player_hp = 30
-        opponent_hp = 30
-        turn = 0
+            opponent_cards = CardsDeck.objects.all().filter(deck_id=opponent_deck.id)
+            opponent_deck = []
+            for opponent_card in opponent_cards:
+                for i in range(opponent_card.quantity):
+                    opponent_deck.append(opponent_card)
 
-        while player_hp and opponent_hp >= 0:
-            turn += 1
-            player_card = player_deck.pop(randint(0, len(player_deck) - 1))
-            opponent_card = opponent_deck.pop(randint(0, len(opponent_deck) - 1))
+            player_hp = 30
+            opponent_hp = 30
+            turn = 0
+            actions = []
 
-            if player_card.card.type == 'Spell':
-                opponent_hp -= player_card.card.cost if player_card.card.cost is not None else 0
-            if player_card.card.type == 'Weapon':
-                continue
-            if player_card.card.type == "Minion":
-                if opponent_card.card.type == "Minion":
-                    dmg = opponent_card.card.attack if opponent_card.card.attack is not None else 0 - player_card.card.attack if player_card.card.attack is not None else 0
-                    if dmg >= 0:
-                        opponent_hp -= dmg
-                    else:
+            while player_hp and opponent_hp >= 0:
+                turn += 1
+                player_card = player_deck.pop(randint(0, len(player_deck) - 1))
+                actions.append({player_card.card.img:request.user.username + " a joué la carte " + player_card.card.title})
+                opponent_card = opponent_deck.pop(randint(0, len(opponent_deck) - 1))
+                actions.append({opponent_card.card.img:opponent.username + " a joué la carte " + opponent_card.card.title})
+
+                if player_card.card.type == 'Spell':
+                    dmg = player_card.card.cost if player_card.card.cost is not None else 0
+                    opponent_hp -= dmg
+                    actions.append({player_card.card.img:"Carte Sort : " + opponent.username + " a perdu " + str(dmg) + " points de vie"})
+                if player_card.card.type == 'Weapon':
+                    continue
+                if player_card.card.type == "Minion":
+                    if opponent_card.card.type == "Minion":
+                        dmg = opponent_card.card.attack if opponent_card.card.attack is not None else 0 - player_card.card.attack if player_card.card.attack is not None else 0
+                        if dmg >= 0:
+                            opponent_hp -= dmg
+                            actions.append({player_card.card.img:"Carte Minion : " + opponent.username + " a perdu " + str(dmg) + " points de vie"})
+                        else:
+                            player_hp -= dmg
+                            actions.append({opponent_card.card.img:"Carte Minion : " + request.user.username + " a perdu " + str(dmg) + " points de vie"})
+                    if opponent_card.card.type == "Spell":
+                        dmg = opponent_card.card.cost if opponent_card.card.cost is not None else 0
                         player_hp -= dmg
-                if opponent_card.card.type == "Spell":
-                    player_hp -= opponent_card.card.cost if opponent_card.card.cost is not None else 0
-                if opponent_card.card.type == "Weapon":
-                    opponent_hp -= player_card.card.attack if player_card.card.attack is not None else 0
+                        actions.append({opponent_card.card.img:"Carte Sort : " + opponent.username + " a perdu " + str(dmg) + " points de vie"})
+                    if opponent_card.card.type == "Weapon":
+                        dmg = player_card.card.attack if player_card.card.attack is not None else 0
+                        opponent_hp -= dmg
+                        actions.append({player_card.card.img:"Carte Arme : " + opponent.username + " a perdu " + str(dmg) + " points de vie"})
 
-        result = 1 if player_hp > opponent_hp else -1
-        battle = Battle.objects.create(player=request.user, opponent=opponent, result=result, round=turn)
-        return render(request, 'hearthstone/launchGame.html', {'battle': battle})
+            result = 1 if player_hp > opponent_hp else -1
+            battle = Battle.objects.create(player=request.user, opponent=opponent, result=result, round=turn)
+            return render(request, 'hearthstone/launchGame.html', {'battle': battle, 'actions': actions})
+        else:
+            messages.error(request, f"Il n'y a pas assez de decks pour faire une partie")
+            return redirect('home')
     else:
         messages.warning(request, f'Vous devez être connecté pour accéder à cette page')
         return redirect('home')
@@ -144,11 +160,12 @@ def launch_game(request, deck_id):
 
 def battle(request, battle_id):
     battle = Battle.objects.get(pk=battle_id)
-    return render(request, 'hearthstone/game.html', {'battle': battle})
+    return render(request, 'hearthstone/battle.html', {'battle': battle})
 
 
 def game(request):
-    return render(request, 'hearthstone/game.html')
+    decks = Deck.objects.all().filter(user_id=request.user.id)
+    return render(request, 'hearthstone/game.html',  {'decks': decks})
 
 
 def card(request, card_id):
@@ -287,10 +304,13 @@ def topic(request, topic_id):
 
 
 def profile(request):
+    profile = get_object_or_404(Profile, pk=request.user.id)
     exchanges = Exchange.objects.all().order_by('-id').filter(Q(user1=request.user.id) | Q(user2=request.user.id))
-
+    battles = Battle.objects.all().order_by('-id').filter(Q(player=request.user.id) | Q(opponent=request.user.id))
     context = {
+        'profile': profile,
         'exchanges': exchanges,
+        'battles': battles
     }
 
     return render(request, 'hearthstone/profile.html', context)
