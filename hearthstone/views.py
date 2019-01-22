@@ -405,7 +405,7 @@ def activities(request):
 
 def ladder(request):
     users = Profile.objects.all().order_by('elo').reverse()
-    paginator = Paginator(users, 2)
+    paginator = Paginator(users, 5)
 
     page = request.GET.get('page')
     users = paginator.get_page(page)
