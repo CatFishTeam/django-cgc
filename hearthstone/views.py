@@ -41,7 +41,7 @@ def home(request):
 
     context = {
         'title': title,
-        'battles': Battle.objects.all()[:15],
+        'battles': Battle.objects.order_by('-date')[:5],
         'cards': cards,
         'slugs': slugs
     }
@@ -128,7 +128,14 @@ def launch_game(request, deck_id):
                     opponent_hp -= dmg
                     actions.append({player_card.card.img:"Carte Sort : " + opponent.username + " a perdu " + str(dmg) + " points de vie"})
                 if player_card.card.type == 'Weapon':
-                    continue
+                    if opponent_card.card.type == "Minion":
+                        dmg = opponent_card.card.attack if opponent_card.card.attack is not None else 0
+                        actions.append({opponent_card.card.img:" Carte Minion : " + request.user.username + " a perdu " + str(dmg) + " points de vie"})
+                        player_hp -= dmg
+                    else:
+                        dmg = opponent_card.card.cost if opponent_card.card.cost is not None else 0
+                        actions.append({opponent_card.card.img:" Carte jouée : " + request.user.username + " a perdu " + str(dmg) + " points de vie"})
+                        player_hp -= dmg
                 if player_card.card.type == "Minion":
                     if opponent_card.card.type == "Minion":
                         dmg = opponent_card.card.attack if opponent_card.card.attack is not None else 0 - player_card.card.attack if player_card.card.attack is not None else 0
@@ -157,11 +164,11 @@ def launch_game(request, deck_id):
             else:
                 result = -1
                 request.user.profile.elo -= randelo
-                opponent.profile += randelo
+                opponent.profile.elo += randelo
                 request.user.profile.save()
                 opponent.profile.save()
             battle = Battle.objects.create(player=request.user, opponent=opponent, result=result, round=turn)
-            return render(request, 'hearthstone/launchGame.html', {'battle': battle, 'actions': actions})
+            return render(request, 'hearthstone/launchGame.html', {'battle': battle, 'actions': actions, 'player_hp': player_hp, 'opponent_hp': opponent_hp})
         else:
             messages.error(request, f"Il n'y a pas assez de decks pour faire une partie")
             return redirect('home')
