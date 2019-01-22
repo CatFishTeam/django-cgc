@@ -1,0 +1,53 @@
+html, body
+    height: 100%
+    margin: 0
+
+body
+    background: url("/static/images/parchment.jpg") 50% #f1d4ab
+
+h1,h2,h3,h4,h5
+    font-family: 'Suez One', serif
+
+.content
+    min-height: 100%
+
+.content-inside
+    padding: 85px 0
+
+footer
+    height: 100px
+    padding: 35px 0
+    margin-top: -100px
+
+a
+    color: $primary-dark-blue
+    
+.btn-primary
+    background-color: $primary-dark-blue
+    border-color: $primary-dark-blue
+
+.btn-outline-primary
+    color: $primary-dark-blue
+    border-color: $primary-dark-blue
+
+.form-control, .form-control:active, .form-control:focus
+    background-color: $transparent-background
+    border-color: grayscale($primary-dark-blue)
+
+.flex-centered
+    display: flex
+    align-items: center
+
+.btn-hearthstone
+    background-image: linear-gradient(to right,#4c0d7a, #b921c4, #4c0d7a)
+    text-transform: uppercase
+    font-family: 'Suez One', serif
+    color: #fff
+
+.navbar
+    .nav-item
+        &.dropdown
+            min-width: 90px
+            .dropdown-menu
+                @media (min-width: 992px)
+                    min-width: 220%
