@@ -160,6 +160,7 @@ def launch_game(request, deck_id):
             if player_hp > opponent_hp:
                 result = 1
                 request.user.profile.elo += randelo
+                request.user.credit += 50
                 opponent.profile.elo -= randelo
                 request.user.profile.save()
                 opponent.profile.save()
