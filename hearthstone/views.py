@@ -147,7 +147,18 @@ def launch_game(request, deck_id):
                         opponent_hp -= dmg
                         actions.append({player_card.card.img:"Carte Arme : " + opponent.username + " a perdu " + str(dmg) + " points de vie"})
 
-            result = 1 if player_hp > opponent_hp else -1
+            if player_hp > opponent_hp:
+                result = 1
+                request.user.profile.elo += 10
+                opponent.profile.elo -= 10
+                request.user.profile.save()
+                opponent.profile.save()
+            else:
+                result = -1
+                request.user.profile.elo -= 10
+                opponent.profile += 10
+                request.user.profile.save()
+                opponent.profile.save()
             battle = Battle.objects.create(player=request.user, opponent=opponent, result=result, round=turn)
             return render(request, 'hearthstone/launchGame.html', {'battle': battle, 'actions': actions})
         else:
@@ -382,7 +393,7 @@ def activities(request):
 
 
 def ladder(request):
-    users = User.objects.all()
+    users = Profile.objects.all().order_by('elo').reverse()
     paginator = Paginator(users, 2)
 
     page = request.GET.get('page')

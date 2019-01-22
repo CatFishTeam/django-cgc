@@ -15,8 +15,8 @@
       {% for user in users %}
         <tr class="text-center">
           <td>{{ forloop.counter0|add:users.start_index }}</td>
-          <td>{{ user.username }}</td>
-          <td>{{ user.profile.elo }}</td>
+          <td>{{ user.user.username }}</td>
+          <td>{{ user.elo }}</td>
         </tr>
         <p></p>
       {% endfor %}
