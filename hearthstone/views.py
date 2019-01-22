@@ -119,15 +119,16 @@ def launch_game(request, deck_id):
             while player_hp and opponent_hp >= 0:
                 turn += 1
                 player_card = player_deck.pop(randint(0, len(player_deck) - 1))
-                actions.append({player_card.card.img:request.user.username + " a joué la carte " + player_card.card.title})
+                #actions.append({player_card.card.img:request.user.username + " a joué la carte " + player_card.card.title})
+                #actions.append({opponent_card.card.img:opponent.username + " a joué la carte " + opponent_card.card.title})
                 opponent_card = opponent_deck.pop(randint(0, len(opponent_deck) - 1))
-                actions.append({opponent_card.card.img:opponent.username + " a joué la carte " + opponent_card.card.title})
-
                 if player_card.card.type == 'Spell':
                     dmg = player_card.card.cost if player_card.card.cost is not None else 0
                     opponent_hp -= dmg
-                    actions.append({player_card.card.img:"Carte Sort : " + opponent.username + " a perdu " + str(dmg) + " points de vie"})
+                    actions.append({player_card.card.img:" Carte Sort jouée"})
+                    actions.append({player_card.card.img:" Le jouueur : " + opponent.username + " n'a pas le temps de se défendre et perd " + str(dmg) + " points de vie"})
                 if player_card.card.type == 'Weapon':
+                    actions.append({player_card.card.img:"Carte Arme jouée"})
                     if opponent_card.card.type == "Minion":
                         dmg = opponent_card.card.attack if opponent_card.card.attack is not None else 0
                         actions.append({opponent_card.card.img:" Carte Minion : " + request.user.username + " a perdu " + str(dmg) + " points de vie"})
@@ -137,6 +138,7 @@ def launch_game(request, deck_id):
                         actions.append({opponent_card.card.img:" Carte jouée : " + request.user.username + " a perdu " + str(dmg) + " points de vie"})
                         player_hp -= dmg
                 if player_card.card.type == "Minion":
+                    actions.append({player_card.card.img:" Carte Minion jouée"})
                     if opponent_card.card.type == "Minion":
                         dmg = opponent_card.card.attack if opponent_card.card.attack is not None else 0 - player_card.card.attack if player_card.card.attack is not None else 0
                         if dmg >= 0:

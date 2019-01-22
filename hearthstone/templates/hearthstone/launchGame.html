@@ -22,6 +22,8 @@
       </div>
       <h4 class="text-center">
         La partie s'est terminée sur un {% if battle.result == 1  %} <span class="text-victory">victoire</span> {% else %} <span class="text-defeat">defaite</span> {% endif %} au bout de {{ battle.round }} tours.
+        <br>
+        {{ battle.player.username }} à {{ player_hp }} HP || {{ battle.opponent.username }} à {{ opponent_hp }} HP
       </h4>
     </div>
   </div>
